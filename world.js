@@ -195,7 +195,7 @@ function createMountain ( i, isEast ) {
     }
 
     loader.load(
-        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/26757/mountain.dae',
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/26757/mountain.dae', //importing the picture in code form and added to the scene
         function ( collada ) {
             prototype = collada.scene;
             prototype.visible = false;
