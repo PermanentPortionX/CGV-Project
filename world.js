@@ -154,3 +154,44 @@ function createLandscapeFloors () { //This is similar to having scene graph but 
 
     scene.add( planeLeft, planeRight ); //Add the planes to our scene
 }
+
+function createMountain ( i, isEast ) {
+    var loader = {},
+        prototype = {},
+        object = {},
+        objectDimensionX = {},
+        objectDimensionY = {},
+        objectDimensionZ = {};
+
+    loader = new THREE.ColladaLoader();
+
+    function createObject () {
+        object = prototype.clone();
+        objectDimensionX = Math.random() * 0.25 + 0.05;
+        objectDimensionY = Math.random() * 0.25;
+        objectDimensionZ = objectDimensionX;
+        object.scale.set( objectDimensionX, objectDimensionY, objectDimensionZ );
+
+        if ( isEast === true ) {
+            object.position.x = PLANE_WIDTH * 2
+            object.position.z = ( i * PLANE_LENGTH / 27 ) - ( 1.5 * PLANE_LENGTH );
+        } else {
+            object.position.x = -PLANE_WIDTH * 2
+            object.position.z = ( i * PLANE_LENGTH / 27 ) - ( PLANE_LENGTH / 2 );
+        }
+
+        object.visible = true;
+
+        object.animate = function () {
+
+            if ( object.position.z < PLANE_LENGTH / 2 - PLANE_LENGTH / 10 ) {
+                object.position.z += 5;
+            } else {
+                object.position.z = -PLANE_LENGTH / 2;
+            }
+        }
+
+        mountains.push( object );
+        scene.add( object );
+    }
+}
