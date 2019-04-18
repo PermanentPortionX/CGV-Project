@@ -77,6 +77,15 @@ function gameOver () { //This is the code called when the game has ended
 
 }
 
+function onWindowResize () { // stack overflow says i need it, I do not know why yet. I think for screen dynamic resizing
+    containerWidth = $container.innerWidth();
+    containerHeight = $container.innerHeight();
+    camera.aspect = containerWidth / containerHeight;
+    camera.updateProjectionMatrix();
+    renderer.clear();
+    renderer.setSize( containerWidth, containerHeight );
+}
+
 function detectCollisions( objects ) {
     var origin = hero.position.clone();
 
