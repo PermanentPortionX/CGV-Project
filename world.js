@@ -231,3 +231,64 @@ function createSpotlights () { //I do not know what this is ####################
     }
 }
 
+function PowerUp () {
+    var object = {},
+        objectDimension = 0,
+        objectGeometry = {},
+        objectMaterial = {},
+        xPosition = 0,
+        xPositionValues = [],
+        yPosition = 0,
+        yPositionValues = [],
+        zPosition = 0,
+        zPositionValues = [];
+
+    objectDimension = 2;
+
+    xPositionValues = [ -( PLANE_WIDTH - PADDING ) / 2, 0, ( PLANE_WIDTH - PADDING ) / 2 ];
+    yPositionValues = [ objectDimension + 1 ];
+    zPositionValues = [ -( PLANE_LENGTH - PADDING ) / 2 ];
+
+    xPosition = xPositionValues[ getRandomInteger( 0, xPositionValues.length - 1 ) ];
+    yPosition = yPositionValues[ getRandomInteger( 0, yPositionValues.length - 1 ) ];
+    zPosition = zPositionValues[ getRandomInteger( 0, zPositionValues.length - 1 ) ];
+
+    objectGeometry = new THREE.BoxGeometry( objectDimension, objectDimension, objectDimension, objectDimension );
+    objectMaterial = new THREE.MeshLambertMaterial( { //we specify the material, we could have used Phong as well
+        color: 0x29B6F6,
+        shading: THREE.FlatShading
+    } );
+    object = new THREE.Mesh( objectGeometry, objectMaterial );
+    object.position.set( xPosition, yPosition, zPosition );
+    object.castShadow = true;
+    object.receiveShadow = true;
+
+    object.animate = function () {
+
+        if ( object.position.z < PLANE_LENGTH / 2 + PLANE_LENGTH / 10 ) {
+            object.position.z += 10;
+        } else {
+            object.position.x = xPositionValues[ getRandomInteger( 0, xPositionValues.length - 1 ) ];
+            object.position.z = -PLANE_LENGTH / 2;
+        }
+
+    }
+
+    return object;
+}
+
+function startPowerupLogic () { // i still do not get this powerUpLogic, or what it does. Others are still self-explanatory
+    powerupSpawnIntervalID = window.setInterval( function () {
+
+        if ( powerups.length < POWERUP_COUNT ) {
+            powerup = new PowerUp();
+            powerups.push( powerup );
+            scene.add( powerup );
+        }
+
+    }, 4000 );
+
+    powerupCounterIntervalID = window.setInterval( function () {
+        POWERUP_COUNT += 1;
+    }, 30000 );
+}
