@@ -1,0 +1,5 @@
+var PLANE_WIDTH = 50;
+var PLANE_LENGTH = 1000;
+var PADDING = PLANE_WIDTH / 5 * 2;
+var POWERUP_COUNT = 10;
+
