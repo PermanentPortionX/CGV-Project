@@ -203,3 +203,31 @@ function createMountain ( i, isEast ) {
         } );
 
 }
+
+function createSpotlights () { //I do not know what this is ######################################################
+    var spotLight = {},
+        target = {},
+        targetGeometry = {},
+        targetMaterial = {};
+    for ( var i = 0; i < 5; i += 1 ) {
+        targetGeometry = new THREE.BoxGeometry(1, 1, 1);
+        targetMaterial = new THREE.MeshNormalMaterial();
+        target = new THREE.Mesh( targetGeometry, targetMaterial );
+        target.position.set( 0, 2, ( i * PLANE_LENGTH / 5 ) - ( PLANE_LENGTH / 2.5 ) );
+        target.visible = false;
+        scene.add( target );
+
+        spotLight = new THREE.SpotLight( 0xFFFFFF, 2 );
+        spotLight.position.set( 150, ( i * PLANE_LENGTH / 5 ) - ( PLANE_LENGTH / 2.5 ), -200 );
+        spotLight.castShadow = true;
+        spotLight.shadowCameraNear = 10;
+        spotLight.shadowCameraVisible = false;
+        spotLight.target = target;
+        spotLight.shadowMapWidth = 2048;
+        spotLight.shadowMapHeight = 2048;
+        spotLight.fov = 40;
+
+        plane.add( spotLight );
+    }
+}
+
