@@ -49,6 +49,21 @@ function render () {
 
     renderer.render( scene, camera ); // I dont get this line yet
 }
+function startPowerupLogic () { //I do not get what powerups are we doing here#####################
+    powerupSpawnIntervalID = window.setInterval( function () {
+
+        if ( powerups.length < POWERUP_COUNT ) {
+            powerup = new PowerUp();
+            powerups.push( powerup );
+            scene.add( powerup );
+        }
+
+    }, 4000 );
+
+    powerupCounterIntervalID = window.setInterval( function () {
+        POWERUP_COUNT += 1;
+    }, 30000 );
+}
 
 function gameOver () { //This is the code called when the game has ended
     cancelAnimationFrame( globalRenderID );
@@ -62,6 +77,19 @@ function gameOver () { //This is the code called when the game has ended
 
 }
 
+function detectCollisions( objects ) {
+    var origin = hero.position.clone();
 
+    for ( var v = 0, vMax = hero.geometry.vertices.length; v < vMax; v += 1 ) {
+        var localVertex = hero.geometry.vertices[ v ].clone();
+        var globalVertex = localVertex.applyMatrix4( hero.matrix );
+        var directionVector = globalVertex.sub( hero.position );
 
-//The next function is dealing with how we declare if the game is over or not
+        var ray = new THREE.Raycaster( origin, directionVector.clone().normalize() );
+        var intersections = ray.intersectObjects( objects );
+        if ( intersections.length > 0 && intersections[ 0 ].distance < directionVector.length() ) { //check the distance of the object relative to the object
+            return true;
+        }
+    }
+    return false;
+}
