@@ -102,3 +102,34 @@ function detectCollisions( objects ) {
     }
     return false;
 }
+
+/*function getRandomInteger( min, max ) {
+    return Math.floor( Math.random() * ( max - min + 1 ) ) + min;
+}*/
+
+function Hero () { //This is our player function in the world
+    var hero = {},
+        heroGeometry = {}, //The player's point in 3D space
+        heroMaterial = {}; // What the player is made of
+
+    heroGeometry = new THREE.CylinderGeometry( 0, 2, 5, 10 );
+    heroMaterial = new THREE.MeshLambertMaterial( {
+        color: 0xE91E63, //This is the colour of our player. change for different colors
+        shading: THREE.FlatShading //smoothen it out using flat shading
+    } );
+    hero = new THREE.Mesh( heroGeometry, heroMaterial ); //the new object of our player
+    hero.castShadow = true; //we want the play to a have a shadow
+    hero.position.set( 0, 5, ( PLANE_LENGTH / 2 ) ); //the constant position of our player in (x,y,z)
+    hero.rotation.x = 0.785; // do not know what is this for
+
+    window.addEventListener( 'keydown', function () {
+        if ( event.keyCode === 37 && hero.position.x !== -( PLANE_WIDTH - PADDING ) / 2 ) {
+            hero.position.x -= ( PLANE_WIDTH - PADDING ) / 2;
+        } else if ( event.keyCode === 39 && hero.position.x !== ( PLANE_WIDTH - PADDING ) / 2 ) {
+            hero.position.x += ( PLANE_WIDTH - PADDING ) / 2;
+        }
+    } );
+
+    return hero;
+}
+
