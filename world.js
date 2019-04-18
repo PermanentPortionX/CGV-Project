@@ -133,3 +133,24 @@ function Hero () { //This is our player function in the world
     return hero;
 }
 
+function createLandscapeFloors () { //This is similar to having scene graph but in 3D
+    var planeLeft = {},
+        planeLeftGeometry = {},
+        planeLeftMaterial = {},
+        planeRight = {};
+
+    planeLeftGeometry = new THREE.BoxGeometry( PLANE_WIDTH, PLANE_LENGTH + PLANE_LENGTH / 10, 1 ); // we are giving the left plane the 3d effect, but we want Z=1 so its constant
+    planeLeftMaterial = new THREE.MeshLambertMaterial( {
+        color: 0x8BC34A //set the material color
+    } );
+    planeLeft = new THREE.Mesh( planeLeftGeometry, planeLeftMaterial );
+    planeLeft.receiveShadow = true;
+    planeLeft.rotation.x = 1.570;
+    planeLeft.position.x = -PLANE_WIDTH;
+    planeLeft.position.y = 1;
+
+    planeRight = planeLeft.clone(); //We are copying what's at the LHS and implementing it on the RHS
+    planeRight.position.x = PLANE_WIDTH;
+
+    scene.add( planeLeft, planeRight ); //Add the planes to our scene
+}
