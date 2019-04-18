@@ -11,7 +11,7 @@ var axishelper = {},
     containerHeight = 0,
     directionalLight = {},
     globalRenderID = {},
-    hero = {},
+    hero = {}, //Hero is the player, we can always change this
     hemisphereLight = {},
     mountain = {},
     mountains = [],
@@ -19,7 +19,7 @@ var axishelper = {},
     planeGeometry = {},
     planeMaterial = {},
     powerup = {},
-    powerups = [],
+    powerups = [], //Powerup is the life of our player(hero)
     powerupSpawnIntervalID = {},
     powerupCounterIntervalID = {},
     queue = {},
@@ -49,5 +49,19 @@ function render () {
 
     renderer.render( scene, camera ); // I dont get this line yet
 }
+
+function gameOver () { //This is the code called when the game has ended
+    cancelAnimationFrame( globalRenderID );
+    window.clearInterval( powerupSpawnIntervalID );
+    window.clearInterval( powerupCounterIntervalID );
+    //Removed some code here $('#btn-restart')..
+    powerups = []; //The life has been reset
+    hero.position.x = 0;  //our player starts back at position 0
+    render();
+    startPowerupLogic();
+
+}
+
+
 
 //The next function is dealing with how we declare if the game is over or not
