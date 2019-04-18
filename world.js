@@ -158,7 +158,7 @@ function createLandscapeFloors () { //This is similar to having scene graph but 
 function createMountain ( i, isEast ) {
     var loader = {},
         prototype = {},
-        object = {},
+        object = {}, //The object and the dimensions follow below
         objectDimensionX = {},
         objectDimensionY = {},
         objectDimensionZ = {};
@@ -172,8 +172,8 @@ function createMountain ( i, isEast ) {
         objectDimensionZ = objectDimensionX;
         object.scale.set( objectDimensionX, objectDimensionY, objectDimensionZ );
 
-        if ( isEast === true ) {
-            object.position.x = PLANE_WIDTH * 2
+        if ( isEast === true ) { //The isEast is used for the _orientation_, to know if the object is drawn east or not
+            object.position.x = PLANE_WIDTH * 2;
             object.position.z = ( i * PLANE_LENGTH / 27 ) - ( 1.5 * PLANE_LENGTH );
         } else {
             object.position.x = -PLANE_WIDTH * 2
@@ -190,8 +190,16 @@ function createMountain ( i, isEast ) {
                 object.position.z = -PLANE_LENGTH / 2;
             }
         }
-
-        mountains.push( object );
-        scene.add( object );
+        mountains.push( object ); //push object to the stack
+        scene.add( object ); // add it to the scene graph
     }
+
+    loader.load(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/26757/mountain.dae',
+        function ( collada ) {
+            prototype = collada.scene;
+            prototype.visible = false;
+            createObject();
+        } );
+
 }
