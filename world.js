@@ -65,16 +65,24 @@ function startPowerupLogic () { //I do not get what powerups are we doing here##
     }, 30000 );
 }
 
-function gameOver () { //This is the code called when the game has ended
+function gameOver () {
     cancelAnimationFrame( globalRenderID );
     window.clearInterval( powerupSpawnIntervalID );
     window.clearInterval( powerupCounterIntervalID );
-    //Removed some code here $('#btn-restart')..
-    powerups = []; //The life has been reset
-    hero.position.x = 0;  //our player starts back at position 0
-    render();
-    startPowerupLogic();
 
+    $( '#overlay-gameover' ).fadeIn( 100 );
+
+    $( '#btn-restart' ).one( 'click', function () {
+        $( '#overlay-gameover' ).fadeOut( 50 );
+        POWERUP_COUNT = 10;
+        powerups.forEach( function ( element, index ) {
+            scene.remove( powerups[ index ] );
+        });
+        powerups = [];
+        hero.position.x = 0;
+        render();
+        startPowerupLogic();
+    } );
 }
 
 function onWindowResize () { // stack overflow says i need it, I do not know why yet. I think for screen dynamic resizing
@@ -103,9 +111,9 @@ function detectCollisions( objects ) {
     return false;
 }
 
-/*function getRandomInteger( min, max ) {
+function getRandomInteger( min, max ) {
     return Math.floor( Math.random() * ( max - min + 1 ) ) + min;
-}*/
+}
 
 function Hero () { //This is our player function in the world
     var hero = {},
@@ -292,3 +300,102 @@ function startPowerupLogic () { // i still do not get this powerUpLogic, or what
         POWERUP_COUNT += 1;
     }, 30000 );
 }
+
+//Below we initialise the game and start with fun
+
+function initGame () {
+    THREE.ImageUtils.crossOrigin = '';
+
+    $container = $( '#container' );
+    containerWidth = $container.innerWidth();
+    containerHeight = $container.innerHeight();
+
+    renderer = new THREE.WebGLRenderer();
+    renderer.setSize( containerWidth, containerHeight );
+    renderer.antialias = true;
+    renderer.setClearColor( 0xFFFFFF, 1 );
+    renderer.shadowMapEnabled = true;
+    renderer.shadowMapSoft = true;
+    $container.get( 0 ).appendChild( renderer.domElement );
+
+    scene = new THREE.Scene();
+
+    axishelper = new THREE.AxisHelper( PLANE_LENGTH / 2 );
+
+
+    /* CAMERA */
+    camera = new THREE.PerspectiveCamera( 45, containerWidth / containerHeight, 1, 3000 );
+    camera.position.set( 0, PLANE_LENGTH / 125, PLANE_LENGTH / 2 + PLANE_LENGTH / 25 );
+
+
+    /* CONTROLS */
+    controls = new THREE.OrbitControls( camera, $container.get( 0 ) );
+    controls.noKeys = true;
+    controls.noPan = true;
+    controls.noZoom = true;
+    controls.minPolarAngle = 1.55;
+    controls.maxPolarAngle = 1.55;
+    controls.minAzimuthAngle = 0;
+    controls.maxAzimuthAngle = 0;
+
+
+    /* FLOOR */
+    planeGeometry = new THREE.BoxGeometry( PLANE_WIDTH, PLANE_LENGTH + PLANE_LENGTH / 10, 1 );
+    planeMaterial = new THREE.MeshLambertMaterial( {
+        color: 0x78909C
+    } );
+    plane = new THREE.Mesh( planeGeometry, planeMaterial );
+    plane.rotation.x = 1.570;
+    plane.receiveShadow = true;
+
+
+
+    /* LANDSCAPE */
+    createLandscapeFloors();
+    for ( var i = 0; i < 60; i += 1 ) {
+        var isEast = false;
+        if ( i > 29 ) {
+            isEast = true;
+        }
+        createMountain( i, isEast );
+    }
+        //Below we deal with the sky properties
+    skyGeometry = new THREE.BoxGeometry( 1200, 800, 1, 1 );
+    skyMaterial = new THREE.MeshBasicMaterial( {
+        map: THREE.ImageUtils.loadTexture( 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/26757/background.jpg' ),
+        depthWrite: false,
+        side: THREE.BackSide
+    } );
+    sky = new THREE.Mesh( skyGeometry, skyMaterial );
+    sky.position.y = 300;
+    sky.position.z = -PLANE_LENGTH / 2 + PADDING;
+
+
+    /* LIGHTS */
+    createSpotlights();
+    directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
+    directionalLight.position.set( 0, 1, 0 );
+    hemisphereLight = new THREE.HemisphereLight( 0xFFB74D, 0x37474F, 1 );
+    hemisphereLight.position.y = 500;
+
+
+    /* POWERUPS */
+    startPowerupLogic();
+
+
+    /* HERO */
+    hero = new Hero();
+
+
+    /* SCENE */
+    scene.add( camera, directionalLight, hemisphereLight, plane, sky, hero );
+}
+
+function runGame () {
+    window.addEventListener( 'resize', onWindowResize );
+    render();
+    onWindowResize();
+}
+
+initGame();
+runGame();
