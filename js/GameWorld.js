@@ -54,6 +54,12 @@ function positionCameraWithRespectToGround(){
     camera.position.y = cIntersect[0].point.y + 1.5;
 }
 
+function onResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
 function initWorld(){
     scene = new THREE.Scene( );
     scene.fog = new THREE.FogExp2( 0xfaf1e0, 0.05, 2);
@@ -61,6 +67,7 @@ function initWorld(){
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     renderer = new THREE.WebGLRenderer();
 
+    window.addEventListener('resize', onResize, false);
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     renderer.setClearColor(0xfaf1e0, 1);
@@ -92,12 +99,53 @@ function initWorld(){
     addSunLight();
 
     positionCameraWithRespectToGround();
+
+
+    /*var material = new THREE.MeshPhongMaterial({
+        color: 0xdddddd
+    });
+    var textGeom = new THREE.TextGeometry( 'Hello World!', {
+        font: 'haraba' // Must be lowercase!
+    });
+    var textMesh = new THREE.Mesh( textGeom, material );
+
+    textMesh.position.z = -8;
+
+    scene.add( textMesh );*/
+
 }
 
 
 //builds more scenes in the world
 function growWorld(){
-    const newGround = ground.clone();
+
+    if (ball.position.z - lastPos > 40) return;
+
+    lastPos += 6;
+    for(var j = 0; j < 40; j++){
+        const newGround = ground.clone();
+        newGround.position.z = lastPos;
+        scene.add( newGround );
+
+        const newRightSide = rightSide.clone();
+        newRightSide.position.z = lastPos;
+        scene.add( newRightSide );
+
+        const newLeftSide = leftSide.clone();
+        newLeftSide.position.z = lastPos;
+        scene.add( newLeftSide );
+
+        const newRightTree = rightTree.clone();
+        newRightTree.position.z = lastPos;
+        scene.add( newRightTree );
+
+        const newLeftTree = leftTree.clone();
+        newLeftTree.position.z = lastPos;
+        scene.add( newLeftTree );
+        lastPos -= 6;
+    }
+
+    /*const newGround = ground.clone();
     newGround.position.z = lastPos;
     scene.add( newGround );
 
@@ -115,7 +163,7 @@ function growWorld(){
 
     const newLeftTree = leftTree.clone();
     newLeftTree.position.z = lastPos;
-    scene.add( newLeftTree );
+    scene.add( newLeftTree );*/
     /*if (powerTrack === 0){
         const Bomb = trap();
         Bomb.position.z = -70;
