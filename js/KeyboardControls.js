@@ -9,6 +9,7 @@ let currTime = performance.now();
 function initKeyboard(){
 
     window.addEventListener('keydown', function (e) {
+
         e.preventDefault();
         keyState[e.key] = true;
     }, true);
@@ -55,7 +56,11 @@ function updateBallPositionAccordingToKeyPress(){
             requestAnimationFrame(GameLoop)
         }
     }
-    else if(keyState[' ']) jumping = true;
+    else if(keyState[' ']){
+        jumping = true;
+        //var audio = document.getElementById("audio");
+        //audio.play();
+    }
 
 
     if (jumping){

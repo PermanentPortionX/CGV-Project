@@ -11,11 +11,22 @@ let lastPos = -6;
 
 let powerTrack = 0;
 
-function addSunLight(){
+//for obstacles
+let smallSpikes = null;
+let mediumSpikes = null;
+let largeSpikes = null;
+let cube = null;
+let lowHurdle = null;
+let highHurdle = null;
+let wall = null;
 
+
+//adds directional sun light into the scene
+function addSunLight(){
     scene.add( new THREE.DirectionalLight( 0xffffff, 0.5 ) );
 }
 
+//this function draws a tree
 function drawTree(){
     const tree = new THREE.Tree({
         generations: 4,        // # for branch' hierarchy
@@ -34,14 +45,14 @@ function drawTree(){
 
 function drawGround(){
     const geo = new THREE.BoxGeometry(5, 0.1, lastPos, 4, 4, 4);
-    const texture = new THREE.TextureLoader().load("textures/environment/ground_texture.jpg");
+    const texture = makeTexture("textures/environment/ground_texture.jpg");
     const mat = new THREE.MeshBasicMaterial({map: texture});
-    return ground = new THREE.Mesh( geo, mat );
+    return new THREE.Mesh( geo, mat );
 }
 
 function drawGroundSides() {
-    const geo = new THREE.BoxGeometry(5, 0.1, lastPos, 4, 4, 4);
-    const grassTexture = new THREE.TextureLoader().load("textures/environment/grass.jpg");
+    const geo = new THREE.BoxGeometry(15, 0.1, lastPos, 4, 4, 4);
+    const grassTexture = makeTexture("textures/environment/grass.jpg");
     const gMat = new THREE.MeshBasicMaterial({map: grassTexture});
     return  new THREE.Mesh(geo, gMat);
 }
@@ -58,6 +69,30 @@ function onResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+
+function initObstacles() {
+    smallSpikes = buildSmallSpikes();
+    smallSpikes.scale.set(0.2, 0.2, 0.2);
+
+    mediumSpikes = buildMediumSpikes();
+    mediumSpikes.scale.set(0.2, 0.2, 0.2);
+
+    largeSpikes = buildLargeSpikes();
+    largeSpikes.scale.set(0.2, 0.2, 0.2);
+
+    cube = drawCube();
+    cube.scale.set(0.5, 0.5, 0.5);
+
+    wall = drawCube();
+    wall.scale.set(1, 1.8, 0.1);
+
+    lowHurdle = buildLowHurdle();
+    lowHurdle.position.y += 1;
+    lowHurdle.scale.set(0.5, 0.5, 0.5);
+
+    highHurdle = buildHighHurdle();
 }
 
 function initWorld(){
@@ -78,10 +113,11 @@ function initWorld(){
 
     camera.position.z = 3;
 
+    ground = drawGround();
     rightSide = drawGroundSides();
     leftSide = rightSide.clone();
-    leftSide.position.x = -5;
-    rightSide.position.x = 5;
+    leftSide.position.x = -10;
+    rightSide.position.x = 10;
 
     rightTree = drawTree();
     rightTree.scale.set(0.3, 0.3, 0.3);
@@ -93,25 +129,35 @@ function initWorld(){
     scene.add( rightTree );
     scene.add( rightSide );
     scene.add( leftSide );
-    scene.add( drawGround() );
+    scene.add( ground);
     scene.add( buildBall() );
+
+    initObstacles();
 
     addSunLight();
 
     positionCameraWithRespectToGround();
 
+    buildGame();
 
-    /*var material = new THREE.MeshPhongMaterial({
-        color: 0xdddddd
-    });
-    var textGeom = new THREE.TextGeometry( 'Hello World!', {
-        font: 'haraba' // Must be lowercase!
-    });
-    var textMesh = new THREE.Mesh( textGeom, material );
+    //var listener = new THREE.AudioListener();
+    //camera.add( listener );
 
-    textMesh.position.z = -8;
 
-    scene.add( textMesh );*/
+// create a global audio source
+    /*var sound = new THREE.Audio( listener );
+
+    window.onload = function() {
+        // load a sound and set it as the Audio object's buffer
+        var audioLoader = new THREE.AudioLoader();
+        audioLoader.load( 'sounds/background_music.ogg', function( buffer ) {
+            sound.setBuffer( buffer );
+            sound.setLoop( true );
+            sound.setVolume( 0.5 );
+            sound.play();
+        });
+    };*/
+
 
 }
 
@@ -119,10 +165,10 @@ function initWorld(){
 //builds more scenes in the world
 function growWorld(){
 
-    if (ball.position.z - lastPos > 40) return;
+    /*if (ball.position.z - lastPos > 39) return;
 
     lastPos += 6;
-    for(var j = 0; j < 40; j++){
+    for(let j = 0; j < 20; j++){
         const newGround = ground.clone();
         newGround.position.z = lastPos;
         scene.add( newGround );
@@ -143,7 +189,16 @@ function growWorld(){
         newLeftTree.position.z = lastPos;
         scene.add( newLeftTree );
         lastPos -= 6;
-    }
+
+        //const smallS = lowHurdle.clone();
+        //smallS.position.z = lastPos;
+        //scene.add(smallS);
+
+        const smallSpikes = buildLargeSpikes();
+        smallSpikes.position.z = lastPos;
+        smallSpikes.scale.set(0.2, 0.2, 0.2);
+        scene.add(smallSpikes);
+    }*/
 
     /*const newGround = ground.clone();
     newGround.position.z = lastPos;
@@ -191,7 +246,6 @@ function updateWorldElements() {
 }
 
 function update() {
-
     //updates ball position according to which key is pressed /-- PARENT: KEYBOARD CONTROLS --\
     updateBallPositionAccordingToKeyPress();
 
@@ -214,4 +268,18 @@ let GameLoop = function() {
     requestAnimationFrame(GameLoop);
     update();
     render();
+
+
+    /*var context = null;
+    window.onload = function() {
+        context = new AudioContext();
+        if (context !== null){
+            context.resume();
+        }
+    };
+    document.querySelector('button').addEventListener('click', function() {
+        context.resume().then(() => {
+            console.log('Playback resumed successfully');
+        });
+    });*/
 };

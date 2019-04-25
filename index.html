@@ -7,8 +7,13 @@
 <body>
 
 <p id="pt">Testing</p>
+<audio id = "play" autoplay loop>
+    <source src="sounds/background_music.ogg">
+</audio>
+<!--<audio id = "audio" src="sounds/jump.mp3"></audio>-->
 
 <script src="js/three.js"></script>
+<script src="js/Obstacles.js"></script>
 <script src="js/OrbitControls.js"></script>
 <script src="js/PointerLockControls.js"></script>
 <script src="js/Tree.js"></script>
@@ -18,6 +23,7 @@
 <script src="js/HeroBall.js"></script>
 <script src="js/KeyboardControls.js"></script>
 <script src="js/PowerUps.js"></script>
+<script src="js/GameBuilder.js"></script>
 
 <script>
 
@@ -31,6 +37,8 @@
         };
         script.src='//mrdoob.github.io/stats.js/build/stats.min.js';
         document.head.appendChild(script);})();
+
+
 
     //builds the world /-- PARENT: GAME WORLD --\
     initWorld();
