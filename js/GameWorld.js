@@ -43,6 +43,8 @@ function drawTree(){
 
 }
 
+//draws the ground by drawing a cube and setting ground texture to it
+//then returns the Mesh Object
 function drawGround(){
     const geo = new THREE.BoxGeometry(5, 0.1, lastPos, 4, 4, 4);
     const texture = makeTexture("textures/environment/ground_texture.jpg");
@@ -50,6 +52,8 @@ function drawGround(){
     return new THREE.Mesh( geo, mat );
 }
 
+//draws the side of the ground by drawing a cube and setting dried grass texture to it
+//then returns the Mesh Object
 function drawGroundSides() {
     const geo = new THREE.BoxGeometry(15, 0.1, lastPos, 4, 4, 4);
     const grassTexture = makeTexture("textures/environment/grass.jpg");
@@ -57,21 +61,25 @@ function drawGroundSides() {
     return  new THREE.Mesh(geo, gMat);
 }
 
+//positions camera relative to the ground, this function uses cameraRayCasting to intersect
+//the ground with camera and get the intersection position, the intersection happens between
+//the cameras origin and ground origin, after getting the position of intersection, we set
+//the y value of the intersection to the cameras y
 function positionCameraWithRespectToGround(){
     const cameraRayCaster = new THREE.Raycaster();
     cameraRayCaster.set(camera.position, new THREE.Vector3(0, 1, 0));
     const cIntersect = cameraRayCaster.intersectObject(ground);
-
     camera.position.y = cIntersect[0].point.y + 1.5;
 }
 
+//responsible for auto resizing the scene when the browsers size changes
 function onResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-
+//initializes the obstacles used in the game
 function initObstacles() {
     smallSpikes = buildSmallSpikes();
     smallSpikes.scale.set(0.2, 0.2, 0.2);
@@ -140,98 +148,10 @@ function initWorld(){
 
     buildGame();
 
-    //var listener = new THREE.AudioListener();
-    //camera.add( listener );
-
-
-// create a global audio source
-    /*var sound = new THREE.Audio( listener );
-
-    window.onload = function() {
-        // load a sound and set it as the Audio object's buffer
-        var audioLoader = new THREE.AudioLoader();
-        audioLoader.load( 'sounds/background_music.ogg', function( buffer ) {
-            sound.setBuffer( buffer );
-            sound.setLoop( true );
-            sound.setVolume( 0.5 );
-            sound.play();
-        });
-    };*/
-
-
 }
 
 
-//builds more scenes in the world
-function growWorld(){
 
-    /*if (ball.position.z - lastPos > 39) return;
-
-    lastPos += 6;
-    for(let j = 0; j < 20; j++){
-        const newGround = ground.clone();
-        newGround.position.z = lastPos;
-        scene.add( newGround );
-
-        const newRightSide = rightSide.clone();
-        newRightSide.position.z = lastPos;
-        scene.add( newRightSide );
-
-        const newLeftSide = leftSide.clone();
-        newLeftSide.position.z = lastPos;
-        scene.add( newLeftSide );
-
-        const newRightTree = rightTree.clone();
-        newRightTree.position.z = lastPos;
-        scene.add( newRightTree );
-
-        const newLeftTree = leftTree.clone();
-        newLeftTree.position.z = lastPos;
-        scene.add( newLeftTree );
-        lastPos -= 6;
-
-        //const smallS = lowHurdle.clone();
-        //smallS.position.z = lastPos;
-        //scene.add(smallS);
-
-        const smallSpikes = buildLargeSpikes();
-        smallSpikes.position.z = lastPos;
-        smallSpikes.scale.set(0.2, 0.2, 0.2);
-        scene.add(smallSpikes);
-    }*/
-
-    /*const newGround = ground.clone();
-    newGround.position.z = lastPos;
-    scene.add( newGround );
-
-    const newRightSide = rightSide.clone();
-    newRightSide.position.z = lastPos;
-    scene.add( newRightSide );
-
-    const newLeftSide = leftSide.clone();
-    newLeftSide.position.z = lastPos;
-    scene.add( newLeftSide );
-
-    const newRightTree = rightTree.clone();
-    newRightTree.position.z = lastPos;
-    scene.add( newRightTree );
-
-    const newLeftTree = leftTree.clone();
-    newLeftTree.position.z = lastPos;
-    scene.add( newLeftTree );*/
-    /*if (powerTrack === 0){
-        const Bomb = trap();
-        Bomb.position.z = -70;
-
-        Bomb.position.y = positionJustAboveGround + 0.3;
-        scene.add(Bomb);
-    }*/
-
-
-
-    lastPos -= 6;
-    //powerTrack++;
-}
 
 //draws the scene
 function render () {
@@ -246,20 +166,21 @@ function updateWorldElements() {
 }
 
 function update() {
-    //updates ball position according to which key is pressed /-- PARENT: KEYBOARD CONTROLS --\
-    updateBallPositionAccordingToKeyPress();
+    //if (paused) return;
+    if (!paused) {
+        //updates ball position according to which key is pressed /-- PARENT: KEYBOARD CONTROLS --\
+        updateBallPositionAccordingToKeyPress();
 
-    //checks if the ball is back on the ground for when it jumps /--PARENT: HERO BALL --\
-    if (ballBackToGround()){
-        //resets the jump velocity and gravity /--PARENT: KEYBOARD CONTROLS --\
-        resetJumpVarsToDefault();
+        //checks if the ball is back on the ground for when it jumps /--PARENT: HERO BALL --\
+        if (ballBackToGround()){
+            //resets the jump velocity and gravity /--PARENT: KEYBOARD CONTROLS --\
+            resetJumpVarsToDefault();
+        }
+
+        //updates positions of elements in the world e.g. ball, camera, etc /--PARENT: GAME WORLD --\
+        updateWorldElements();
     }
 
-    //grows the world by building more objects /--PARENT: GAME WORLD --\
-    growWorld();
-
-    //updates positions of elements in the world e.g. ball, camera, etc /--PARENT: GAME WORLD --\
-    updateWorldElements();
 
 }
 
@@ -268,18 +189,4 @@ let GameLoop = function() {
     requestAnimationFrame(GameLoop);
     update();
     render();
-
-
-    /*var context = null;
-    window.onload = function() {
-        context = new AudioContext();
-        if (context !== null){
-            context.resume();
-        }
-    };
-    document.querySelector('button').addEventListener('click', function() {
-        context.resume().then(() => {
-            console.log('Playback resumed successfully');
-        });
-    });*/
 };

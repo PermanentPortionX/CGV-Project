@@ -9,9 +9,10 @@ let currTime = performance.now();
 function initKeyboard(){
 
     window.addEventListener('keydown', function (e) {
-
         e.preventDefault();
-        keyState[e.key] = true;
+        if (e.key === "Escape") paused = !paused;
+
+        else keyState[e.key] = true;
     }, true);
 
     window.addEventListener('keyup', function (e) {
@@ -42,26 +43,8 @@ function updateBallPositionAccordingToKeyPress(){
         document.getElementById("pt").innerHTML = ball.position.x;
     }
 
-    else if (keyState["Escape"]) {
-        //paused = !paused;
-        if (!paused) {
-            cancelAnimationFrame(GameLoop);
-            paused = true;
-            //GameLoop();
-        }
-    }
-    else if (keyState["Enter"]) {
-        if (paused){
-            paused = false;
-            requestAnimationFrame(GameLoop)
-        }
-    }
-    else if(keyState[' ']){
+    else if(keyState[' '] || keyState['ArrowUp'] || keyState['w'])
         jumping = true;
-        //var audio = document.getElementById("audio");
-        //audio.play();
-    }
-
 
     if (jumping){
 

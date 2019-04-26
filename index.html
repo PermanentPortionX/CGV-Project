@@ -23,17 +23,21 @@
 <script src="js/HeroBall.js"></script>
 <script src="js/KeyboardControls.js"></script>
 <script src="js/PowerUps.js"></script>
+<script src="js/BlockSet.js"></script>
 <script src="js/GameBuilder.js"></script>
 
 <script>
 
+
+    //for debugging
     (function(){
         const script = document.createElement('script');
         script.onload=function(){
             const stats = new Stats();
             document.body.appendChild(stats.dom);
             requestAnimationFrame(function loop(){
-                stats.update();requestAnimationFrame(loop)});
+                stats.update();
+                requestAnimationFrame(loop)});
         };
         script.src='//mrdoob.github.io/stats.js/build/stats.min.js';
         document.head.appendChild(script);})();
