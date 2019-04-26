@@ -1,3 +1,14 @@
+/******************************************************************************/
+/*                                                                            */
+/*                             WHERE                                          */
+/*                                  THE                                       */
+/*                              TRUE                                          */
+/*                                  MAGIC                                     */
+/*                             TAKES                                          */
+/*                                  PLACE                                     */
+/*                                                                            */
+/*                                                                            */
+/******************************************************************************/
 
 
 // 1 -> Spikes
@@ -36,7 +47,7 @@ function buildGame() {
                     switch (blockSet[ blockSection[j] ][k]) {
                         case 1: //spike
 
-                            const blockSmallSpikes = smallSpikes.clone();
+                            const blockSmallSpikes = spikes.clone();
                             let xPos = 0;
                             let zPos = 0;
 

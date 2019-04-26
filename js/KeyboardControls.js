@@ -6,10 +6,13 @@ let gravity = new THREE.Vector3(0, -2, 0);
 let prevTime = 0;
 let currTime = performance.now();
 
+//add listening for key presses, e.g. a, d, w is pressed
+//then stores the value into a dictionary
 function initKeyboard(){
 
     window.addEventListener('keydown', function (e) {
         e.preventDefault();
+        //pause game pressed
         if (e.key === "Escape") paused = !paused;
 
         else keyState[e.key] = true;
@@ -29,22 +32,19 @@ function updateBallPositionAccordingToKeyPress(){
 
     if (keyState['a'] || keyState["ArrowLeft"]) {
         ball.position.x -= 0.1;
-        if (ball.position.x <= -1.8){
-            ball.position.x = -1.8;
-        }
+        if (ball.position.x <= -1.8) ball.position.x = -1.8;
+
         document.getElementById("pt").innerHTML = ball.position.x;
     }
 
     else if (keyState['d'] || keyState["ArrowRight"]){
         ball.position.x += 0.1;
-        if (ball.position.x >= 1.8){
-            ball.position.x = 1.8;
-        }
+        if (ball.position.x >= 1.8) ball.position.x = 1.8;
+
         document.getElementById("pt").innerHTML = ball.position.x;
     }
 
-    else if(keyState[' '] || keyState['ArrowUp'] || keyState['w'])
-        jumping = true;
+    else if(keyState[' '] || keyState['ArrowUp'] || keyState['w']) jumping = true;
 
     if (jumping){
 

@@ -29,7 +29,7 @@ const spikesBase = function(){
 
 };
 
-const buildSmallSpikes = function(){
+const buildSpikes = function(){
 
     const ss = new THREE.Object3D();
 
@@ -55,81 +55,6 @@ const buildSmallSpikes = function(){
 
 };
 
-const buildMediumSpikes = function(){
-
-    const ms = new THREE.Object3D();
-
-    const sb = spikesBase();
-    ms.add(sb);
-
-    const st1 = spikesTops();
-    st1.position.set(3.5,1.5,0);
-    ms.add(st1);
-
-    const st2 = spikesTops();
-    st2.position.set(1.7,1.5,0);
-    ms.add(st2);
-
-    const st3 = spikesTops();
-    st3.position.set(-0.1,1.5,0);
-    ms.add(st3);
-
-    const st4 = spikesTops();
-    st4.position.set(-1.9,1.5,0);
-    ms.add(st4);
-
-    const st5 = spikesTops();
-    st5.position.set(-3.7,1.5,0);
-    ms.add(st5);
-
-    return ms;
-
-};
-
-const buildLargeSpikes = function(){
-
-    const ls = new THREE.Object3D();
-
-    const sb = spikesBase();
-    sb.scale.set(1.5,1,1);
-    ls.add(sb);
-
-    const st1 = spikesTops();
-    st1.position.set(6.1,1.5,0);
-    ls.add(st1);
-
-    const st2 = spikesTops();
-    st2.position.set(4.35,1.5,0);
-    ls.add(st2);
-
-    const st3 = spikesTops();
-    st3.position.set(2.6,1.5,0);
-    ls.add(st3);
-
-    const st4 = spikesTops();
-    st4.position.set(0.85,1.5,0);
-    ls.add(st4);
-
-    const st5 = spikesTops();
-    st5.position.set(-0.9,1.5,0);
-    ls.add(st5);
-
-    const st6 = spikesTops();
-    st6.position.set(-2.65,1.5,0);
-    ls.add(st6);
-
-    const st7 = spikesTops();
-    st7.position.set(-4.4,1.5,0);
-    ls.add(st7);
-
-    const st8 = spikesTops();
-    st8.position.set(-6.15,1.5,0);
-    ls.add(st8);
-
-    return ls;
-
-};
-
 //build cubes
 const blocks = function(){
 
@@ -145,7 +70,7 @@ const blocks = function(){
 
 };
 
-const drawCube = function(){
+const buildCube = function(){
 
     const S1 = new THREE.Object3D();
 

@@ -1,24 +1,21 @@
+//game variables
 let scene = null;
 let camera = null;
 let renderer = null;
+
+let paused = false; // keeps track of game pause and resume
+let lastPos = -6; //z position of each block on the pathway, changes every time a block is drawn
+
+//world variables
 let ground = null;
 let rightTree = null;
 let leftTree = null;
 let rightSide = null;
 let leftSide = null;
-let paused = false;
-let lastPos = -6;
-
-let powerTrack = 0;
 
 //for obstacles
-let smallSpikes = null;
-let mediumSpikes = null;
-let largeSpikes = null;
+let spikes = null;
 let cube = null;
-let lowHurdle = null;
-let highHurdle = null;
-let wall = null;
 
 
 //adds directional sun light into the scene
@@ -27,7 +24,7 @@ function addSunLight(){
 }
 
 //this function draws a tree
-function drawTree(){
+function buildTree(){
     const tree = new THREE.Tree({
         generations: 4,        // # for branch' hierarchy
         length: 4.0,      // length of root branch
@@ -36,16 +33,13 @@ function drawTree(){
         radiusSegments: 8,     // # of radius segments for each branch geometry
         heightSegments: 8      // # of height segments for each branch geometry
     });
-
     const geometry = THREE.TreeGeometry.build(tree);
-
     return new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({}));
-
 }
 
 //draws the ground by drawing a cube and setting ground texture to it
 //then returns the Mesh Object
-function drawGround(){
+function buildGround(){
     const geo = new THREE.BoxGeometry(5, 0.1, lastPos, 4, 4, 4);
     const texture = makeTexture("textures/environment/ground_texture.jpg");
     const mat = new THREE.MeshBasicMaterial({map: texture});
@@ -54,7 +48,7 @@ function drawGround(){
 
 //draws the side of the ground by drawing a cube and setting dried grass texture to it
 //then returns the Mesh Object
-function drawGroundSides() {
+function buildGroundSides() {
     const geo = new THREE.BoxGeometry(15, 0.1, lastPos, 4, 4, 4);
     const grassTexture = makeTexture("textures/environment/grass.jpg");
     const gMat = new THREE.MeshBasicMaterial({map: grassTexture});
@@ -80,54 +74,26 @@ function onResize() {
 }
 
 //initializes the obstacles used in the game
+//-- PARENT OF BUILD FUNCTIONS: OBSTACLES.JS --\\
 function initObstacles() {
-    smallSpikes = buildSmallSpikes();
-    smallSpikes.scale.set(0.2, 0.2, 0.2);
+    spikes = buildSpikes();
+    spikes.scale.set(0.2, 0.2, 0.2);
 
-    mediumSpikes = buildMediumSpikes();
-    mediumSpikes.scale.set(0.2, 0.2, 0.2);
-
-    largeSpikes = buildLargeSpikes();
-    largeSpikes.scale.set(0.2, 0.2, 0.2);
-
-    cube = drawCube();
+    cube = buildCube();
     cube.scale.set(0.5, 0.5, 0.5);
 
-    wall = drawCube();
-    wall.scale.set(1, 1.8, 0.1);
-
-    lowHurdle = buildLowHurdle();
-    lowHurdle.position.y += 1;
-    lowHurdle.scale.set(0.5, 0.5, 0.5);
-
-    highHurdle = buildHighHurdle();
 }
 
-function initWorld(){
-    scene = new THREE.Scene( );
-    scene.fog = new THREE.FogExp2( 0xfaf1e0, 0.05, 2);
+//builds and initializes world(ground, side ground, trees, ball) components
+function buildWorldComponentsAndAddToScene() {
 
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    renderer = new THREE.WebGLRenderer();
-
-    window.addEventListener('resize', onResize, false);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-
-    renderer.setClearColor(0xfaf1e0, 1);
-    renderer.shadowMap.enabled = true;//enable shadow
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-    document.body.appendChild( renderer.domElement );
-
-    camera.position.z = 3;
-
-    ground = drawGround();
-    rightSide = drawGroundSides();
+    ground = buildGround();
+    rightSide = buildGroundSides();
     leftSide = rightSide.clone();
     leftSide.position.x = -10;
     rightSide.position.x = 10;
 
-    rightTree = drawTree();
+    rightTree = buildTree();
     rightTree.scale.set(0.3, 0.3, 0.3);
     leftTree = rightTree.clone();
     rightTree.position.x = 4;
@@ -138,44 +104,58 @@ function initWorld(){
     scene.add( rightSide );
     scene.add( leftSide );
     scene.add( ground);
-    scene.add( buildBall() );
-
-    initObstacles();
-
-    addSunLight();
-
-    positionCameraWithRespectToGround();
-
-    buildGame();
+    scene.add( buildBall() );//-- PARENT OF BUILD FUNCTIONS: HERO_BALL.JS --\\
 
 }
 
+function initWorld(){
+    //initialize the game vars
+    scene = new THREE.Scene( );
+    scene.fog = new THREE.FogExp2( 0xfaf1e0, 0.05, 2);
 
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 3;
 
+    renderer = new THREE.WebGLRenderer();
+    renderer.setClearColor(0xfaf1e0, 1);
+    renderer.shadowMap.enabled = true;//enable shadow
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    window.addEventListener('resize', onResize, false);
+
+    document.body.appendChild( renderer.domElement );
+
+    //builds, positions, adds all required components into the world
+    buildWorldComponentsAndAddToScene();
+    initObstacles();
+    addSunLight();
+    positionCameraWithRespectToGround();
+    buildGame();
+
+}
 
 //draws the scene
 function render () {
     renderer.render(scene, camera)
 }
 
-//updates positions of elements in the world
+//updates positions of elements in the world, to depict animation
 function updateWorldElements() {
     ball.rotation.x -= 0.3;
     ball.position.z -= 0.3;
     camera.position.z -= 0.3;
 }
 
+//updates all the world components
 function update() {
-    //if (paused) return;
     if (!paused) {
         //updates ball position according to which key is pressed /-- PARENT: KEYBOARD CONTROLS --\
         updateBallPositionAccordingToKeyPress();
 
         //checks if the ball is back on the ground for when it jumps /--PARENT: HERO BALL --\
-        if (ballBackToGround()){
-            //resets the jump velocity and gravity /--PARENT: KEYBOARD CONTROLS --\
-            resetJumpVarsToDefault();
-        }
+        //resets the jump velocity and gravity /--PARENT: KEYBOARD CONTROLS --\
+        if (ballBackToGround()) resetJumpVarsToDefault();
 
         //updates positions of elements in the world e.g. ball, camera, etc /--PARENT: GAME WORLD --\
         updateWorldElements();
