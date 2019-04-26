@@ -3,6 +3,9 @@ let scene = null;
 let camera = null;
 let renderer = null;
 
+//sound effects
+let jumpSoundEffect = null;
+
 let paused = false; // keeps track of game pause and resume
 let lastPos = -6; //z position of each block on the pathway, changes every time a block is drawn
 
@@ -108,6 +111,22 @@ function buildWorldComponentsAndAddToScene() {
 
 }
 
+//adds background music to the background of scene
+function addBackgroundMusic() {
+    const listener = new THREE.AudioListener();
+    const audio = new THREE.Audio( listener );
+    const mediaElement = new Audio( 'sounds/background_music.ogg' );
+    mediaElement.loop = true;
+    mediaElement.play();
+    audio.setMediaElementSource( mediaElement );
+}
+
+//initialize all sound effects used in game play
+function initSoundEffects() {
+    jumpSoundEffect = document.getElementById("audio");
+    jumpSoundEffect.volume = 0.4;
+}
+
 function initWorld(){
     //initialize the game vars
     scene = new THREE.Scene( );
@@ -127,6 +146,8 @@ function initWorld(){
     document.body.appendChild( renderer.domElement );
 
     //builds, positions, adds all required components into the world
+    //addBackgroundMusic();
+    initSoundEffects();
     buildWorldComponentsAndAddToScene();
     initObstacles();
     addSunLight();

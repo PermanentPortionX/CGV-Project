@@ -7,10 +7,7 @@
 <body>
 
 <p id="pt">Testing</p>
-<audio id = "play" autoplay loop>
-    <source src="sounds/background_music.ogg">
-</audio>
-<!--<audio id = "audio" src="sounds/jump.mp3"></audio>-->
+<audio id = "audio" src="sounds/jump.mp3"></audio>
 
 <script src="js/three.js"></script>
 <script src="js/Obstacles.js"></script>
@@ -52,6 +49,10 @@
 
     //describes how the game will be taking place /-- PARENT: GAME WORLD --\
     GameLoop();
+
+    document.addEventListener("click", function(){
+        addBackgroundMusic();
+    });
 
 </script>
 </body>

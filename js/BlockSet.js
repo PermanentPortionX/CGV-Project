@@ -1,3 +1,4 @@
+//TODO: ADD ALL THE COMBINATIONS
 const blockSet = [
     [0, 0, 0, 0, 0], //_____ 0
     [1, 0, 0, 0, 0], //s____ 1

@@ -1,4 +1,4 @@
-/******************************************************************************/
+/***********************  GAME LOGIC BUILDER **********************************/
 /*                                                                            */
 /*                             WHERE                                          */
 /*                                  THE                                       */
@@ -8,42 +8,9 @@
 /*                                  PLACE                                     */
 /*                                                                            */
 /*                                                                            */
-/******************************************************************************/
+/***********************  GAME LOGIC BUILDER **********************************/
 
-
-
-
-//this list contains specifications of every level
-//the first list [1] is an indicator of which level the game is at
-//the list with 6 values, represents 1 block of the scene
-//a block has width 5 and height 6, each value in the list represents
-//a row of the block, for simplicity look at the block as a 6 x 5 matrix
-// 0 0 0 0 0
-// 0 0 0 0 0
-// 0 0 0 0 0
-// 0 0 0 0 0
-// 0 0 0 0 0
-// 0 0 0 0 0
-//from gameBuildList, each list has 6 values which describe how the row must be rendered
-//e.g. add obstacles, add power ups
-//the children(inner list) of gameBuildList contains values that index another list called
-//block set //-- PARENT: BLOCKSET.js --//, this list is the one that has possible combinations of
-//obstacles that can be added onto a scene, for simplicity look at this whole thing in terms of
-//INDEXED FACE SETS
-
-//Obstacles symbols
-// 1 -> Spikes
-// 2 -> Cube
-const gameBuildList = [
-    [1],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [1, 1, 1, 1, 1, 1]
-];
-
+//this function reads gameBuildList(below the function) and builds a world based on the values of the gameBuildList
 function buildGame() {
 
     lastPos += 6;
@@ -117,3 +84,34 @@ function buildGame() {
         }
     }
 }
+
+//this list contains specifications of every level
+//the first list [1] is an indicator of which level the game is at
+//the list with 6 values, represents 1 block of the scene
+//a block has width 5 and height 6, each value in the list represents
+//a row of the block, for simplicity look at the block as a 6 x 5 matrix
+// 0 0 0 0 0
+// 0 0 0 0 0
+// 0 0 0 0 0
+// 0 0 0 0 0
+// 0 0 0 0 0
+// 0 0 0 0 0
+//from gameBuildList, each list has 6 values which describe how the row must be rendered
+//e.g. add obstacles, add power ups
+//the children(inner list) of gameBuildList contains values that index another list called
+//block set //-- PARENT: BLOCKSET.js --//, this list is the one that has possible combinations of
+//obstacles that can be added onto a scene, for simplicity look at this whole thing in terms of
+//INDEXED FACE SETS
+
+//Obstacles symbols
+// 1 -> Spikes
+// 2 -> Cube
+const gameBuildList = [
+    [1],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [1, 1, 1, 1, 1, 1]
+];

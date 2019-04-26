@@ -44,7 +44,12 @@ function updateBallPositionAccordingToKeyPress(){
         document.getElementById("pt").innerHTML = ball.position.x;
     }
 
-    else if(keyState[' '] || keyState['ArrowUp'] || keyState['w']) jumping = true;
+    else if(keyState[' '] || keyState['ArrowUp'] || keyState['w']) {
+        jumpSoundEffect.pause();
+        jumpSoundEffect.currentTime = 0;
+        jumpSoundEffect.play();
+        jumping = true;
+    }
 
     if (jumping){
 
