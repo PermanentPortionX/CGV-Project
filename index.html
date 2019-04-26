@@ -3,10 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <title>The Edge</title>
+    <style>
+
+        #mainMenuOverlay {
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height:100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            background-color: #000000;
+            color: #ffffff;
+        }
+
+        #mainMenuOverlay > div {
+            text-align: center;
+        }
+
+        #mainMenuOverlay > div > button {
+            height: 20px;
+            width: 100px;
+            background: transparent;
+            color: #ffffff;
+            outline: 1px solid #ffffff;
+            border: 0;
+            cursor: pointer;
+        }
+
+        #pauseMenuOverlay{
+            position: absolute;
+            z-index: 1;
+            display: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #000000;
+            color: #ffffff;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+        }
+
+        #pauseMenuOverlay > div {
+            text-align: center;
+        }
+
+        #pauseMenuOverlay > div > button {
+            height: 20px;
+            width: 100px;
+            background: transparent;
+            color: #ffffff;
+            outline: 1px solid #ffffff;
+            border: 0;
+            cursor: pointer;
+        }
+
+    </style>
 </head>
 <body>
 
+<!-- adds main menu before game starts -->
+<div id="mainMenuOverlay">
+    <div>
+        <button id="start">Click to Play</button>
+    </div>
+</div>
+
+<!-- adds menu when game is paused -->
+<div id="pauseMenuOverlay">
+    <div>
+        <button id="resume">Resume</button>
+    </div>
+</div>
+
 <p id="pt">Testing</p>
+
 <audio id = "audio" src="sounds/jump.mp3"></audio>
 
 <script src="js/three.js"></script>
@@ -40,19 +118,27 @@
         document.head.appendChild(script);})();
 
 
+    document.getElementById("start").addEventListener('click', startGame);
+    document.getElementById("resume").addEventListener('click', resumeGame);
 
-    //builds the world /-- PARENT: GAME WORLD --\
-    initWorld();
+    function startGame() {
 
-    //initialize key press /-- PARENT: KEYBOARD CONTROLS --\
-    initKeyboard();
+        //remove the overlay
+        document.getElementById('mainMenuOverlay').remove();
 
-    //describes how the game will be taking place /-- PARENT: GAME WORLD --\
-    GameLoop();
-
-    document.addEventListener("click", function(){
         addBackgroundMusic();
-    });
+
+        //builds the world /-- PARENT: GAME WORLD --\
+        initWorld();
+
+        //initialize key press /-- PARENT: KEYBOARD CONTROLS --\
+        initKeyboard();
+
+        //describes how the game will be taking place /-- PARENT: GAME WORLD --\
+        GameLoop();
+
+
+    }
 
 </script>
 </body>

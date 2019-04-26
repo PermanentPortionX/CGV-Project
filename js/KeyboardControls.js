@@ -6,6 +6,20 @@ let gravity = new THREE.Vector3(0, -2, 0);
 let prevTime = 0;
 let currTime = performance.now();
 
+//this function pauses a game, by pausing music, scene then displaying an overlay
+function pauseGame(){
+    paused = true;
+    backgroundMusic.pause();
+    document.getElementById('pauseMenuOverlay').style.display = 'flex';
+}
+
+//resumes game
+function resumeGame(){
+    paused = false;
+    backgroundMusic.play();
+    document.getElementById('pauseMenuOverlay').style.display = 'none';
+}
+
 //add listening for key presses, e.g. a, d, w is pressed
 //then stores the value into a dictionary
 function initKeyboard(){
@@ -13,7 +27,7 @@ function initKeyboard(){
     window.addEventListener('keydown', function (e) {
         e.preventDefault();
         //pause game pressed
-        if (e.key === "Escape") paused = !paused;
+        if (e.key === "Escape") pauseGame();
 
         else keyState[e.key] = true;
     }, true);

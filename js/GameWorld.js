@@ -5,6 +5,7 @@ let renderer = null;
 
 //sound effects
 let jumpSoundEffect = null;
+let backgroundMusic = null;
 
 let paused = false; // keeps track of game pause and resume
 let lastPos = -6; //z position of each block on the pathway, changes every time a block is drawn
@@ -115,10 +116,10 @@ function buildWorldComponentsAndAddToScene() {
 function addBackgroundMusic() {
     const listener = new THREE.AudioListener();
     const audio = new THREE.Audio( listener );
-    const mediaElement = new Audio( 'sounds/background_music.ogg' );
-    mediaElement.loop = true;
-    mediaElement.play();
-    audio.setMediaElementSource( mediaElement );
+    backgroundMusic = new Audio( 'sounds/background_music.ogg' );
+    backgroundMusic.loop = true;
+    backgroundMusic.play();
+    audio.setMediaElementSource( backgroundMusic );
 }
 
 //initialize all sound effects used in game play
