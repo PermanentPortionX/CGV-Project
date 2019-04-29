@@ -2,6 +2,7 @@
 let scene = null;
 let camera = null;
 let renderer = null;
+let gameSpeed = 0.3;
 
 //sound effects
 let jumpSoundEffect = null;
@@ -21,6 +22,8 @@ let leftSide = null;
 let spikes = null;
 let cube = null;
 
+//for font
+let font = null;
 
 //adds directional sun light into the scene
 function addSunLight(){
@@ -128,6 +131,14 @@ function initSoundEffects() {
     jumpSoundEffect.volume = 0.4;
 }
 
+//load fonts to be used by level indicators
+function loadFont(){
+    const loader = new THREE.FontLoader();
+    loader.load('fonts/Harabara_Regular.json', function (res) {
+        font = res;
+    });
+}
+
 function initWorld(){
     //initialize the game vars
     scene = new THREE.Scene( );
@@ -164,9 +175,9 @@ function render () {
 
 //updates positions of elements in the world, to depict animation
 function updateWorldElements() {
-    ball.rotation.x -= 0.3;
-    ball.position.z -= 0.3;
-    camera.position.z -= 0.3;
+    ball.rotation.x -= gameSpeed;
+    ball.position.z -= gameSpeed;
+    camera.position.z -= gameSpeed;
 }
 
 //updates all the world components
@@ -181,6 +192,9 @@ function update() {
 
         //updates positions of elements in the world e.g. ball, camera, etc /--PARENT: GAME WORLD --\
         updateWorldElements();
+
+        //update game configure if in new level, e.g. increase game speed
+        updateLevelIfHeroIsInNewLevel();
     }
 
 
