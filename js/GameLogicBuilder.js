@@ -15,9 +15,9 @@ const collidableItems = [];
 //lists that describes the configurations of each level
 const levelConfig = [
     ["Level 1", 0.3],
-    ["Level 2", 0.4],
-    ["Level 3", 0.5],
-    ["Level 4", 0.6]
+    ["Level 2", 0.35],
+    ["Level 3", 0.4],
+    ["Level 4", 0.45]
 ];
 //lists that keeps track of the beginning of each level
 let levelDistanceTracker = [];
@@ -124,6 +124,11 @@ function buildGame() {
             lastPos -= 6;
         }
     }
+}
+
+//
+function checkForCollisionsBetweenBallAndObstacles() {
+
 }
 
 //this function checks which level you at, then updates the level configs

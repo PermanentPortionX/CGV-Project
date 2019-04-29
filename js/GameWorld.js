@@ -195,6 +195,9 @@ function update() {
 
         //update game configure if in new level, e.g. increase game speed
         updateLevelIfHeroIsInNewLevel();
+
+        //check for collisions
+        checkForCollisionsBetweenBallAndObstacles();
     }
 
 
