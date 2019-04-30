@@ -25,6 +25,10 @@ let levelDistanceTracker = [];
 //keeps track of the current level
 let currLevel = -1;
 
+//list of next collidable objects
+let nextCollidableObstacles = [];
+let nextObstacle = null;
+
 //this function reads gameBuildList(below the function) and builds a world based on the values of the gameBuildList
 function buildGame() {
 
@@ -70,6 +74,7 @@ function buildGame() {
             blockScene.add(leftTree.clone());
 
             for(let j = 0; j < blockSection.length; j++){
+
                 for(let k = 0; k < 5; k++){
                     switch (blockSet[ blockSection[j] ][k]) {
                         case 1: //spike
@@ -105,9 +110,15 @@ function buildGame() {
                             blockSmallSpikes.position.x = xPos;
                             blockSmallSpikes.position.z = zPos;
 
-                            collidableItems.push(blockSmallSpikes);
-
                             blockScene.add(blockSmallSpikes);
+
+                            let nz = 0;
+                            if (zPos > 0) nz = zPos;
+                            else nz = Math.abs(zPos * 2);
+
+                            let testOb = blockSmallSpikes.clone();
+                            testOb.position.z = lastPos - 6 - nz + 9;//(2*((lastPos - 6) - nz) - 25);
+                            collidableItems.push(testOb);
                             break;
 
                         case 2: //block
@@ -124,10 +135,50 @@ function buildGame() {
             lastPos -= 6;
         }
     }
+
+    nextObstacle = collidableItems[0];
+    for (let i = 0; i < collidableItems.length; i++) {
+        if (nextObstacle.position.z === collidableItems[i].position.z) {
+            nextCollidableObstacles.push(collidableItems[i]);
+        }
+        else break;
+    }
 }
 
 //
+
 function checkForCollisionsBetweenBallAndObstacles() {
+    let ob = nextCollidableObstacles[0];
+    console.log("ball z = " +ball.position.z.toString());
+    console.log("Obs z = "+ ob.position.z.toString());
+
+    let diffZ = Math.abs(ob.position.z) - Math.abs(ball.position.z);
+    //if (diffZ >= 0 && diffZ <= 1.5){
+        //paused = true;
+    //}
+    /*let ballV = new THREE.Vector3(ball.position.x, ball.position.y, ball.position.z);
+    //console.log(nextCollidableObstacles.length.toString());
+    for (let i = 0; i < nextCollidableObstacles.length; i++){
+        if (ball.position.z === nextCollidableObstacles[i].position.z) {
+            //console.log("Collision happened");
+            let ob = nextCollidableObstacles[i];
+            let ObV = new THREE.Vector3(ob.position.x, ob.position.y, ob.position.z);
+            //let distance = ballV.distanceTo(ObV);
+            console.log(ob.position.z);
+        }
+    }*/
+    /*if (collidableItems.length !== 0) {
+        console.log("num items = "+collidableItems.length.toString());
+        while (nextObstacle.position.z === collidableItems[0].position.z && ball.position.z){
+            collidableItems.shift();
+            if (collidableItems.length === 0) break;
+        }
+        //check if collidable items is empty or not again
+        if (collidableItems.length !== 0 && nextObstacle.position !== collidableItems[0].position.z)
+            nextObstacle = collidableItems[0];
+    }
+
+    console.log("next obs pos z = " + nextObstacle.position.z);*/
 
 }
 
@@ -173,10 +224,10 @@ const gameBuildList = [
     [0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0],
+    [1, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0],
-    [1, 1, 1, 1, 1, 1],
-    [1, 5, 0, 5, 1, 1],
+    [0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0],
@@ -289,7 +340,7 @@ const gameBuildList = [
     [1, 1, 1, 1, 1, 1],
     [1, 5, 0, 5, 1, 1],
     [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
+    [1, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0],

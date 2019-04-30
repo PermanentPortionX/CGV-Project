@@ -27,14 +27,14 @@ function initKeyboard(){
     window.addEventListener('keydown', function (e) {
         e.preventDefault();
         //pause game pressed
-        if (e.key === "Escape") pauseGame();
+        if (e.key.toLowerCase() === "escape") pauseGame();
 
-        else keyState[e.key] = true;
+        else keyState[e.key.toLowerCase()] = true;
     }, true);
 
     window.addEventListener('keyup', function (e) {
         e.preventDefault();
-        keyState[e.key] = false;
+        keyState[e.key.toLowerCase()] = false;
     }, true);
 
 }
@@ -44,21 +44,21 @@ function updateBallPositionAccordingToKeyPress(){
     currTime = performance.now();
 
 
-    if (keyState['a'] || keyState["ArrowLeft"]) {
+    if (keyState['a'] || keyState["arrowleft"]) {
         ball.position.x -= 0.1;
         if (ball.position.x <= -1.8) ball.position.x = -1.8;
 
         document.getElementById("pt").innerHTML = ball.position.x;
     }
 
-    else if (keyState['d'] || keyState["ArrowRight"]){
+    else if (keyState['d'] || keyState["arrowright"]){
         ball.position.x += 0.1;
         if (ball.position.x >= 1.8) ball.position.x = 1.8;
 
         document.getElementById("pt").innerHTML = ball.position.x;
     }
 
-    else if(keyState[' '] || keyState['ArrowUp'] || keyState['w']) {
+    else if(keyState[' '] || keyState['arrowup'] || keyState['w']) {
         jumpSoundEffect.pause();
         jumpSoundEffect.currentTime = 0;
         jumpSoundEffect.play();

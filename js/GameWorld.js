@@ -158,7 +158,6 @@ function initWorld(){
     document.body.appendChild( renderer.domElement );
 
     //builds, positions, adds all required components into the world
-    //addBackgroundMusic();
     initSoundEffects();
     buildWorldComponentsAndAddToScene();
     initObstacles();

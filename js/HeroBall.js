@@ -12,7 +12,6 @@ function buildBall() {
     const ballRayCaster = new THREE.Raycaster();
     ballRayCaster.set(ball.position, new THREE.Vector3(0, 1, 0));
     ballIntersectsWithFloor  = ballRayCaster.intersectObject(ground);
-
     ball.position.y = ballIntersectsWithFloor[0].point.y + 0.25;
 
     return ball;
