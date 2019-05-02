@@ -3,6 +3,7 @@ let scene = null;
 let camera = null;
 let renderer = null;
 let gameSpeed = 0.3;
+let redPlane = null;
 
 //sound effects
 let jumpSoundEffect = null;
@@ -91,6 +92,50 @@ function initObstacles() {
 
 }
 
+//draw a life gauge
+function drawLifeGauge(){
+    const gaugeObj = new THREE.Scene();
+
+    const backGeo = new THREE.PlaneGeometry( 1.3, 0.3 );
+    const backMat = new THREE.MeshBasicMaterial( {color: 0x000000, side: THREE.DoubleSide} );
+    const backgroundPlane = new THREE.Mesh( backGeo, backMat );
+    gaugeObj.add(backgroundPlane);
+
+    const frontGeo = new THREE.PlaneGeometry( 1,0.15);
+    const frontMat = new THREE.MeshBasicMaterial( {color: 0xef1a1a, side: THREE.DoubleSide} );
+    redPlane = new THREE.Mesh( frontGeo, frontMat );
+    gaugeObj.add(redPlane);
+
+    let x = 0, y = 0;
+
+    let heartShape = new THREE.Shape();
+
+    heartShape.moveTo( x + 5, y + 5 );
+    heartShape.bezierCurveTo( x + 5, y + 5, x + 4, y, x, y );
+    heartShape.bezierCurveTo( x - 6, y, x - 6, y + 7,x - 6, y + 7 );
+    heartShape.bezierCurveTo( x - 6, y + 11, x - 3, y + 15.4, x + 5, y + 19 );
+    heartShape.bezierCurveTo( x + 12, y + 15.4, x + 16, y + 11, x + 16, y + 7 );
+    heartShape.bezierCurveTo( x + 16, y + 7, x + 16, y, x + 10, y );
+    heartShape.bezierCurveTo( x + 7, y, x + 5, y + 5, x + 5, y + 5 );
+
+
+
+    let heartGeo = new THREE.ShapeGeometry( heartShape );
+    let heartMat = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+    let heartMesh = new THREE.Mesh( heartGeo, heartMat ) ;
+
+    heartMesh.scale.set(0.015,-0.015,1);
+    heartMesh.position.x = 0;
+    heartMesh.position.y = 2.04;
+    heartMesh.position.z = -3;
+
+    backgroundPlane.position.set(0.9,3.15,-5);
+    redPlane.position.set(0.9,3.15,-5);
+    gaugeObj.add(heartMesh); //add the heart to the gaugeObj
+
+    return gaugeObj;
+}
+
 //builds and initializes world(ground, side ground, trees, ball) components
 function buildWorldComponentsAndAddToScene() {
 
@@ -112,7 +157,6 @@ function buildWorldComponentsAndAddToScene() {
     scene.add( leftSide );
     scene.add( ground);
     scene.add( buildBall() );//-- PARENT OF BUILD FUNCTIONS: HERO_BALL.JS --\\
-
 }
 
 //adds background music to the background of scene
@@ -147,7 +191,7 @@ function initWorld(){
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.z = 3;
 
-    renderer = new THREE.WebGLRenderer();
+    renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setClearColor(0xfaf1e0, 1);
     renderer.shadowMap.enabled = true;//enable shadow
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -165,6 +209,9 @@ function initWorld(){
     positionCameraWithRespectToGround();
     buildGame();
 
+    let lifeGauge = drawLifeGauge();
+    //lifeGauge.positionX = window.innerWidth/2;
+    camera.add(lifeGauge);
 }
 
 //draws the scene
@@ -177,6 +224,7 @@ function updateWorldElements() {
     ball.rotation.x -= gameSpeed;
     ball.position.z -= gameSpeed;
     camera.position.z -= gameSpeed;
+    //redPlane.scale.set(0.00125, 1, 1);
 }
 
 //updates all the world components

@@ -1,4 +1,4 @@
-let jumping = false;
+let jumping = false;+6
 const keyState = {};
 
 let velocity = new THREE.Vector3(0, 3 , 0);
@@ -39,25 +39,25 @@ function initKeyboard(){
 
 }
 
+//updates balls position according to key press
 function updateBallPositionAccordingToKeyPress(){
     prevTime = currTime;
     currTime = performance.now();
 
-
+    //moves ball to the left
     if (keyState['a'] || keyState["arrowleft"]) {
         ball.position.x -= 0.1;
+        //restricts ball from going beyond -1.8
         if (ball.position.x <= -1.8) ball.position.x = -1.8;
-
-        document.getElementById("pt").innerHTML = ball.position.x;
     }
 
+    //moves ball to the right
     else if (keyState['d'] || keyState["arrowright"]){
         ball.position.x += 0.1;
         if (ball.position.x >= 1.8) ball.position.x = 1.8;
-
-        document.getElementById("pt").innerHTML = ball.position.x;
     }
 
+    //makes the ball jump
     else if(keyState[' '] || keyState['arrowup'] || keyState['w']) {
         jumpSoundEffect.pause();
         jumpSoundEffect.currentTime = 0;
@@ -66,16 +66,15 @@ function updateBallPositionAccordingToKeyPress(){
     }
 
     if (jumping){
-
         let delta = currTime - prevTime;
         if (delta > 0.1) delta = 0.1;
 
         ball.position.y += velocity.y * delta;
         velocity.y += gravity.y * delta;
-
     }
 }
 
+//resets all values back to default after the ball has landed on the ground after jumping
 function resetJumpVarsToDefault() {
     jumping = false;
     velocity = new THREE.Vector3(0, 3, 0);

@@ -82,6 +82,7 @@ function buildGame() {
                             const blockSmallSpikes = spikes.clone();
                             let xPos = 0;
                             let zPos = 0;
+                            let nz = 0;
 
                             //calculate the position of x
                             if (k < 2) {
@@ -97,14 +98,32 @@ function buildGame() {
 
                             //calculate the position of z
                             if (j <= 2) {
-                                if (j === 0)  zPos = 2.5;
-                                else if (j === 1) zPos = 1.6;
-                                else zPos = 0.7;
+                                if (j === 0){
+                                    zPos = 2.5;
+                                    nz = lastPos - zPos + 4.1;
+                                }
+                                else if (j === 1) {
+                                    zPos = 1.6;
+                                    nz = lastPos - zPos + 2.3;
+                                }
+                                else {
+                                    zPos = 0.7;
+                                    nz = lastPos - zPos + 0.5;
+                                }
                             }
                             else {
-                                if (j === 3) zPos = -0.7;
-                                else if (j === 4) zPos = -1.6;
-                                else zPos = -2.5;
+                                if (j === 3) {
+                                    zPos = -0.7;
+                                    nz = lastPos - 2.5 + zPos + 1.5;
+                                }
+                                else if (j === 4) {
+                                    zPos = -1.6;
+                                    nz = lastPos - 2.5 + zPos + 1.9;
+                                }
+                                else {
+                                    zPos = -2.5;
+                                    nz = lastPos - 2.5 + zPos + 1.5;
+                                }
                             }
 
                             blockSmallSpikes.position.x = xPos;
@@ -112,12 +131,8 @@ function buildGame() {
 
                             blockScene.add(blockSmallSpikes);
 
-                            let nz = 0;
-                            if (zPos > 0) nz = zPos;
-                            else nz = Math.abs(zPos * 2);
-
                             let testOb = blockSmallSpikes.clone();
-                            testOb.position.z = lastPos - 6 - nz + 9;//(2*((lastPos - 6) - nz) - 25);
+                            testOb.position.z = nz;
                             collidableItems.push(testOb);
                             break;
 
@@ -136,6 +151,11 @@ function buildGame() {
         }
     }
 
+    buildNextCollidableObstacles();
+}
+
+//function builds a list of collidable objects
+function buildNextCollidableObstacles(){
     nextObstacle = collidableItems[0];
     for (let i = 0; i < collidableItems.length; i++) {
         if (nextObstacle.position.z === collidableItems[i].position.z) {
@@ -144,42 +164,41 @@ function buildGame() {
         else break;
     }
 }
-
 //
 
 function checkForCollisionsBetweenBallAndObstacles() {
-    let ob = nextCollidableObstacles[0];
-    console.log("ball z = " +ball.position.z.toString());
-    console.log("Obs z = "+ ob.position.z.toString());
+    if (nextObstacle.length !== 0 && collidableItems.length !== 0) {
+        if (ball.position.z >= nextCollidableObstacles[0].position.z) {
+            for (let i = 0; i < nextCollidableObstacles.length; i++) {
+                let ob = nextCollidableObstacles[i];
+                /*console.log("ball x = " + ball.position.x);
+                console.log("Obs x = " + ob.position.x);
+                console.log("ball z = " +ball.position.z.toString());
+                console.log("Obs z = "+ ob.position.z.toString());*/
 
-    let diffZ = Math.abs(ob.position.z) - Math.abs(ball.position.z);
-    //if (diffZ >= 0 && diffZ <= 1.5){
-        //paused = true;
-    //}
-    /*let ballV = new THREE.Vector3(ball.position.x, ball.position.y, ball.position.z);
-    //console.log(nextCollidableObstacles.length.toString());
-    for (let i = 0; i < nextCollidableObstacles.length; i++){
-        if (ball.position.z === nextCollidableObstacles[i].position.z) {
-            //console.log("Collision happened");
-            let ob = nextCollidableObstacles[i];
-            let ObV = new THREE.Vector3(ob.position.x, ob.position.y, ob.position.z);
-            //let distance = ballV.distanceTo(ObV);
-            console.log(ob.position.z);
+                let maxX = Math.max(ob.position.x, ball.position.x);
+                let minX = Math.min(ob.position.x, ball.position.x);
+
+                let diffX = Math.abs(maxX - minX);
+
+                let diffZ = Math.abs(ob.position.z) - Math.abs(ball.position.z);
+                if (diffZ >= 0 && diffZ <= 1.5 && diffX >= 0 && diffX <= 0.5 && ball.position.y <= 1.5
+                ){
+                    paused = true;
+                }
+            }
+        }else{
+            while (ball.position.z <= nextCollidableObstacles[0].position.z) {
+                nextCollidableObstacles.shift();
+                collidableItems.shift();
+
+                if (nextCollidableObstacles.length === 0) break;
+            }
+
+            if (collidableItems.length !== 0) buildNextCollidableObstacles();
         }
-    }*/
-    /*if (collidableItems.length !== 0) {
-        console.log("num items = "+collidableItems.length.toString());
-        while (nextObstacle.position.z === collidableItems[0].position.z && ball.position.z){
-            collidableItems.shift();
-            if (collidableItems.length === 0) break;
-        }
-        //check if collidable items is empty or not again
-        if (collidableItems.length !== 0 && nextObstacle.position !== collidableItems[0].position.z)
-            nextObstacle = collidableItems[0];
+
     }
-
-    console.log("next obs pos z = " + nextObstacle.position.z);*/
-
 }
 
 //this function checks which level you at, then updates the level configs
@@ -224,32 +243,32 @@ const gameBuildList = [
     [0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
     [1, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 3, 0],
+    [0, 0, 1, 0, 0, 0],
     [0, 0, 0, 0, 0, 0],
+    [1, 0, 0, 0, 1, 0],
+    [0, 2, 3, 4, 0, 0],
+    [2, 0, 2, 0, 0, 0],
+    [0, 1, 0, 2, 0, 1],
+    [0, 0, 0, 0, 6, 0],
+    [5, 2, 0, 0, 0, 4],
     [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0],
+    [0, 0, 9, 0, 0, 0],
+    [2, 0, 1, 0, 4, 0],
+    [0, 0, 0, 0, 4, 0],
+    [0, 0, 1, 5, 0, 0],
+    [0, 2, 0, 3, 0, 0],
+    [0, 0, 0, 0, 4, 0],
+    [1, 0, 0, 7, 7, 0],
+    [0, 2, 0, 0, 0, 8],
+    [0, 0, 3, 0, 9, 0],
+    [7, 0, 0, 4, 0, 0],
+    [2, 0, 0, 0, 5, 0],
+    [0, 0, 4, 0, 0, 6],
     [0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0],
