@@ -4,6 +4,7 @@ let camera = null;
 let renderer = null;
 let gameSpeed = 0.3;
 let redPlane = null;
+let lifeGauge = null;
 
 //sound effects
 let jumpSoundEffect = null;
@@ -96,7 +97,7 @@ function initObstacles() {
 function drawLifeGauge(){
     const gaugeObj = new THREE.Scene();
 
-    const backGeo = new THREE.PlaneGeometry( 1.3, 0.3 );
+    const backGeo = new THREE.PlaneGeometry( 1.4, 0.3 );
     const backMat = new THREE.MeshBasicMaterial( {color: 0x000000, side: THREE.DoubleSide} );
     const backgroundPlane = new THREE.Mesh( backGeo, backMat );
     gaugeObj.add(backgroundPlane);
@@ -124,13 +125,13 @@ function drawLifeGauge(){
     let heartMat = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
     let heartMesh = new THREE.Mesh( heartGeo, heartMat ) ;
 
-    heartMesh.scale.set(0.015,-0.015,1);
+    heartMesh.scale.set(0.025,-0.025,1);
     heartMesh.position.x = 0;
-    heartMesh.position.y = 2.04;
-    heartMesh.position.z = -3;
+    heartMesh.position.y = 2.75;
+    heartMesh.position.z = -2;
 
-    backgroundPlane.position.set(0.9,3.15,-5);
-    redPlane.position.set(0.9,3.15,-5);
+    backgroundPlane.position.set(0.85,3.15,-3);
+    redPlane.position.set(0.9,3.15,-3);
     gaugeObj.add(heartMesh); //add the heart to the gaugeObj
 
     return gaugeObj;
@@ -151,11 +152,17 @@ function buildWorldComponentsAndAddToScene() {
     rightTree.position.x = 4;
     leftTree.position.x = -4;
 
+    lifeGauge = drawLifeGauge();
+    lifeGauge.position.x = -1;
+    lifeGauge.position.y = 3;
+    lifeGauge.position.z = -1;
+
     scene.add( leftTree );
     scene.add( rightTree );
     scene.add( rightSide );
     scene.add( leftSide );
     scene.add( ground);
+    scene.add( lifeGauge );
     scene.add( buildBall() );//-- PARENT OF BUILD FUNCTIONS: HERO_BALL.JS --\\
 }
 
@@ -209,9 +216,9 @@ function initWorld(){
     positionCameraWithRespectToGround();
     buildGame();
 
-    let lifeGauge = drawLifeGauge();
+    //let lifeGauge = drawLifeGauge();
     //lifeGauge.positionX = window.innerWidth/2;
-    camera.add(lifeGauge);
+    //camera.add(lifeGauge);
 }
 
 //draws the scene
@@ -219,12 +226,19 @@ function render () {
     renderer.render(scene, camera)
 }
 
+let scaleFactor = 1;
 //updates positions of elements in the world, to depict animation
 function updateWorldElements() {
     ball.rotation.x -= gameSpeed;
     ball.position.z -= gameSpeed;
     camera.position.z -= gameSpeed;
-    //redPlane.scale.set(0.00125, 1, 1);
+    lifeGauge.position.z -= gameSpeed;
+    redPlane.scale.set(scaleFactor, 1, 1);
+    scaleFactor -= 0.0025;
+    if (scaleFactor <= 0) {
+        scaleFactor = 0;
+        //paused = true;
+    }
 }
 
 //updates all the world components

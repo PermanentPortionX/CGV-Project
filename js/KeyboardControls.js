@@ -1,10 +1,15 @@
-let jumping = false;+6
-const keyState = {};
+let jumping = false; //tracks the balls state, true if the ball is in jump state and false if its not
+let goingUp = false; //true if ball is going up
+let ballPreviousY = 0; //keeps track of the balls previous y to determine if it's going up or down
 
 let velocity = new THREE.Vector3(0, 3 , 0);
 let gravity = new THREE.Vector3(0, -2, 0);
+
 let prevTime = 0;
 let currTime = performance.now();
+
+
+const keyState = {};
 
 //this function pauses a game, by pausing music, scene then displaying an overlay
 function pauseGame(){
@@ -57,7 +62,7 @@ function updateBallPositionAccordingToKeyPress(){
         if (ball.position.x >= 1.8) ball.position.x = 1.8;
     }
 
-    //makes the ball jump
+    //makes the ball jump and plays the jump sound effect
     else if(keyState[' '] || keyState['arrowup'] || keyState['w']) {
         jumpSoundEffect.pause();
         jumpSoundEffect.currentTime = 0;
@@ -69,14 +74,20 @@ function updateBallPositionAccordingToKeyPress(){
         let delta = currTime - prevTime;
         if (delta > 0.1) delta = 0.1;
 
+        ballPreviousY = ball.position.y;
         ball.position.y += velocity.y * delta;
+
+        goingUp = ballPreviousY < ball.position.y; //tracks if ball is going up or not while in jump state
+
         velocity.y += gravity.y * delta;
     }
 }
 
 //resets all values back to default after the ball has landed on the ground after jumping
 function resetJumpVarsToDefault() {
-    jumping = false;
     velocity = new THREE.Vector3(0, 3, 0);
     gravity = new THREE.Vector3(0, -2, 0);
+    jumping = false;
+    goingUp = false;
+    ballPreviousY = 0;
 }

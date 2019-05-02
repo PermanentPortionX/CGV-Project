@@ -50,7 +50,6 @@ const buildSpikes = function(){
     st2.position.set(-0.9,1.5,0);
 
     ss.add(st2);
-
     return ss;
 
 };

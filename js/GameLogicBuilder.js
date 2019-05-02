@@ -131,9 +131,9 @@ function buildGame() {
 
                             blockScene.add(blockSmallSpikes);
 
-                            let testOb = blockSmallSpikes.clone();
-                            testOb.position.z = nz;
-                            collidableItems.push(testOb);
+                            let collidableOb = blockSmallSpikes.clone();
+                            collidableOb.position.z = nz;
+                            collidableItems.push(collidableOb);
                             break;
 
                         case 2: //block
@@ -171,6 +171,8 @@ function checkForCollisionsBetweenBallAndObstacles() {
         if (ball.position.z >= nextCollidableObstacles[0].position.z) {
             for (let i = 0; i < nextCollidableObstacles.length; i++) {
                 let ob = nextCollidableObstacles[i];
+                let boundingBox = new THREE.Box3().setFromObject(ob);
+                let obHeight = boundingBox.getSize().y;
                 /*console.log("ball x = " + ball.position.x);
                 console.log("Obs x = " + ob.position.x);
                 console.log("ball z = " +ball.position.z.toString());
@@ -182,9 +184,14 @@ function checkForCollisionsBetweenBallAndObstacles() {
                 let diffX = Math.abs(maxX - minX);
 
                 let diffZ = Math.abs(ob.position.z) - Math.abs(ball.position.z);
-                if (diffZ >= 0 && diffZ <= 1.5 && diffX >= 0 && diffX <= 0.5 && ball.position.y <= 1.5
+                if (diffZ >= 0 && diffZ <= 1 && diffX >= 0 && diffX <= 0.5 //&& ball.position.y <= 1.5
                 ){
-                    paused = true;
+                    if (jumping){
+                        if (//goingUp &&
+                            ball.position.y <= obHeight) paused = true;
+                    }
+                    else paused = true;
+
                 }
             }
         }else{
