@@ -26,7 +26,7 @@ function buildBall() {
     ballRayCaster.set(ball.position, new THREE.Vector3(0, 1, 0));//shoots the ray
     ballIntersectsWithFloor  = ballRayCaster.intersectObject(ground);//gets the results of ray cast
     ball.position.y = ballIntersectsWithFloor[0].point.y + 0.25;
-
+    ball.castShadow = true;
     return ball;
 }
 

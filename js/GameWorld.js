@@ -254,6 +254,8 @@ function initWorld(){
 
 //draws the scene
 function render () {
+    renderer.shadowMapEnabled = true;
+    renderer.shadowMapSoft = true;
     renderer.render(scene, camera)
 }
 
