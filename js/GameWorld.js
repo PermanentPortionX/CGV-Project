@@ -12,6 +12,7 @@ let defaultLifeGaugePositionZ = -1;
 let defaultCameraPositionZ = 3;
 let defaultCameraPositionY;
 
+
 //sound effects
 let jumpSoundEffect = null;
 let backgroundMusic = null;
@@ -269,6 +270,7 @@ function updateWorldElements() {
     if (lifeScaleFactor <= 0) {
         lifeScaleFactor = 0;
         //paused = true;
+        avatarJustDied();
     }
 
     if (FPSView) {
@@ -290,10 +292,14 @@ function updateWorldElements() {
     }
 }
 
+
 //updates all the world components
 function update() {
     ///--PARENT: HERO BALL --\
     if (dead){
+
+        //Handles balls death animation: --PARENT: HERO BALL --\
+        handleDeath();
 
     }
     if (!paused) {

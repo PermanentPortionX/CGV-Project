@@ -11,8 +11,9 @@ let currTime = performance.now();
 
 const keyState = {};
 
-//this function pauses a game, by pausing music, scene then displaying an overlay
+//this function pauses a game, by pausing music, scene then displays an overlay
 function pauseGame(){
+    if (dead) return; //doing nothing once the avatar is dead
     paused = true;
     backgroundMusic.pause();
     document.getElementById('pauseMenuOverlay').style.display = 'flex';
@@ -22,7 +23,7 @@ function pauseGame(){
 function resumeGame(){
     paused = false;
     backgroundMusic.play();
-    document.getElementById('pauseMenuOverlay').style.display = 'none';
+    document.getElementById('pauseMenuOverlay').remove();
 }
 
 //add listening for key presses, e.g. a, d, w is pressed

@@ -1,8 +1,9 @@
 //TODO: ADD ALL THE COMBINATIONS
+//This class contains all the combinations of obstacles and power ups
 //Obstacles symbols
-// 1 -> Spikes
-// 2 -> Cube
-// 3 -> floatingBlocks
+// 1 -> Spikes (s)
+// 2 -> Cube (c)
+// 3 -> floatingBlocks (f)
 const blockSet = [
     [0, 0, 0, 0, 0], //_____ 0
     [1, 0, 0, 0, 0], //s____ 1
