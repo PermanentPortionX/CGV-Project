@@ -35,7 +35,6 @@ let font = null;
 
 //adds directional sun light into the scene
 function addSunLight(){
-
     scene.add( new THREE.DirectionalLight( 0xffffff, 0.5 ) );
 }
 
@@ -50,9 +49,7 @@ function buildTree(){
         heightSegments: 8      // # of height segments for each branch geometry
     });
     const geometry = THREE.TreeGeometry.build(tree);
-    geometry.castShadow = true;
     return new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({}));
-
 }
 
 //draws the ground by drawing a cube and setting ground texture to it
@@ -61,9 +58,7 @@ function buildGround(){
     const geo = new THREE.BoxGeometry(5, 0.1, lastPos, 4, 4, 4);
     const texture = makeTexture("textures/environment/ground_texture.jpg");
     const mat = new THREE.MeshBasicMaterial({map: texture});
-    geo.receiveShadow = true;
     return new THREE.Mesh( geo, mat );
-
 }
 
 //draws the side of the ground by drawing a cube and setting dried grass texture to it
@@ -227,7 +222,6 @@ function loadFont(){
 }
 
 function initWorld(){
-
     //initialize the game vars
     scene = new THREE.Scene( );
     scene.fog = new THREE.FogExp2( 0xfaf1e0, 0.05, 2);
@@ -240,10 +234,6 @@ function initWorld(){
     renderer.shadowMap.enabled = true;//enable shadow
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.shadowMapEnabled = true;
-    renderer.shadowMapSoft = true;
-
-
 
     window.addEventListener('resize', onResize, false);
 
@@ -264,8 +254,6 @@ function initWorld(){
 //draws the scene
 function render () {
     renderer.render(scene, camera)
-    renderer.shadowMapEnabled = true;
-    renderer.shadowMapSoft = true;
 }
 
 //updates positions of elements in the world, to depict animation

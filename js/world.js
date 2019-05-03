@@ -161,6 +161,8 @@ function createLandscapeFloors () { //This is similar to having scene graph but 
 
     planeRight = planeLeft.clone(); //We are copying what's at the LHS and implementing it on the RHS
     planeRight.position.x = PLANE_WIDTH;
+    planeRight.receiveShadow = true;
+    planeLeft.receiveShadow = true;
 
     scene.add( planeLeft, planeRight ); //Add the planes to our scene
 }
