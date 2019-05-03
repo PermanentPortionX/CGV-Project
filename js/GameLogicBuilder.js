@@ -13,12 +13,16 @@
 const collidableItems = [];
 
 //lists that describes the configurations of each level
+//first is the string that states which level the avatar is at
+//second describes the ball speed at each level
+//third describes the rate of life decrease
 const levelConfig = [
-    ["Level 1", 0.3],
-    ["Level 2", 0.35],
-    ["Level 3", 0.4],
-    ["Level 4", 0.45]
+    ["Level 1", 0.3, 0.0025],
+    ["Level 2", 0.35, 0.003],
+    ["Level 3", 0.4, 0.0035],
+    ["Level 4", 0.45, 0.004]
 ];
+
 //lists that keeps track of the beginning of each level
 let levelDistanceTracker = [];
 
@@ -27,6 +31,7 @@ let currLevel = -1;
 
 //list of next collidable objects
 let nextCollidableObstacles = [];
+
 let nextObstacle = null;
 
 //this function reads gameBuildList(below the function) and builds a world based on the values of the gameBuildList
@@ -35,10 +40,15 @@ function buildGame() {
     lastPos += 6;
     //iterate through each list in gameBuildList and build a game block that represents it
     for (let i = 0; i < gameBuildList.length; i++) {
-        let blockSection = gameBuildList[i];
 
+        let blockSection = gameBuildList[i]; //retrieves an item from gameBuildList which describes a blockSection in the world
+
+        //when the length is 1, it's a level indicator
+        //instead of building a blockSection, the words that state new level has been reached are displayed
         if (blockSection.length === 1) {
             const cubeMat = new THREE.MeshLambertMaterial({color: 0xff3300});
+            //the blockSection will have a value that points to a position in level config list
+            //below method gets the string from level config, then builds a textGeometry
             const textGeo = new THREE.TextGeometry( levelConfig[ blockSection[0] ][0], {
                 font: font,
                 size: 1,
@@ -53,6 +63,7 @@ function buildGame() {
             textGeo.computeBoundingBox();
             textGeo.computeVertexNormals();
 
+            //builds text mesh object
             const text = new THREE.Mesh(textGeo, cubeMat);
             text.castShadow = true;
             text.position.y = 4;
@@ -60,10 +71,15 @@ function buildGame() {
             text.position.z = lastPos - 36;
             text.scale.set(1, 1, 0.5);
 
+            //adds the text to the scene
             scene.add(text);
 
+            //levelDistanceTracker keeps track of the z position of where each level starts
+            //this is used to know when the ball reaches a new level nd configure the scene and avatar
+            //according to level config
             levelDistanceTracker.push(lastPos - 36);
         }
+
         else{
             const blockScene = new THREE.Scene( );
             //add defaults
@@ -155,6 +171,8 @@ function buildGame() {
 }
 
 //function builds a list of collidable objects
+//the function takes the first collidableItem from the collidableItemsList
+//builds a list of obstacles in the same z position
 function buildNextCollidableObstacles(){
     nextObstacle = collidableItems[0];
     for (let i = 0; i < collidableItems.length; i++) {
@@ -173,10 +191,6 @@ function checkForCollisionsBetweenBallAndObstacles() {
                 let ob = nextCollidableObstacles[i];
                 let boundingBox = new THREE.Box3().setFromObject(ob);
                 let obHeight = boundingBox.getSize().y;
-                /*console.log("ball x = " + ball.position.x);
-                console.log("Obs x = " + ob.position.x);
-                console.log("ball z = " +ball.position.z.toString());
-                console.log("Obs z = "+ ob.position.z.toString());*/
 
                 let maxX = Math.max(ob.position.x, ball.position.x);
                 let minX = Math.min(ob.position.x, ball.position.x);
@@ -211,7 +225,10 @@ function checkForCollisionsBetweenBallAndObstacles() {
 //this function checks which level you at, then updates the level configs
 function updateLevelIfHeroIsInNewLevel(){
 
+    //get the current z position of the ball
     let currBallZ = Math.abs(ball.position.z);
+
+    //checks if the lev
     if (levelDistanceTracker.length !== 0) {
         let nextLevelZ = Math.abs(levelDistanceTracker[0]);
         if (currBallZ >= nextLevelZ){

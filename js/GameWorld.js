@@ -5,6 +5,7 @@ let renderer = null;
 let gameSpeed = 0.3;
 let redPlane = null;
 let lifeGauge = null;
+let scoreBoard = null;
 
 //sound effects
 let jumpSoundEffect = null;
@@ -135,6 +136,23 @@ function drawLifeGauge(){
     gaugeObj.add(heartMesh); //add the heart to the gaugeObj
 
     return gaugeObj;
+
+}
+
+// draw the score board for distance covered
+
+function drawScoreBoard(){
+
+    const scoreObj = new THREE.Scene();
+
+    const surfaceGeo = new THREE.PlaneGeometry(1,1);
+    const surfaceMat= new THREE.MeshBasicMaterial( {color: 0x000000, side: THREE.DoubleSide} );
+    const surfaceMesh = new THREE.Mesh(surfaceGeo, surfaceMat);
+
+    scoreObj.add(surfaceMesh);
+    camera.add(scoreObj);
+
+    return scoreObj;
 }
 
 //builds and initializes world(ground, side ground, trees, ball) components
@@ -157,12 +175,19 @@ function buildWorldComponentsAndAddToScene() {
     lifeGauge.position.y = 3;
     lifeGauge.position.z = -1;
 
+    scoreBoard = drawScoreBoard();
+    scoreBoard.position.x = -1;
+    scoreBoard.position.y = 3;
+    scoreBoard.position.z = -1;
+    camera.add(scoreBoard);
+
     scene.add( leftTree );
     scene.add( rightTree );
     scene.add( rightSide );
     scene.add( leftSide );
     scene.add( ground);
     scene.add( lifeGauge );
+    scene.add( scoreBoard);
     scene.add( buildBall() );//-- PARENT OF BUILD FUNCTIONS: HERO_BALL.JS --\\
 }
 
@@ -215,10 +240,6 @@ function initWorld(){
     addSunLight();
     positionCameraWithRespectToGround();
     buildGame();
-
-    //let lifeGauge = drawLifeGauge();
-    //lifeGauge.positionX = window.innerWidth/2;
-    //camera.add(lifeGauge);
 }
 
 //draws the scene
@@ -237,7 +258,7 @@ function updateWorldElements() {
     scaleFactor -= 0.0025;
     if (scaleFactor <= 0) {
         scaleFactor = 0;
-        //paused = true;
+        paused = true;
     }
 }
 
