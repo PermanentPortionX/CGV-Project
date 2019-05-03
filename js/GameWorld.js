@@ -248,6 +248,7 @@ function initWorld(){
     addSunLight();
     positionCameraWithRespectToGround();
     buildGame();
+
 }
 
 //draws the scene

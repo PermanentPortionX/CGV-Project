@@ -126,6 +126,7 @@
     document.getElementById("resume").addEventListener('click', resumeGame);
     document.getElementById("fullScreen").addEventListener('click', handleFullScreen);
     document.getElementById("pFullScreen").addEventListener('click', handleFullScreen);
+    document.getElementById("restart").addEventListener('click', restartGame);
 
     loadFont();
 
@@ -158,6 +159,11 @@
         }
 
     }
+
+    function restartGame(){
+        document.location.reload();
+    }
+
 </script>
 </body>
 </html>
