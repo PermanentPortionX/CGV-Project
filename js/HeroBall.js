@@ -1,5 +1,6 @@
 let ball = null;
 let ballIntersectsWithFloor = null;
+let dead = false;
 
 //builds and returns the ball the user controls
 function buildBall() {
@@ -24,5 +25,10 @@ function ballBackToGround(){
         return true;
     }
     return false;
+}
+
+function died() {
+    paused = true;
+    dead = true;
 }
 

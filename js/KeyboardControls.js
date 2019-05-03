@@ -33,7 +33,7 @@ function initKeyboard(){
         e.preventDefault();
         //pause game pressed
         if (e.key.toLowerCase() === "escape") pauseGame();
-
+        if (e.key.toLowerCase() === "c") FPSView = !FPSView;
         else keyState[e.key.toLowerCase()] = true;
     }, true);
 

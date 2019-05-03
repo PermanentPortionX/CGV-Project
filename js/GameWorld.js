@@ -6,6 +6,11 @@ let gameSpeed = 0.3;
 let redPlane = null;
 let lifeGauge = null;
 let scoreBoard = null;
+let lifeScaleFactor = 1;
+let FPSView = false;
+let defaultLifeGaugePositionZ = -1;
+let defaultCameraPositionZ = 3;
+let defaultCameraPositionY;
 
 //sound effects
 let jumpSoundEffect = null;
@@ -73,7 +78,8 @@ function positionCameraWithRespectToGround(){
     const cameraRayCaster = new THREE.Raycaster();
     cameraRayCaster.set(camera.position, new THREE.Vector3(0, 1, 0));
     const cIntersect = cameraRayCaster.intersectObject(ground);
-    camera.position.y = cIntersect[0].point.y + 1.5;
+    defaultCameraPositionY = cIntersect[0].point.y + 1.5;
+    camera.position.y = defaultCameraPositionY;
 }
 
 //responsible for auto resizing the scene when the browsers size changes
@@ -90,7 +96,7 @@ function initObstacles() {
     spikes.scale.set(0.2, 0.2, 0.2);
 
     cube = buildCube();
-    cube.scale.set(0.5, 0.5, 0.5);
+    cube.scale.set(0.4, 0.4, 0.4);
 
 }
 
@@ -173,7 +179,7 @@ function buildWorldComponentsAndAddToScene() {
     lifeGauge = drawLifeGauge();
     lifeGauge.position.x = -1;
     lifeGauge.position.y = 3;
-    lifeGauge.position.z = -1;
+    lifeGauge.position.z = defaultLifeGaugePositionZ;
 
     scoreBoard = drawScoreBoard();
     scoreBoard.position.x = -1;
@@ -187,7 +193,7 @@ function buildWorldComponentsAndAddToScene() {
     scene.add( leftSide );
     scene.add( ground);
     scene.add( lifeGauge );
-    scene.add( scoreBoard);
+    //scene.add( scoreBoard);
     scene.add( buildBall() );//-- PARENT OF BUILD FUNCTIONS: HERO_BALL.JS --\\
 }
 
@@ -221,7 +227,7 @@ function initWorld(){
     scene.fog = new THREE.FogExp2( 0xfaf1e0, 0.05, 2);
 
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 3;
+    camera.position.z = defaultCameraPositionZ;
 
     renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setClearColor(0xfaf1e0, 1);
@@ -232,6 +238,8 @@ function initWorld(){
     window.addEventListener('resize', onResize, false);
 
     document.body.appendChild( renderer.domElement );
+
+    //controls = new THREE.OrbitControls( camera );
 
     //builds, positions, adds all required components into the world
     initSoundEffects();
@@ -247,23 +255,46 @@ function render () {
     renderer.render(scene, camera)
 }
 
-let scaleFactor = 1;
 //updates positions of elements in the world, to depict animation
 function updateWorldElements() {
     ball.rotation.x -= gameSpeed;
     ball.position.z -= gameSpeed;
-    camera.position.z -= gameSpeed;
-    lifeGauge.position.z -= gameSpeed;
-    redPlane.scale.set(scaleFactor, 1, 1);
-    scaleFactor -= 0.0025;
-    if (scaleFactor <= 0) {
-        scaleFactor = 0;
-        paused = true;
+    defaultCameraPositionZ -= gameSpeed;
+    defaultLifeGaugePositionZ -= gameSpeed;
+    //camera.position.z -= gameSpeed;
+    //lifeGauge.position.z -= gameSpeed;
+    redPlane.scale.set(lifeScaleFactor, 1, 1);
+    lifeScaleFactor -= 0.0025;
+    if (lifeScaleFactor <= 0) {
+        lifeScaleFactor = 0;
+        //paused = true;
+    }
+
+    if (FPSView) {
+        camera.position.z = ball.position.z;
+        camera.position.x = ball.position.x;
+        camera.position.y = ball.position.y;
+        lifeGauge.position.z = ball.position.z- 2;
+        lifeGauge.position.y = ball.position.y;
+        lifeGauge.position.x = ball.position.x;
+    }
+    else {
+
+        camera.position.z = defaultCameraPositionZ;
+        camera.position.y = defaultCameraPositionY;
+        camera.position.x = 0;
+        lifeGauge.position.z = defaultLifeGaugePositionZ;
+        lifeGauge.position.x = -1;
+        lifeGauge.position.y = 3;
     }
 }
 
 //updates all the world components
 function update() {
+    ///--PARENT: HERO BALL --\
+    if (dead){
+
+    }
     if (!paused) {
         //updates ball position according to which key is pressed /-- PARENT: KEYBOARD CONTROLS --\
         updateBallPositionAccordingToKeyPress();

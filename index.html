@@ -73,6 +73,7 @@
 <div id="mainMenuOverlay">
     <div>
         <button id="start">Click to Play</button>
+        <button id="fullScreen">FullScreen</button>
     </div>
 </div>
 
@@ -80,12 +81,14 @@
 <div id="pauseMenuOverlay">
     <div>
         <button id="resume">Resume</button>
+        <button id="restart">Restart</button>
+        <button id="pFullScreen">FullScreen</button>
     </div>
 </div>
 
-<p id="pt">Testing</p>
+<!--<p id="pt">Testing</p>-->
 
-<audio id = "audio" src="sounds/jump.mp3"></audio>
+<audio id="audio" src="sounds/jump.mp3"/>
 
 <script src="js/three.js"></script>
 <script src="js/Obstacles.js"></script>
@@ -100,6 +103,7 @@
 <script src="js/PowerUps.js"></script>
 <script src="js/BlockSet.js"></script>
 <script src="js/GameLogicBuilder.js"></script>
+<script src="js/THREEx.FullScreen.js"></script>
 
 <script>
 
@@ -120,6 +124,8 @@
 
     document.getElementById("start").addEventListener('click', startGame);
     document.getElementById("resume").addEventListener('click', resumeGame);
+    document.getElementById("fullScreen").addEventListener('click', handleFullScreen);
+    document.getElementById("pFullScreen").addEventListener('click', handleFullScreen);
 
     loadFont();
 
@@ -142,6 +148,16 @@
 
     }
 
+    function handleFullScreen() {
+        if (THREEx.FullScreen.available()) {
+            if( THREEx.FullScreen.activated() ){
+                THREEx.FullScreen.cancel();
+            }else{
+                THREEx.FullScreen.request();
+            }
+        }
+
+    }
 </script>
 </body>
 </html>
