@@ -126,9 +126,9 @@ function buildGame() {
                         else nz = lastPos + (zPos = -2.5) - 0.5;
                     }
 
+                    /**********************POWER UPS DECLARATION******************************************/
                     //powerUpLevelDescPair[0] gets the position of combination list from PowerUpSet
                     //blockSet[ powerUpLevelDescPair[0] ][k] gets the power up type
-                    console.log("power: " + powerUpLevelDescPair[0].toString());
                     if (powerUpLevelDescPair[0] !== -1){
                         switch (powerUpSet[ powerUpLevelDescPair[0] ][k]) {
                             case 90: //heart
@@ -193,6 +193,7 @@ function buildGame() {
                     }
 
 
+                    /**********************OBSTACLES DECLARATION******************************************/
                     //powerUpLevelDescPair[1] gets the position of combination list from BlockSet
                     //blockSet[ powerUpLevelDescPair[1] ][k] gets the obstacle type
                     switch (blockSet[ powerUpLevelDescPair[1] ][k]) {//obstacle type
@@ -223,38 +224,25 @@ function buildGame() {
 
                             //same approach as spikes above
                             const blockCubes = cube.clone();
-
-                            //same approach as spikes above
                             blockCubes.position.x = xPos;
                             blockCubes.position.z = zPos;
-                            //same approach as spikes above
                             blockScene.add(blockCubes);
-
-                            //same approach as spikes above
                             let collidableCube = blockCubes.clone();
-                            //same approach as spikes above
                             collidableCube.position.z = nz;
-                            //same approach as spikes above
                             collidableItems.push([2, collidableCube]);
                             break;
 
                         case 3: //floating cubes
 
-                            //same approach as spikes above
-                            const floatingCubes = cube.clone();
                             //same approach as spikes above, difference is the y part
                             //since floating cubes have to be floating
+                            const floatingCubes = cube.clone();
                             floatingCubes.position.x = xPos;
                             floatingCubes.position.z = zPos;
                             floatingCubes.position.y = 2.5;
-                            //same approach as spikes above
                             blockScene.add(floatingCubes);
-
-                            //same approach as spikes above
                             let collidableFloatingCube = floatingCubes.clone();
-                            //same approach as spikes above
                             collidableFloatingCube.position.z = nz;
-                            //same approach as spikes above
                             collidableItems.push([3, collidableFloatingCube]);
                             break;
                     }
@@ -358,6 +346,11 @@ function updateLevelIfHeroIsInNewLevel(){
         //when ball reaches a new level, the currBallZ will be greater
         //or equal to the top z position in levelDistanceTracker
         if (currBallZ >= nextLevelZ){
+            //play sound to indicate new level
+            let explosionSoundEffect = document.getElementById("newLevel");
+            explosionSoundEffect.volume = 0.6;
+            explosionSoundEffect.play();
+
             //increment the currLevel
             ++currLevel;
             //update game speed according
