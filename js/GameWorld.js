@@ -12,6 +12,12 @@ let defaultLifeGaugePositionZ = -1;
 let defaultCameraPositionZ = 3;
 let defaultCameraPositionY;
 
+//for obstacles
+let heart = null;
+let bomb = null;
+let gun = null;
+let invincibility = null;
+let trap = null;
 
 //sound effects
 let jumpSoundEffect = null;
@@ -99,6 +105,15 @@ function initObstacles() {
     cube = buildCube();
     cube.scale.set(0.4, 0.4, 0.4);
 
+}
+
+//initialize the powerUps used in the game
+//-- PARENT OF BUILD FUNCTIONS: POWERUPS.JS
+function initPowerUps(){
+    heart = buildHeart();
+    bomb = buildBomb();
+    gun = buildGun();
+    trap = buildTrap();
 }
 
 //draw a life gauge
@@ -246,6 +261,7 @@ function initWorld(){
     initSoundEffects();
     buildWorldComponentsAndAddToScene();
     initObstacles();
+    initPowerUps();
     addSunLight();
     positionCameraWithRespectToGround();
     buildGame();
@@ -267,8 +283,6 @@ function updateWorldElements() {
     defaultLifeGaugePositionZ -= gameSpeed;
 
     updateBallLife();
-
-
 
     if (FPSView) {
         camera.position.z = ball.position.z;

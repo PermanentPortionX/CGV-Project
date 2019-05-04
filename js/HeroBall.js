@@ -123,7 +123,7 @@ function handleDeath(){
 function waitForExplosionAnimationToEnd() {
     setTimeout(function () {
         document.getElementById('gameOverOverlay').style.display = 'flex';
-    }, 3000);
+    }, 2000);
 
 }
 

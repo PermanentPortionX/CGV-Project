@@ -1,4 +1,4 @@
-const bomb = function(){
+const buildBomb = function(){
     const scene = new THREE.Scene();
 
     const bombTop = new THREE.Mesh(
@@ -46,11 +46,12 @@ const bomb = function(){
     scene.add(bombTop);
     scene.add( mesh );
 
-    scene.scale.set(0.2, 0.2, 0.2);
+    scene.scale.set(0.25, 0.25, 0.25);
+    scene.position.y = 0.35;
     return scene;
 };
 
-const heart = function(){
+const buildHeart = function(){
     const x = -25, y = -250;
     const heartShape = new THREE.Shape();
     heartShape.moveTo( x + 25, y + 25 );
@@ -75,10 +76,11 @@ const heart = function(){
     const mesh = new THREE.Mesh(geometry, material);
 
     mesh.scale.set(0.007, -0.007, 0.007);
+    mesh.position.y = -1;
     return mesh;
 };
 
-const gun = function(){
+const buildGun = function(){
     const scene = new THREE.Scene();
     const gunMat = new THREE.MeshBasicMaterial({color: 0x292626});
     const gunMat1 = new THREE.MeshBasicMaterial({color: 0x625E5E});
@@ -108,12 +110,12 @@ const gun = function(){
     scene.add(GunHandle);
     scene.add(GunTop);
 
-    scene.scale.set(0.3, 0.3, 0.3);
+    scene.scale.set(0.35, 0.35, 0.35);
 
     return scene;
 };
 
-const trap = function(){
+const buildTrap = function(){
     const scene = new THREE.Scene();
     let numOfPoints = 0;
 
@@ -140,5 +142,6 @@ const trap = function(){
     var dot = new THREE.Points( dotGeometry, dotMaterial );
     scene.add( dot );
     scene.scale.set(0.35, 0.35, 0.35);
+    scene.position.y = 0.5;
     return scene;
 };
