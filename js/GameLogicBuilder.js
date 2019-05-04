@@ -295,6 +295,8 @@ function updateLevelIfHeroIsInNewLevel(){
             ++currLevel;
             //update game speed according
             gameSpeed = levelConfig[currLevel][1];
+            //update life decrease rate of ball
+            lifeDecreaseRate = levelConfig[currLevel][2];
             //since we in the new level, the top z value has to be removed
             levelDistanceTracker.shift();
         }

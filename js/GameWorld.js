@@ -6,7 +6,7 @@ let gameSpeed = 0.3;
 let redPlane = null;
 let lifeGauge = null;
 let scoreBoard = null;
-let lifeScaleFactor = 1;
+
 let FPSView = false;
 let defaultLifeGaugePositionZ = -1;
 let defaultCameraPositionZ = 3;
@@ -265,15 +265,10 @@ function updateWorldElements() {
     ball.position.z -= gameSpeed;
     defaultCameraPositionZ -= gameSpeed;
     defaultLifeGaugePositionZ -= gameSpeed;
-    //camera.position.z -= gameSpeed;
-    //lifeGauge.position.z -= gameSpeed;
-    redPlane.scale.set(lifeScaleFactor, 1, 1);
-    lifeScaleFactor -= 0.0025;
-    if (lifeScaleFactor <= 0) {
-        lifeScaleFactor = 0;
-        //paused = true;
-        avatarJustDied();
-    }
+
+    updateBallLife();
+
+
 
     if (FPSView) {
         camera.position.z = ball.position.z;

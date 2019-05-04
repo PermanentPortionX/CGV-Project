@@ -2,6 +2,10 @@ let ball = null;
 let ballIntersectsWithFloor = null;
 let dead = false; //keeps track of the balls life state
 
+//for ball life
+let lifeScaleFactor = 1;
+let lifeDecreaseRate = 0;
+
 //for particle explosion
 let movementSpeed = 5;
 let totalObjects = 2000;
@@ -121,4 +125,12 @@ function waitForExplosionAnimationToEnd() {
         document.getElementById('gameOverOverlay').style.display = 'flex';
     }, 3000);
 
+}
+
+//decreases the life gauge of the ball
+function updateBallLife(){
+    redPlane.scale.set(lifeScaleFactor, 1, 1);
+    lifeScaleFactor -= 0.0025;
+
+    if (lifeScaleFactor <= 0) avatarJustDied();
 }

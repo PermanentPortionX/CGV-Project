@@ -59,7 +59,7 @@ const blocks = function(){
 
     return new THREE.Mesh(
         new THREE.BoxGeometry(2, 2, 2),
-        new THREE.MeshLambertMaterial({
+        new THREE.MeshBasicMaterial({
 
             color: "white",
             map: makeTexture("textures/obstacles_textures/silver.jpg")
