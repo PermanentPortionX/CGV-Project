@@ -56,6 +56,7 @@ function buildTree(){
         heightSegments: 8      // # of height segments for each branch geometry
     });
     const geometry = THREE.TreeGeometry.build(tree);
+    geometry.castShadow=true;
     return new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({}));
 }
 
@@ -167,13 +168,13 @@ function drawScoreBoard(){
 
     const scoreObj = new THREE.Scene();
 
-    const surfaceGeo = new THREE.PlaneGeometry(1,1);
-    const surfaceMat= new THREE.MeshBasicMaterial( {color: 0x000000, side: THREE.DoubleSide} );
+    const surfaceGeo = new THREE.PlaneGeometry(2.3, 2.5);
+    const surfaceMat= new THREE.MeshBasicMaterial( {
+            map: makeTexture("textures/environment/the_edge_board.jpg")
+    });
     const surfaceMesh = new THREE.Mesh(surfaceGeo, surfaceMat);
 
     scoreObj.add(surfaceMesh);
-    camera.add(scoreObj);
-
     return scoreObj;
 }
 
@@ -198,10 +199,10 @@ function buildWorldComponentsAndAddToScene() {
     lifeGauge.position.z = defaultLifeGaugePositionZ;
 
     scoreBoard = drawScoreBoard();
-    scoreBoard.position.x = -1;
-    scoreBoard.position.y = 3;
-    scoreBoard.position.z = -1;
-    camera.add(scoreBoard);
+    scoreBoard.position.x = 5;
+    scoreBoard.position.y = 4;
+    scoreBoard.position.z = -2;
+    scene.add(scoreBoard);
 
     scene.add( leftTree );
     scene.add( rightTree );
@@ -281,8 +282,9 @@ function updateWorldElements() {
     ball.position.z -= gameSpeed;
     defaultCameraPositionZ -= gameSpeed;
     defaultLifeGaugePositionZ -= gameSpeed;
+    scoreBoard.position.z -= gameSpeed;
 
-    updateBallLife();
+    //updateBallLife();
 
     if (FPSView) {
         camera.position.z = ball.position.z;

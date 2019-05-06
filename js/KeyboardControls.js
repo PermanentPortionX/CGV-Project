@@ -23,7 +23,7 @@ function pauseGame(){
 function resumeGame(){
     paused = false;
     backgroundMusic.play();
-    document.getElementById('pauseMenuOverlay').remove();
+    document.getElementById('pauseMenuOverlay').style.display = 'none';
 }
 
 //add listening for key presses, e.g. a, d, w is pressed

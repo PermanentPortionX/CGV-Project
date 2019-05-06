@@ -132,48 +132,18 @@ function buildGame() {
                     if (powerUpLevelDescPair[0] !== -1){
                         switch (powerUpSet[ powerUpLevelDescPair[0] ][k]) {
                             case 90: //heart
-
-                                //clone the original heart built in game world to save computation
-                                const powerUpHeart = heart.clone();
-
-                                //set the positions of x and z according to the positions that were calculated previously
-                                powerUpHeart.position.x = xPos;
-                                powerUpHeart.position.z = zPos;
-
-                                //after setting position, heart power up is added on to blockScene which is later added into the
-                                //world(scene)
-                                blockScene.add(powerUpHeart);
-
-                                //create a copy of the power up to test for collisions
-                                let collidableHeart = powerUpHeart.clone();
-                                //set the z position to the position it was suppose to be at in the real world
-                                collidableHeart.position.z = nz;
-                                //the collidable object needs to be saved as a tuple, major aim is to store the collidable obj
-                                //together with its power up type, power up type is later used when checking for collisions, since
-                                //different power ups collide with ball differently
-                                //Tuple is added into a list that stores all the collidable items
-                                collidableItems.push([90, collidableHeart]);
+                                //adds power up to the scene
+                                addObstacleOrPowerUp(xPos, -1, zPos, nz, heart.clone(), blockScene, 90);
                                 break;
 
                             case 91: //bomb
                                 //same approach as heart
-                                const powerUpBomb = bomb.clone();
-                                powerUpBomb.position.x = xPos;
-                                powerUpBomb.position.z = zPos;
-                                blockScene.add(powerUpBomb);
-                                let collidableBomb = powerUpBomb.clone();
-                                collidableBomb.position.z = nz;
-                                collidableItems.push([91, collidableBomb]);
+                                addObstacleOrPowerUp(xPos, -1, zPos, nz, bomb.clone(), blockScene, 91);
                                 break;
 
                             case 92: //gun
-                                const powerUpGun = gun.clone();
-                                powerUpGun.position.x = xPos;
-                                powerUpGun.position.z = zPos;
-                                blockScene.add(powerUpGun);
-                                let collidableGun = powerUpGun.clone();
-                                collidableGun.position.z = nz;
-                                collidableItems.push([92, collidableGun]);
+                                //same approach as heart
+                                addObstacleOrPowerUp(xPos, -1, zPos, nz, gun.clone(), blockScene, 92);
                                 break;
 
                             case 93: //invincibility
@@ -181,13 +151,32 @@ function buildGame() {
                                 break;
 
                             case 94: //trap
-                                const powerUpTrap = trap.clone();
-                                powerUpTrap.position.x = xPos;
-                                powerUpTrap.position.z = zPos;
-                                blockScene.add(powerUpTrap);
-                                let collidableTrap = powerUpTrap.clone();
-                                collidableTrap.position.z = nz;
-                                collidableItems.push([92, collidableTrap]);
+                                //same approach as heart
+                                addObstacleOrPowerUp(xPos, -0.8, zPos, nz, trap.clone(), blockScene, 94);
+                                break;
+
+                            case 95: //floating heart
+                                //same approach as heart
+                                addObstacleOrPowerUp(xPos, 1, zPos, nz, heart.clone(), blockScene, 95);
+                                break;
+
+                            case 96: //floating bomb
+                                //same approach as heart
+                                addObstacleOrPowerUp(xPos, 2.3, zPos, nz, bomb.clone(), blockScene, 96);
+                                break;
+
+                            case 97: // floating gun
+                                //same approach as heart
+                                addObstacleOrPowerUp(xPos, 2.3, zPos, nz, gun.clone(), blockScene, 97);
+                                break;
+
+                            case 98: //invincibility
+
+                                break;
+
+                            case 99: //floating trap
+                                //same approach as heart
+                                addObstacleOrPowerUp(xPos, 2.5, zPos, nz, trap.clone(), blockScene, 99);
                                 break;
                         }
                     }
@@ -198,52 +187,17 @@ function buildGame() {
                     //blockSet[ powerUpLevelDescPair[1] ][k] gets the obstacle type
                     switch (blockSet[ powerUpLevelDescPair[1] ][k]) {//obstacle type
                         case 1: //spike
-
-                            //clones the original spike built in game world to save computation
-                            const blockSmallSpikes = spikes.clone();
-
-                            //set the positions of x and z according to the positions that were calculated previously
-                            blockSmallSpikes.position.x = xPos;
-                            blockSmallSpikes.position.z = zPos;
-                            //after setting position, spikes are added on to blockScene which is later added into the
-                            //world(scene)
-                            blockScene.add(blockSmallSpikes);
-
-                            //create a copy of the obstacle to test for collisions
-                            let collidableSpike = blockSmallSpikes.clone();
-                            //set the z position to the position it was suppose to be at in the real world
-                            collidableSpike.position.z = nz;
-                            //the collidable object needs to be saved as a tuple, major aim is to store the collidable obj
-                            //together with its obstacle type, obstacle type is later used when checking for collisions, since
-                            //different power ups and obstacles collide with ball differently
-                            //Tuple is added into a list that stores all the collidable items
-                            collidableItems.push([1, collidableSpike]);
+                            addObstacleOrPowerUp(xPos, -1, zPos, nz, spikes.clone(), blockScene, 1);
                             break;
 
                         case 2: //block
-
                             //same approach as spikes above
-                            const blockCubes = cube.clone();
-                            blockCubes.position.x = xPos;
-                            blockCubes.position.z = zPos;
-                            blockScene.add(blockCubes);
-                            let collidableCube = blockCubes.clone();
-                            collidableCube.position.z = nz;
-                            collidableItems.push([2, collidableCube]);
+                            addObstacleOrPowerUp(xPos, -1, zPos, nz, cube.clone(), blockScene, 2);
                             break;
 
                         case 3: //floating cubes
-
                             //same approach as spikes above, difference is the y part
-                            //since floating cubes have to be floating
-                            const floatingCubes = cube.clone();
-                            floatingCubes.position.x = xPos;
-                            floatingCubes.position.z = zPos;
-                            floatingCubes.position.y = 2.5;
-                            blockScene.add(floatingCubes);
-                            let collidableFloatingCube = floatingCubes.clone();
-                            collidableFloatingCube.position.z = nz;
-                            collidableItems.push([3, collidableFloatingCube]);
+                            addObstacleOrPowerUp(xPos, 2.5, zPos, nz, cube.clone(), blockScene, 3);
                             break;
                     }
 
@@ -264,6 +218,28 @@ function buildGame() {
     //to save computation, we only have to check if the ball is colliding with the nearest obstacles only, these are always
     //located at the top of the list
     buildNextCollidableObstacles();
+}
+
+function addObstacleOrPowerUp(xPos, yPos, zPos, nz, obstacleOrPowerUp, blockScene, obstacleOrPowerUpType) {
+    //set the positions of x and z according to the positions that were calculated previously
+    obstacleOrPowerUp.position.x = xPos;
+    obstacleOrPowerUp.position.z = zPos;
+
+    if (yPos !== -1) obstacleOrPowerUp.position.y = yPos;
+
+    //after setting position, obstacle or power up is added on to blockScene which is later added into the
+    //world(scene)
+    blockScene.add(obstacleOrPowerUp);
+
+    //create a copy of the obstacle or power up to test for collisions
+    let collidableHeart = obstacleOrPowerUp.clone();
+    //set the z position to the position it was suppose to be at in the real world
+    collidableHeart.position.z = nz;
+    //the collidable object needs to be saved as a tuple, major aim is to store the collidable obj
+    //together with its obstacle or power up type, obstacle or power up type is later used when checking for collisions, since
+    //different obstacles or power ups collide with ball differently
+    //Tuple is added into a list that stores all the collidable items
+    collidableItems.push([obstacleOrPowerUpType, collidableHeart]);
 }
 
 //function builds a list of collidable objects
@@ -298,21 +274,47 @@ function checkForCollisionsBetweenBallAndObstacles() {
                 //calculate how far the ball is from the collidable object, in terms of depth
                 let diffZ = Math.abs(ob.position.z) - Math.abs(ball.position.z);
 
+                //checks if the ball is falling onto obstacle or colliding with obstacle
+                let fallingOntoOrCollidingWithObstacle = ((jumping && ball.position.y <= obHeight && !goingUp) || !jumping);
+
+                //checks if ball is colliding with obstacle in x position
+                let collidingInX = diffX >= 0 && diffX <= 0.4;
+
                 //decisions about the balls life state is made from the difference in the x's, difference in the z's
                 switch (nextCollidableItem[0]) { //collidable type
                     case 1: //spikes
-                        if (diffZ >= 0 && diffZ <= 0.8 && diffX >= 0 && diffX <= 0.4 && ((jumping && ball.position.y <= obHeight && !goingUp) || !jumping))
+                        if (diffZ >= 0 && diffZ <= 0.8 && collidingInX && fallingOntoOrCollidingWithObstacle)
                             avatarJustDied(); //function found in HeroBall
                         break;
 
                     case 2: //cubes
-                        if (diffZ >= 0 && diffZ <= 1 && diffX >= 0 && diffX <= 0.4 && ((jumping && ball.position.y <= obHeight && !goingUp) || !jumping))
+                        if (diffZ >= 0 && diffZ <= 1 && collidingInX && fallingOntoOrCollidingWithObstacle)
                             avatarJustDied(); //function found in HeroBall
                         break;
 
-                    case 3:
-                        if (diffZ >= 0 && diffZ <= 1 && diffX >= 0 && diffX <= 0.4 && jumping && ball.position.y >= 1 && goingUp)
+                    case 3: //floating cube
+                        if (diffZ >= 0 && diffZ <= 1 && collidingInX && jumping && ball.position.y >= 1 && goingUp)
                             avatarJustDied(); //function found in HeroBall
+                        break;
+
+                    case 90: //heart
+
+                        break;
+
+                    case 91: //bomb
+
+                        break;
+
+                    case 92: //gun
+
+                        break;
+
+                    case 93: //invincibility
+
+                        break;
+
+                    case 94: //trap
+
                         break;
                 }
 
@@ -347,9 +349,9 @@ function updateLevelIfHeroIsInNewLevel(){
         //or equal to the top z position in levelDistanceTracker
         if (currBallZ >= nextLevelZ){
             //play sound to indicate new level
-            let explosionSoundEffect = document.getElementById("newLevel");
-            explosionSoundEffect.volume = 0.6;
-            explosionSoundEffect.play();
+            let newLevelSoundEffect = document.getElementById("newLevel");
+            newLevelSoundEffect.volume = 0.6;
+            newLevelSoundEffect.play();
 
             //increment the currLevel
             ++currLevel;
@@ -394,21 +396,21 @@ const gameBuildList = [
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
+    [[-1, 0], [6, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
+    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
+    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
+    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
+    [[-1, 0], [7, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
+    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
+    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
+    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
+    [[-1, 0], [-1, 0], [8, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
-    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
-    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
-    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
-    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
-    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
-    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
-    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
-    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
-    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
-    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
+    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [9, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],

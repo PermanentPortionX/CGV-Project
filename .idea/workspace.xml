@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="04158b6b-1510-4565-8dad-c8245adecca8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/textures/environment/the_edge_board.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/BlockSet.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/BlockSet.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/GameLogicBuilder.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/GameLogicBuilder.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/GameWorld.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/GameWorld.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/KeyboardControls.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/KeyboardControls.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/PowerUpSet.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/PowerUpSet.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/PowerUps.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/PowerUps.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -20,8 +24,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/KeyboardControls.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1139">
-              <caret line="67" column="17" selection-start-line="67" selection-start-column="17" selection-end-line="67" selection-end-column="17" />
+            <state relative-caret-position="281">
+              <caret line="25" column="69" selection-start-line="25" selection-start-column="69" selection-end-line="25" selection-end-column="69" />
             </state>
           </provider>
         </entry>
@@ -29,7 +33,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/BlockSet.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="556">
+            <state relative-caret-position="5372">
               <caret line="321" column="2" selection-start-line="321" selection-start-column="2" selection-end-line="321" selection-end-column="2" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
@@ -42,7 +46,7 @@
         <entry file="file://$PROJECT_DIR$/js/HeroBall.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="544">
-              <caret line="32" column="27" lean-forward="true" selection-start-line="32" selection-start-column="4" selection-end-line="32" selection-end-column="27" />
+              <caret line="32" column="27" selection-start-line="32" selection-start-column="4" selection-end-line="32" selection-end-column="27" />
               <folding>
                 <element signature="n#!!block;n#ExplodeAnimation#0" />
               </folding>
@@ -53,20 +57,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/world.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4777">
-              <caret line="281" column="16" lean-forward="true" selection-start-line="281" selection-start-column="16" selection-end-line="281" selection-end-column="16" />
+            <state relative-caret-position="4046">
+              <caret line="238" column="41" selection-start-line="238" selection-start-column="41" selection-end-line="238" selection-end-column="41" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/GameLogicBuilder.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5372">
-              <caret line="350" column="45" selection-start-line="350" selection-start-column="45" selection-end-line="350" selection-end-column="45" />
-              <folding>
-                <element signature="e#2168#3642#0" />
-              </folding>
+            <state relative-caret-position="238">
+              <caret line="169" column="62" selection-start-line="169" selection-start-column="62" selection-end-line="169" selection-end-column="62" />
             </state>
           </provider>
         </entry>
@@ -74,20 +75,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/GameWorld.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="624">
-              <caret line="121" lean-forward="true" selection-start-line="121" selection-end-line="121" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/js/PowerUpSet.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="11" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
+            <state relative-caret-position="142">
+              <caret line="267" column="14" selection-start-line="267" selection-start-column="14" selection-end-line="267" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -110,15 +99,16 @@
         <option value="$PROJECT_DIR$/threex.text.js" />
         <option value="$PROJECT_DIR$/js/GameBuilder.js" />
         <option value="$PROJECT_DIR$/js/OrbitControls.js" />
-        <option value="$PROJECT_DIR$/js/KeyboardControls.js" />
         <option value="$PROJECT_DIR$/js/Obstacles.js" />
         <option value="$PROJECT_DIR$/js/HeroBall.js" />
-        <option value="$PROJECT_DIR$/js/PowerUps.js" />
-        <option value="$PROJECT_DIR$/js/GameLogicBuilder.js" />
-        <option value="$PROJECT_DIR$/js/GameWorld.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/BlockSet.js" />
+        <option value="$PROJECT_DIR$/js/PowerUps.js" />
+        <option value="$PROJECT_DIR$/js/world.js" />
         <option value="$PROJECT_DIR$/js/PowerUpSet.js" />
+        <option value="$PROJECT_DIR$/js/GameWorld.js" />
+        <option value="$PROJECT_DIR$/js/KeyboardControls.js" />
+        <option value="$PROJECT_DIR$/js/GameLogicBuilder.js" />
       </list>
     </option>
   </component>
@@ -129,12 +119,15 @@
     <auto-save>true</auto-save>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-10" />
-    <option name="width" value="979" />
-    <option name="height" value="1040" />
+    <option name="x" value="-9" />
+    <option name="width" value="978" />
+    <option name="height" value="1039" />
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectView">
-    <navigator proportions="" version="1">
+    <navigator currentView="Scope" currentSubView="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope" proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
@@ -175,7 +168,33 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="Scope">
+        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
+          <expand>
+            <path>
+              <item name="CGV-Project" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+            </path>
+            <path>
+              <item name="CGV-Project" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="js" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="CGV-Project" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="textures" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="CGV-Project" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="textures" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="environment" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -187,15 +206,15 @@
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Mulisa\WebstormProjects\CGV-Project\textures\menu" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Mulisa\WebstormProjects\CGV-Project\textures\environment" />
       <recent name="C:\Users\Mulisa\WebstormProjects\CGV-Project\textures\menu" />
       <recent name="C:\Users\Mulisa\WebstormProjects\CGV-Project\sounds" />
       <recent name="$PROJECT_DIR$/js" />
       <recent name="$PROJECT_DIR$/textures/environment" />
-      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Mulisa\WebstormProjects\CGV-Project\textures\menu" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -209,6 +228,16 @@
         </RuleState>
       </list>
     </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="GameLogicBuilder.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/js/GameLogicBuilder.js" working-dir="$PROJECT_DIR$">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Node.js.GameLogicBuilder.js" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -246,7 +275,10 @@
       <workItem from="1556967740335" duration="7987000" />
       <workItem from="1556981184296" duration="3715000" />
       <workItem from="1556987787725" duration="736000" />
-      <workItem from="1557002434242" duration="494000" />
+      <workItem from="1557002434242" duration="1099000" />
+      <workItem from="1557004529365" duration="1718000" />
+      <workItem from="1557065112610" duration="6800000" />
+      <workItem from="1557079699437" duration="1917000" />
     </task>
     <task id="LOCAL-00001" summary="First build">
       <created>1555927931338</created>
@@ -381,17 +413,24 @@
       <option name="project" value="LOCAL" />
       <updated>1556987202531</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="blockSetCombinations">
+      <created>1557002961031</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1557002961031</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="151552000" />
+    <option name="totallyTimeSpent" value="162592000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="7" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25446135" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19828156" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -450,7 +489,8 @@
     <MESSAGE value="implemented powerups" />
     <MESSAGE value="add backgrounds to overlays" />
     <MESSAGE value="add hover effect" />
-    <option name="LAST_COMMIT_MESSAGE" value="add hover effect" />
+    <MESSAGE value="blockSetCombinations" />
+    <option name="LAST_COMMIT_MESSAGE" value="blockSetCombinations" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/threex.text.js" />
@@ -490,47 +530,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/Obstacles.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="624">
-          <caret line="130" column="10" selection-start-line="130" selection-start-column="10" selection-end-line="130" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/KeyboardControls.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1139">
-          <caret line="67" column="17" selection-start-line="67" selection-start-column="17" selection-end-line="67" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/HeroBall.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="32" column="27" lean-forward="true" selection-start-line="32" selection-start-column="4" selection-end-line="32" selection-end-column="27" />
-          <folding>
-            <element signature="n#!!block;n#ExplodeAnimation#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/world.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4777">
-          <caret line="281" column="16" lean-forward="true" selection-start-line="281" selection-start-column="16" selection-end-line="281" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/GameLogicBuilder.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5372">
-          <caret line="350" column="45" selection-start-line="350" selection-start-column="45" selection-end-line="350" selection-end-column="45" />
-          <folding>
-            <element signature="e#2168#3642#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Downloads/Compressed/CGV-Project/js/BlockSet.js">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -541,9 +540,40 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="609">
+          <caret line="121" column="9" selection-start-line="121" selection-start-column="9" selection-end-line="121" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/Obstacles.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2210">
+          <caret line="130" column="10" selection-start-line="130" selection-start-column="10" selection-end-line="130" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/PowerUps.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1275">
+          <caret line="75" selection-start-line="75" selection-end-line="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/PowerUpSet.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="10" selection-start-line="17" selection-start-column="10" selection-end-line="17" selection-end-column="10" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/BlockSet.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="556">
+        <state relative-caret-position="5372">
           <caret line="321" column="2" selection-start-line="321" selection-start-column="2" selection-end-line="321" selection-end-column="2" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
@@ -551,34 +581,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/PowerUps.js">
+    <entry file="file://$PROJECT_DIR$/js/HeroBall.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
-          <caret line="144" column="27" selection-start-line="144" selection-start-column="27" selection-end-line="144" selection-end-column="27" />
+        <state relative-caret-position="544">
+          <caret line="32" column="27" selection-start-line="32" selection-start-column="4" selection-end-line="32" selection-end-column="27" />
+          <folding>
+            <element signature="n#!!block;n#ExplodeAnimation#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/world.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4046">
+          <caret line="238" column="41" selection-start-line="238" selection-start-column="41" selection-end-line="238" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/KeyboardControls.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="281">
+          <caret line="25" column="69" selection-start-line="25" selection-start-column="69" selection-end-line="25" selection-end-column="69" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/GameWorld.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="624">
-          <caret line="121" lean-forward="true" selection-start-line="121" selection-end-line="121" />
+        <state relative-caret-position="142">
+          <caret line="267" column="14" selection-start-line="267" selection-start-column="14" selection-end-line="267" selection-end-column="14" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
+    <entry file="file://$PROJECT_DIR$/js/GameLogicBuilder.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="507">
-          <caret line="121" column="9" selection-start-line="121" selection-start-column="9" selection-end-line="121" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/PowerUpSet.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="11" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
+        <state relative-caret-position="238">
+          <caret line="169" column="62" selection-start-line="169" selection-start-column="62" selection-end-line="169" selection-end-column="62" />
         </state>
       </provider>
     </entry>

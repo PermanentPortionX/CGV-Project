@@ -73,6 +73,7 @@ const buildHeart = function(){
 
     const geometry = new THREE.ExtrudeGeometry(heartShape, extrudeSettings);
     const material = new THREE.MeshBasicMaterial({color: 0xFF0000});
+
     const mesh = new THREE.Mesh(geometry, material);
 
     mesh.scale.set(0.007, -0.007, 0.007);
