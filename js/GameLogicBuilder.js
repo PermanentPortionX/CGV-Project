@@ -32,13 +32,21 @@ let currLevel = -1;
 //list of next collidable objects
 let nextCollidableObstacles = [];
 
+//
+let sceneTracker = 0;
+
 //this function reads gameBuildList(below the function) and builds a world based on the values of the gameBuildList
 function buildGame() {
 
     lastPos += 6;
+    let builtSceneIntervalTracker = 0;
     //iterate through each list in gameBuildList and build a game block that represents it
-    for (let i = 0; i < gameBuildList.length; i++) {
+    for (let i = sceneTracker; i < gameBuildList.length; i++) {
 
+        if (builtSceneIntervalTracker === 8) {
+            sceneTracker = i;
+            break;
+        }
         let blockSection = gameBuildList[i]; //retrieves an item from gameBuildList which describes a blockSection in the world
 
         //when the length is 1, it's a level indicator
@@ -146,13 +154,12 @@ function buildGame() {
                                 addObstacleOrPowerUp(xPos, -1, zPos, nz, gun.clone(), blockScene, 92);
                                 break;
 
-                            case 93: //invincibility
-
+                            case 93: //invincible
                                 break;
 
                             case 94: //trap
                                 //same approach as heart
-                                addObstacleOrPowerUp(xPos, -0.8, zPos, nz, trap.clone(), blockScene, 94);
+                                addObstacleOrPowerUp(xPos, -1, zPos, nz, trap.clone(), blockScene, 94);
                                 break;
 
                             case 95: //floating heart
@@ -170,13 +177,13 @@ function buildGame() {
                                 addObstacleOrPowerUp(xPos, 2.3, zPos, nz, gun.clone(), blockScene, 97);
                                 break;
 
-                            case 98: //invincibility
+                            case 98: //floating invincible
 
                                 break;
 
                             case 99: //floating trap
                                 //same approach as heart
-                                addObstacleOrPowerUp(xPos, 2.5, zPos, nz, trap.clone(), blockScene, 99);
+                                addObstacleOrPowerUp(xPos, 2.3, zPos, nz, trap.clone(), blockScene, 99);
                                 break;
                         }
                     }
@@ -213,6 +220,8 @@ function buildGame() {
             //decrement lastPos to add the next obstacle at the last position
             lastPos -= 6;
         }
+
+        builtSceneIntervalTracker++;
     }
 
     //to save computation, we only have to check if the ball is colliding with the nearest obstacles only, these are always
@@ -232,14 +241,14 @@ function addObstacleOrPowerUp(xPos, yPos, zPos, nz, obstacleOrPowerUp, blockScen
     blockScene.add(obstacleOrPowerUp);
 
     //create a copy of the obstacle or power up to test for collisions
-    let collidableHeart = obstacleOrPowerUp.clone();
+    let collidableObstacleOrPowerUp = obstacleOrPowerUp.clone();
     //set the z position to the position it was suppose to be at in the real world
-    collidableHeart.position.z = nz;
+    collidableObstacleOrPowerUp.position.z = nz;
     //the collidable object needs to be saved as a tuple, major aim is to store the collidable obj
     //together with its obstacle or power up type, obstacle or power up type is later used when checking for collisions, since
     //different obstacles or power ups collide with ball differently
     //Tuple is added into a list that stores all the collidable items
-    collidableItems.push([obstacleOrPowerUpType, collidableHeart]);
+    collidableItems.push([obstacleOrPowerUpType, collidableObstacleOrPowerUp]);
 }
 
 //function builds a list of collidable objects
@@ -298,15 +307,18 @@ function checkForCollisionsBetweenBallAndObstacles() {
                         break;
 
                     case 90: //heart
-
+                        if (diffZ >= 0 && diffZ <= 1 && collidingInX && fallingOntoOrCollidingWithObstacle)
+                            avatarJustDied(); //function found in HeroBall
                         break;
 
                     case 91: //bomb
-
+                        if (diffZ >= 0 && diffZ <= 1 && collidingInX && fallingOntoOrCollidingWithObstacle)
+                            avatarJustDied(); //function found in HeroBall
                         break;
 
                     case 92: //gun
-
+                        if (diffZ >= 0 && diffZ <= 1 && collidingInX && fallingOntoOrCollidingWithObstacle)
+                            avatarJustDied(); //function found in HeroBall
                         break;
 
                     case 93: //invincibility
@@ -314,7 +326,35 @@ function checkForCollisionsBetweenBallAndObstacles() {
                         break;
 
                     case 94: //trap
+                        if (diffZ >= 0 && diffZ <= 1 && collidingInX && fallingOntoOrCollidingWithObstacle)
+                            avatarJustDied(); //function found in HeroBall
+                        break;
 
+                    case 95://floating heart
+                        if (diffZ >= 0 && diffZ <= 1 && collidingInX && jumping && ball.position.y >= 1)
+                            avatarJustDied(); //function found in HeroBall
+                        break;
+
+                    case 96://floating bomb
+                        if (diffZ >= 0 && diffZ <= 1 && collidingInX && jumping && ball.position.y >= 1.8)
+                            avatarJustDied(); //function found in HeroBall
+                        break;
+
+                    case 97://floating gun
+                        if (diffZ >= 0 && diffZ <= 1 && collidingInX && jumping && ball.position.y >= 2)
+                        {
+                            avatarJustDied();
+                        } //function found in HeroBall
+                        break;
+
+                    case 98://floating invincibility
+                        if (diffZ >= 0 && diffZ <= 1 && collidingInX && jumping && ball.position.y >= 1.8)
+                            avatarJustDied(); //function found in HeroBall
+                        break;
+
+                    case 99://floating trap
+                        if (diffZ >= 0 && diffZ <= 1 && collidingInX && jumping && ball.position.y >= 1.5)
+                            avatarJustDied(); //function found in HeroBall
                         break;
                 }
 
@@ -325,7 +365,10 @@ function checkForCollisionsBetweenBallAndObstacles() {
             //because they no longer have use
             while (ball.position.z <= nextCollidableObstacles[0][1].position.z) {
                 nextCollidableObstacles.shift();
-                collidableItems.shift();
+                if (collidableItems.length !== 0) {
+                    if (ball.position.z <= collidableItems[0][1].position.z) collidableItems.shift();
+                }
+                //collidableItems.shift();
                 if (nextCollidableObstacles.length === 0) break;
             }
             //build the next set of collidable objects if available
@@ -396,23 +439,23 @@ const gameBuildList = [
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
-    [[-1, 0], [6, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
-    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
-    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
-    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
-    [[-1, 0], [7, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
-    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
-    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
-    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
-    [[-1, 0], [-1, 0], [8, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
-    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [9, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
+    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
+    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
+    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
+    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
+    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
+    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
+    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
+    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
+    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
+    [[-1, 0], [-1, 0], [10, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],//
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],

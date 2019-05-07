@@ -7,10 +7,13 @@ let redPlane = null;
 let lifeGauge = null;
 let scoreBoard = null;
 
+//element positionInScene
 let FPSView = false;
 let defaultLifeGaugePositionZ = -1;
 let defaultCameraPositionZ = 3;
 let defaultCameraPositionY;
+let defaultScoreBoardPositionX = 5;
+let defaultScoreBoardPositionY = 4;
 
 //for obstacles
 let heart = null;
@@ -39,6 +42,21 @@ let cube = null;
 
 //for font
 let font = null;
+
+//scoreboard
+let scoreTracker = 0;
+let actualScore = 0;
+//text
+let scoreText = null;
+let numOfBombText = null;
+let numOfInvincibleText = null;
+let numOfBullets = null;
+let scoreTextMaterial = null;
+
+//for text that appear on the scoreboard
+let defaultTextRotY = -0.6;
+let defaultTextRotX = 0.35;
+let defaultTextPosX = -0.6;
 
 //adds directional sun light into the scene
 function addSunLight(){
@@ -105,7 +123,6 @@ function initObstacles() {
 
     cube = buildCube();
     cube.scale.set(0.4, 0.4, 0.4);
-
 }
 
 //initialize the powerUps used in the game
@@ -162,12 +179,60 @@ function drawLifeGauge(){
 
 }
 
-// draw the score board for distance covered
+//builds the text geometry
+function buildTextGeometry(text){
+    const textGeo = new THREE.TextGeometry( text, {
+        font: font,
+        size: 0.5,
+        height: 0.5,
+        curveSegments: 12,
+        weight: "normal",
+        bevelThickness: 0.1,
+        bevelSize: 0.1,
+        bevelSegments: 0.1,
+        bevelEnabled: false
+    });
+    textGeo.computeBoundingBox();
+    textGeo.computeVertexNormals();
+    return textGeo;
+}
 
+//
+function positionScoreBoardSCoreText(){
+    scoreText.rotation.y = defaultTextRotY;
+    scoreText.rotation.x = defaultTextRotX;
+    scoreText.position.x = defaultTextPosX;
+    scoreText.position.y = 0.2;
+    scoreText.scale.set(0.4, 0.4, 0.25);
+}
+
+function positionScoreBoardNumOfBombText(){
+    numOfBombText.rotation.y = defaultTextRotY;
+    numOfBombText.rotation.x = defaultTextRotX;
+    numOfBombText.position.x = defaultTextPosX;
+    numOfBombText.position.y = -0.17;
+    numOfBombText.scale.set(0.4, 0.4, 0.25);
+}
+
+function positionScoreBoardNumOfInvincibilityText(){
+    numOfInvincibleText.rotation.y = defaultTextRotY;
+    numOfInvincibleText.rotation.x = defaultTextRotX;
+    numOfInvincibleText.position.x = defaultTextPosX;
+    numOfInvincibleText.position.y = -0.6;
+    numOfInvincibleText.scale.set(0.4, 0.4, 0.25);
+}
+
+function positionScoreBoardNumOfBulletsText(){
+    numOfBullets.rotation.y = defaultTextRotY;
+    numOfBullets.rotation.x = defaultTextRotX;
+    numOfBullets.position.x = defaultTextPosX;
+    numOfBullets.position.y = -1;
+    numOfBullets.scale.set(0.4, 0.4, 0.25);
+}
+
+// draw the score board for distance covered and inventory for items the avatar has
 function drawScoreBoard(){
-
     const scoreObj = new THREE.Scene();
-
     const surfaceGeo = new THREE.PlaneGeometry(2.3, 2.5);
     const surfaceMat= new THREE.MeshBasicMaterial( {
             map: makeTexture("textures/environment/the_edge_board.jpg")
@@ -175,6 +240,32 @@ function drawScoreBoard(){
     const surfaceMesh = new THREE.Mesh(surfaceGeo, surfaceMat);
 
     scoreObj.add(surfaceMesh);
+
+
+
+    scoreTextMaterial = new THREE.MeshBasicMaterial({color: 0xffffff});
+    //the blockSection will have a value that points to a position in level config list
+    //below method gets the string from level config, then builds a textGeometry
+
+
+    //builds text mesh object
+    //the text mesh display which level the user is currently at
+    scoreText = new THREE.Mesh(buildTextGeometry("0000"), scoreTextMaterial);
+    numOfBombText = new THREE.Mesh(buildTextGeometry("Y 0"), scoreTextMaterial);
+    numOfInvincibleText = new THREE.Mesh(buildTextGeometry("T 0"), scoreTextMaterial);
+    numOfBullets = new THREE.Mesh(buildTextGeometry("R 0"), scoreTextMaterial);
+
+    positionScoreBoardSCoreText();
+    positionScoreBoardNumOfBombText();
+    positionScoreBoardNumOfInvincibilityText();
+    positionScoreBoardNumOfBulletsText();
+
+    //adds the text to the scene
+    scoreObj.add(scoreText);
+    scoreObj.add(numOfBombText);
+    scoreObj.add(numOfInvincibleText);
+    scoreObj.add(numOfBullets);
+
     return scoreObj;
 }
 
@@ -199,8 +290,8 @@ function buildWorldComponentsAndAddToScene() {
     lifeGauge.position.z = defaultLifeGaugePositionZ;
 
     scoreBoard = drawScoreBoard();
-    scoreBoard.position.x = 5;
-    scoreBoard.position.y = 4;
+    scoreBoard.position.x = defaultScoreBoardPositionX;
+    scoreBoard.position.y = defaultScoreBoardPositionY;
     scoreBoard.position.z = -2;
     scene.add(scoreBoard);
 
@@ -230,11 +321,17 @@ function initSoundEffects() {
     jumpSoundEffect.volume = 0.4;
 }
 
-//load fonts to be used by level indicators
-function loadFont(){
+function initGameWorld() {
     const loader = new THREE.FontLoader();
     loader.load('fonts/Harabara_Regular.json', function (res) {
         font = res;
+
+        //builds the world /-- PARENT: GAME WORLD --\
+        initWorld();
+
+        //initialize key press /-- PARENT: KEYBOARD CONTROLS --\
+        initKeyboard();
+
     });
 }
 
@@ -278,6 +375,7 @@ function render () {
 
 //updates positions of elements in the world, to depict animation
 function updateWorldElements() {
+
     ball.rotation.x -= gameSpeed;
     ball.position.z -= gameSpeed;
     defaultCameraPositionZ -= gameSpeed;
@@ -293,9 +391,14 @@ function updateWorldElements() {
         lifeGauge.position.z = ball.position.z- 2;
         lifeGauge.position.y = ball.position.y;
         lifeGauge.position.x = ball.position.x;
+        scoreBoard.scale.set(0.4, 0.4, 0.4);
+        scoreBoard.position.x = ball.position.x+2.5;
+        scoreBoard.position.y = ball.position.y+1;
     }
     else {
-
+        scoreBoard.scale.set(1, 1, 1);
+        scoreBoard.position.x = defaultScoreBoardPositionX;
+        scoreBoard.position.y = defaultScoreBoardPositionY;
         camera.position.z = defaultCameraPositionZ;
         camera.position.y = defaultCameraPositionY;
         camera.position.x = 0;
@@ -305,7 +408,21 @@ function updateWorldElements() {
     }
 }
 
+//rebuilds the scene every time ball is arriving the end of track
+function checkIfSceneHasTOBeRebuild(){
+    let distanceToEnd = Math.abs(lastPos) - Math.abs(ball.position.z);
+    if (distanceToEnd <= 40) buildGame();
+}
 
+function updateScore(){
+    /*scoreTracker++;
+    actualScore = Math.round(scoreTracker * (1 - gameSpeed));
+    scoreBoard.remove(scoreTracker);
+    scoreText = new THREE.Mesh(buildTextGeometry(actualScore.toString()), scoreTextMaterial);
+    positionScoreBoardSCoreText();
+    scoreBoard.add(scoreText);*/
+
+}
 //updates all the world components
 function update() {
     ///--PARENT: HERO BALL --\
@@ -316,6 +433,11 @@ function update() {
 
     }
     if (!paused) {
+
+        updateScore();
+
+        checkIfSceneHasTOBeRebuild();
+
         //updates ball position according to which key is pressed /-- PARENT: KEYBOARD CONTROLS --\
         updateBallPositionAccordingToKeyPress();
 

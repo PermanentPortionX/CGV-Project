@@ -150,9 +150,15 @@
 </div>
 
 
-<audio id="audio" src="sounds/jump.mp3"/>
-<audio id="ballExplosion" src="sounds/explosion.mp3"/>
-<audio id="newLevel" src="sounds/new_level.mp3"/>
+<audio id="audio">
+    <source src="sounds/jump.mp3" type="audio/mpeg">
+</audio>
+<audio id="ballExplosion" >
+    <source src="sounds/explosion.mp3" type="audio/mpeg">
+</audio>
+<audio id="newLevel">
+    <source src="sounds/new_level.mp3" type="audio/mpeg">
+</audio>
 
 <script src="js/three.js"></script>
 <script src="js/Obstacles.js"></script>
@@ -194,7 +200,15 @@
     document.getElementById("restart").addEventListener('click', restartGame);
     document.getElementById("gameOverRestart").addEventListener('click', restartGame);
 
-    loadFont();
+    initGameWorld();
+
+    //loadFont();
+
+    /*//builds the world /-- PARENT: GAME WORLD --\
+    initWorld();
+
+    //initialize key press /-- PARENT: KEYBOARD CONTROLS --\
+    initKeyboard();*/
 
     function startGame() {
 
@@ -203,11 +217,7 @@
 
         addBackgroundMusic();
 
-        //builds the world /-- PARENT: GAME WORLD --\
-        initWorld();
 
-        //initialize key press /-- PARENT: KEYBOARD CONTROLS --\
-        initKeyboard();
 
         //describes how the game will be taking place /-- PARENT: GAME WORLD --\
         GameLoop();

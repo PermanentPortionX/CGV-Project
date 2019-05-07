@@ -7,7 +7,7 @@
 //95 -> floating_heart
 //96 -> floating_bomb
 //97 -> floating_gun
-//98 -> floating_invincibility
+//98 -> floating_invincible
 //99 -> floating_trap
 const powerUpSet = [
     [90, -1, -1, -1, -1], //h____ 0
@@ -20,4 +20,5 @@ const powerUpSet = [
     [-1, -1, 96, -1, -1], //b____ 7 floating
     [-1, -1, 97, -1, -1], //g____ 8 floating
     [-1, -1, 99, -1, -1], //t____ 9 floating
+    [93, -1, -1, -1, -1], //i____ 10 invincible
 ];
