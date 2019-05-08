@@ -130,7 +130,7 @@ function waitForExplosionAnimationToEnd() {
 //decreases the life gauge of the ball
 function updateBallLife(){
     redPlane.scale.set(lifeScaleFactor, 1, 1);
-    lifeScaleFactor -= 0.0025;
+    lifeScaleFactor -= gameSpeed * lifeDecreaseRate;
 
     if (lifeScaleFactor <= 0) avatarJustDied();
 }

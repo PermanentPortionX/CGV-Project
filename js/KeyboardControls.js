@@ -77,9 +77,6 @@ function updateBallPositionAccordingToKeyPress(){
 
         ballPreviousY = ball.position.y;
         ball.position.y += velocity.y * delta;
-
-        goingUp = ballPreviousY < ball.position.y; //tracks if ball is going up or not while in jump state
-
         velocity.y += gravity.y * delta;
     }
 }

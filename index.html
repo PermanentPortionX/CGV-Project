@@ -121,6 +121,22 @@
             color: white;
         }
 
+        #scoreBoardOverlay{
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 270px;
+            display: block;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            background-color: rgba(109, 51, 66, 0.5);
+            margin-top: 25px;
+            margin-right: 25px;
+        }
+
     </style>
 </head>
 <body>
@@ -149,6 +165,26 @@
     </div>
 </div>
 
+<!-- adds scoreBoard overlay -->
+<div id="scoreBoardOverlay">
+    <p align="center">
+        <img src="textures/score_board/the_edge_banner.png" alt="" width="140" height="45"/>
+    </p>
+
+
+    <p id="scoreText" style="color:white; font-size:150%; font-weight:bold; padding-left: 15px">
+        <img src="textures/score_board/the_edge_score_icon.png" alt="" width="20" height="20"> : 0
+    </p>
+    <p id="numOfBombs" style="color:white; font-size:150%; font-weight:bold; padding-left: 15px">
+        <img src="textures/score_board/the_edge_bomb_icon.png" alt="" width="21" height="20"> : 0
+    </p>
+    <p id="numOfInvincible" style="color:white; font-size:150%; font-weight:bold; padding-left: 15px">
+        <img src="textures/score_board/the_edge_invincible_icon.png" alt="" width="21" height="20"> : 0
+    </p>
+    <p id="numOfBullets" style="color:white; font-size:150%; font-weight:bold; padding-left: 15px">
+        <img src="textures/score_board/the_edge_gun_icon.png" alt="" width="25" height="20"> : 0
+    </p>
+</div>
 
 <audio id="audio">
     <source src="sounds/jump.mp3" type="audio/mpeg">
@@ -171,7 +207,7 @@
 <script src="js/GameWorld.js"></script>
 <script src="js/HeroBall.js"></script>
 <script src="js/KeyboardControls.js"></script>
-<script src="js/BlockSet.js"></script>
+<script src="js/ObstaclekSet.js"></script>
 <script src="js/PowerUpSet.js"></script>
 <script src="js/GameLogicBuilder.js"></script>
 <script src="js/THREEx.FullScreen.js"></script>
@@ -201,14 +237,6 @@
     document.getElementById("gameOverRestart").addEventListener('click', restartGame);
 
     initGameWorld();
-
-    //loadFont();
-
-    /*//builds the world /-- PARENT: GAME WORLD --\
-    initWorld();
-
-    //initialize key press /-- PARENT: KEYBOARD CONTROLS --\
-    initKeyboard();*/
 
     function startGame() {
 

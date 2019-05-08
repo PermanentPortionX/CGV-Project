@@ -99,7 +99,7 @@ function buildGame() {
 
             //add the obstacles and power ups
             //first loop iterates through blockSection that contains lists that contain indexes of
-            //possible obstacle and power up combinations stored in blockSet
+            //possible obstacle and power up combinations stored in obstaclekSet
             //j also indicates the z value of obstacle combination
             for(let j = 0; j < blockSection.length; j++){
 
@@ -136,7 +136,7 @@ function buildGame() {
 
                     /**********************POWER UPS DECLARATION******************************************/
                     //powerUpLevelDescPair[0] gets the position of combination list from PowerUpSet
-                    //blockSet[ powerUpLevelDescPair[0] ][k] gets the power up type
+                    //obstaclekSet[ powerUpLevelDescPair[0] ][k] gets the power up type
                     if (powerUpLevelDescPair[0] !== -1){
                         switch (powerUpSet[ powerUpLevelDescPair[0] ][k]) {
                             case 90: //heart
@@ -191,8 +191,8 @@ function buildGame() {
 
                     /**********************OBSTACLES DECLARATION******************************************/
                     //powerUpLevelDescPair[1] gets the position of combination list from BlockSet
-                    //blockSet[ powerUpLevelDescPair[1] ][k] gets the obstacle type
-                    switch (blockSet[ powerUpLevelDescPair[1] ][k]) {//obstacle type
+                    //obstaclekSet[ powerUpLevelDescPair[1] ][k] gets the obstacle type
+                    switch (obstaclekSet[ powerUpLevelDescPair[1] ][k]) {//obstacle type
                         case 1: //spike
                             addObstacleOrPowerUp(xPos, -1, zPos, nz, spikes.clone(), blockScene, 1);
                             break;
@@ -302,7 +302,7 @@ function checkForCollisionsBetweenBallAndObstacles() {
                         break;
 
                     case 3: //floating cube
-                        if (diffZ >= 0 && diffZ <= 1 && collidingInX && jumping && ball.position.y >= 1 && goingUp)
+                        if (diffZ >= 0 && diffZ <= 1 && collidingInX && jumping && ball.position.y >= 1)
                             avatarJustDied(); //function found in HeroBall
                         break;
 
@@ -455,7 +455,6 @@ const gameBuildList = [
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
-    [[-1, 0], [-1, 0], [10, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],//
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
@@ -481,16 +480,17 @@ const gameBuildList = [
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
+    [[-1, 5], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
+    [[-1, 1], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
-    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
-    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
+    [[-1, 0], [-1, 1], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [1],
