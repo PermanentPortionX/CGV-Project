@@ -2,6 +2,10 @@ let ball = null;
 let ballIntersectsWithFloor = null;
 let dead = false; //keeps track of the balls life state
 
+//for hero shield
+let heroShield = null;
+let heroShieldActivated = false;
+
 //for ball life
 let lifeScaleFactor = 1;
 let lifeDecreaseRate = 0;
@@ -21,7 +25,7 @@ let ballScaleFactor = 1;//keeps track of the balls scale, (for animation of ball
 function buildBall() {
     const ballTexture = new THREE.TextureLoader().load("textures/ball_textures/ball_t.jpg");
     const geometry = new THREE.SphereGeometry(0.25, 32, 32);
-    const material = new THREE.MeshBasicMaterial({map: ballTexture});
+    const material = new THREE.MeshPhongMaterial({map: ballTexture});
     ball = new THREE.Mesh(geometry, material);
 
     //ball rayCaster
@@ -31,7 +35,26 @@ function buildBall() {
     ballIntersectsWithFloor  = ballRayCaster.intersectObject(ground);//gets the results of ray cast
     ball.position.y = ballIntersectsWithFloor[0].point.y + 0.25;
     ball.castShadow = true;
+    ball.receiveShadow = true;
+
+    //builds an invincible shield around the ball
+    buildHeroShield();
+
     return ball;
+}
+
+//builds a shield for the shield power up
+function buildHeroShield(){
+    //the shield is a plane that appears in front of the ball
+    //the plane is built using refractive material the refracts light
+    //to give it that shield feel
+    const geo = new THREE.PlaneGeometry(1, 1);
+    heroShield = new THREE.Refractor( geo, {
+        color: 0x999999,
+        textureWidth: 1024,
+        textureHeight: 1024,
+        shader: THREE.WaterRefractionShader
+    } );
 }
 
 //checks if the ball is back on the ground for when a user jumps
@@ -43,8 +66,10 @@ function ballBackToGround(){
     return false;
 }
 
-//this methods decide if the avatar is dead or not
+//this method is called when the avatar dies, then stops the game
 function avatarJustDied() {
+    //if hero shield is activated and lifeScaleFactor is greater than zero, ignore death
+    if (heroShieldActivated && lifeScaleFactor > 0) return;
     paused = true;
     dead = true;
 }
@@ -92,8 +117,6 @@ function ExplodeAnimation(x,y,z) {
 }
 
 function handleDeath(){
-
-
     //decrease scale factor, to animate ball extremely shrinking
     ballScaleFactor -= 0.15;
 
@@ -102,8 +125,6 @@ function handleDeath(){
         //show particles explosion animation
         shrinkAnimationNotComplete = false;
         parts.push(new ExplodeAnimation(ball.position.x, ball.position.y, ball.position.z));
-        let explosionSoundEffect = document.getElementById("ballExplosion");
-        explosionSoundEffect.volume = 0.4;
         explosionSoundEffect.play();
 
         //functions shows game over
@@ -119,7 +140,7 @@ function handleDeath(){
     while(pCount--) parts[pCount].update();
 }
 
-//function waits 3 seconds then pops up an overlay
+//function waits 2 seconds then pops up game over overlay
 function waitForExplosionAnimationToEnd() {
     setTimeout(function () {
         document.getElementById('gameOverOverlay').style.display = 'flex';
@@ -129,7 +150,7 @@ function waitForExplosionAnimationToEnd() {
 
 //decreases the life gauge of the ball
 function updateBallLife(){
-    redPlane.scale.set(lifeScaleFactor, 1, 1);
+    lifePlane.scale.set(lifeScaleFactor, 1, 1);
     lifeScaleFactor -= gameSpeed * lifeDecreaseRate;
 
     if (lifeScaleFactor <= 0) avatarJustDied();

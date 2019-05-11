@@ -1,14 +1,13 @@
 let jumping = false; //tracks the balls state, true if the ball is in jump state and false if its not
-let goingUp = false; //true if ball is going up
 let ballPreviousY = 0; //keeps track of the balls previous y to determine if it's going up or down
 
+//var for jumping
 let velocity = new THREE.Vector3(0, 3 , 0);
 let gravity = new THREE.Vector3(0, -2, 0);
-
 let prevTime = 0;
 let currTime = performance.now();
 
-
+//array keeps track of which key is pressed
 const keyState = {};
 
 //this function pauses a game, by pausing music, scene then displays an overlay
@@ -16,6 +15,7 @@ function pauseGame(){
     if (dead) return; //doing nothing once the avatar is dead
     paused = true;
     backgroundMusic.pause();
+    document.getElementById('scoreBoardOverlay').style.display = "none";
     document.getElementById('pauseMenuOverlay').style.display = 'flex';
 }
 
@@ -24,23 +24,26 @@ function resumeGame(){
     paused = false;
     backgroundMusic.play();
     document.getElementById('pauseMenuOverlay').style.display = 'none';
+    document.getElementById('scoreBoardOverlay').style.display = "block";
 }
 
 //add listening for key presses, e.g. a, d, w is pressed
 //then stores the value into a dictionary
 function initKeyboard(){
 
+    //function called after user presses a key
     window.addEventListener('keydown', function (e) {
-        e.preventDefault();
-        //pause game pressed
-        if (e.key.toLowerCase() === "escape") pauseGame();
-        if (e.key.toLowerCase() === "c") FPSView = !FPSView;
-        else keyState[e.key.toLowerCase()] = true;
+        e.preventDefault();//prevents the web page from scrolling if arrows are pressed
+        if (powerUpKeyPressed(e.key.toLowerCase())) return; //check if a power up key is pressed
+        if (e.key.toLowerCase() === "p") pauseGame(); //pause game pressed
+        else if (e.key.toLowerCase() === "c") FPSView = !FPSView; //changes the camera view
+        else keyState[e.key.toLowerCase()] = true; //saves which key was pressed by binding the key pressed to true
     }, true);
 
+    //function called after user lifts hand from key
     window.addEventListener('keyup', function (e) {
-        e.preventDefault();
-        keyState[e.key.toLowerCase()] = false;
+        e.preventDefault();//prevents the web page from scrolling if arrows are pressed
+        keyState[e.key.toLowerCase()] = false; //binds key that was pressed to false
     }, true);
 
 }
@@ -60,6 +63,7 @@ function updateBallPositionAccordingToKeyPress(){
     //moves ball to the right
     else if (keyState['d'] || keyState["arrowright"]){
         ball.position.x += 0.1;
+        //restricts ball from going beyond 1.8
         if (ball.position.x >= 1.8) ball.position.x = 1.8;
     }
 
@@ -86,6 +90,5 @@ function resetJumpVarsToDefault() {
     velocity = new THREE.Vector3(0, 3, 0);
     gravity = new THREE.Vector3(0, -2, 0);
     jumping = false;
-    goingUp = false;
     ballPreviousY = 0;
 }

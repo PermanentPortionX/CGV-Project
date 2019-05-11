@@ -4,7 +4,7 @@
 // 1 -> Spikes (s)
 // 2 -> Cube (c)
 // 3 -> floatingBlocks (f)
-const obstaclekSet = [
+const obstacleSet = [
     /**************************SPIKES********************************/
 
     //One spike - Super easy Easy level difficulty

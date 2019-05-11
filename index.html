@@ -127,8 +127,8 @@
             top: 0;
             right: 0;
             width: 200px;
-            height: 270px;
-            display: block;
+            height: 250px;
+            display: none;
             align-items: center;
             justify-content: center;
             opacity: 1;
@@ -170,19 +170,14 @@
     <p align="center">
         <img src="textures/score_board/the_edge_banner.png" alt="" width="140" height="45"/>
     </p>
-
-
+    <p algin="center">
+    <p id="currLevelDisplay" style="color:white; font-size:150%; font-weight:bold; padding-left: 15px">Level 1</p>
+    </p>
     <p id="scoreText" style="color:white; font-size:150%; font-weight:bold; padding-left: 15px">
         <img src="textures/score_board/the_edge_score_icon.png" alt="" width="20" height="20"> : 0
     </p>
-    <p id="numOfBombs" style="color:white; font-size:150%; font-weight:bold; padding-left: 15px">
-        <img src="textures/score_board/the_edge_bomb_icon.png" alt="" width="21" height="20"> : 0
-    </p>
-    <p id="numOfInvincible" style="color:white; font-size:150%; font-weight:bold; padding-left: 15px">
-        <img src="textures/score_board/the_edge_invincible_icon.png" alt="" width="21" height="20"> : 0
-    </p>
-    <p id="numOfBullets" style="color:white; font-size:150%; font-weight:bold; padding-left: 15px">
-        <img src="textures/score_board/the_edge_gun_icon.png" alt="" width="25" height="20"> : 0
+    <p id="numOfShield" style="color:white; font-size:150%; font-weight:bold; padding-left: 15px">
+        <img src="textures/score_board/the_edge_invincible_icon.png" alt="" width="21" height="20"> Y: 0
     </p>
 </div>
 
@@ -194,6 +189,18 @@
 </audio>
 <audio id="newLevel">
     <source src="sounds/new_level.mp3" type="audio/mpeg">
+</audio>
+<audio id="shieldEffect">
+    <source src="sounds/shield_effect.mp3" type="audio/mpeg">
+</audio>
+<audio id="lifeEffect">
+    <source src="sounds/life_gain_effect.mp3" type="audio/mpeg">
+</audio>
+<audio id="shieldActivated">
+    <source src="sounds/shield_activated.mp3" type="audio/mpeg">
+</audio>
+<audio id="shieldDeactivated">
+    <source src="sounds/shield_deactivated.mp3" type="audio/mpeg">
 </audio>
 
 <script src="js/three.js"></script>
@@ -207,13 +214,15 @@
 <script src="js/GameWorld.js"></script>
 <script src="js/HeroBall.js"></script>
 <script src="js/KeyboardControls.js"></script>
-<script src="js/ObstaclekSet.js"></script>
+<script src="js/ObstacleSet.js"></script>
 <script src="js/PowerUpSet.js"></script>
 <script src="js/GameLogicBuilder.js"></script>
 <script src="js/THREEx.FullScreen.js"></script>
+<script src="js/PowerUpManager.js"></script>
+<script src="js/WaterRefractionShader.js"></script>
+<script src="js/Refractor.js"></script>
 
 <script>
-
 
     //for debugging
     (function(){
@@ -243,6 +252,8 @@
         //remove the overlay
         document.getElementById('mainMenuOverlay').remove();
 
+        //display scoreboard
+        document.getElementById('scoreBoardOverlay').style.display = "block";
         addBackgroundMusic();
 
 
@@ -264,9 +275,45 @@
 
     }
 
+    window.onload = function () {
+        if (localStorage.getItem("restart") === "yes") {
+            if (localStorage.getItem("fullScreen") === "yes") {
+                document.getElementById("fullScreen").click();
+                localStorage.setItem("fullScreen", "no");
+            }
+            document.getElementById("start").click();
+            localStorage.setItem("restart", "no");
+        }
+    };
+
     function restartGame(){
         document.location.reload();
+        localStorage.setItem("restart", "yes");
+        if (THREEx.FullScreen.activated()) {
+            localStorage.setItem("fullScreen", "yes");
+        }
     }
+
+    (function() {
+        let mouseTimer = null, cursorVisible = true;
+
+        function disappearCursor() {
+            mouseTimer = null;
+            document.body.style.cursor = "none";
+            cursorVisible = false;
+        }
+
+        document.onmousemove = function() {
+            if (mouseTimer) {
+                window.clearTimeout(mouseTimer);
+            }
+            if (!cursorVisible) {
+                document.body.style.cursor = "default";
+                cursorVisible = true;
+            }
+            mouseTimer = window.setTimeout(disappearCursor, 2500);
+        };
+    })();
 
 </script>
 </body>

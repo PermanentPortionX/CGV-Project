@@ -188,7 +188,7 @@ function createMountain ( i, isEast ) {
             object.position.x = PLANE_WIDTH * 2;
             object.position.z = ( i * PLANE_LENGTH / 27 ) - ( 1.5 * PLANE_LENGTH );
         } else {
-            object.position.x = -PLANE_WIDTH * 2
+            object.position.x = -PLANE_WIDTH * 2;
             object.position.z = ( i * PLANE_LENGTH / 27 ) - ( PLANE_LENGTH / 2 );
         }
 

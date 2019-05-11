@@ -2,28 +2,30 @@
 let scene = null;
 let camera = null;
 let renderer = null;
-let gameSpeed = 0.3;
-let redPlane = null;
-let lifeGauge = null;
-let scoreBoard = null;
+
+//planes that show the state of life and power ups
+let lifePlane = null;
+let powerUpLifePlane = null;
+
+//variable holds the whole gauge the appears at the top of the game
+//gauge holds the life and power up tracker
+let statesGauge = null;
+
+//var keeps track of the view, user can use RPG or FPS view
+let FPSView = false;
 
 //element positionInScene
-let FPSView = false;
 let defaultLifeGaugePositionZ = -1;
 let defaultCameraPositionZ = 3;
 let defaultCameraPositionY;
-let defaultScoreBoardPositionX = 5;
-let defaultScoreBoardPositionY = 4;
 
-//for obstacles
+//var for power ups
 let heart = null;
-let bomb = null;
-let gun = null;
-let invincibility = null;
-let trap = null;
+let shield = null;
 
 //sound effects
 let jumpSoundEffect = null;
+let explosionSoundEffect = null;
 let backgroundMusic = null;
 
 let paused = false; // keeps track of game pause and resume
@@ -39,6 +41,7 @@ let leftSide = null;
 //for obstacles
 let spikes = null;
 let cube = null;
+let trap = null;
 
 //for font
 let font = null;
@@ -47,9 +50,16 @@ let font = null;
 let scoreTracker = 0;
 let actualScore = 0;
 
+//var for skyBox
+let skyBox = null;
+
 //adds directional sun light into the scene
-function addSunLight(){
-    scene.add( new THREE.DirectionalLight( 0xffffff, 0.5 ) );
+function addLighting(){
+    //add direction light
+    scene.add(new THREE.DirectionalLight( 0xffffff, 0.7 ));
+
+    //add ambient light
+    scene.add(new THREE.AmbientLight(0x666666, 2.2));
 }
 
 //this function draws a tree
@@ -63,8 +73,9 @@ function buildTree(){
         heightSegments: 8      // # of height segments for each branch geometry
     });
     const geometry = THREE.TreeGeometry.build(tree);
-    geometry.castShadow=true;
-    return new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({}));
+    const treeMesh  = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: 0x2b1d0e}));
+    treeMesh.castShadow = true;
+    return treeMesh;
 }
 
 //draws the ground by drawing a cube and setting ground texture to it
@@ -72,8 +83,10 @@ function buildTree(){
 function buildGround(){
     const geo = new THREE.BoxGeometry(5, 0.1, lastPos, 4, 4, 4);
     const texture = makeTexture("textures/environment/ground_texture.jpg");
-    const mat = new THREE.MeshBasicMaterial({map: texture});
-    return new THREE.Mesh( geo, mat );
+    const mat = new THREE.MeshLambertMaterial({map: texture});
+    const ground =  new THREE.Mesh( geo, mat );
+    ground.receiveShadow = true;
+    return ground;
 }
 
 //draws the side of the ground by drawing a cube and setting dried grass texture to it
@@ -81,8 +94,10 @@ function buildGround(){
 function buildGroundSides() {
     const geo = new THREE.BoxGeometry(15, 0.1, lastPos, 4, 4, 4);
     const grassTexture = makeTexture("textures/environment/grass.jpg");
-    const gMat = new THREE.MeshBasicMaterial({map: grassTexture});
-    return  new THREE.Mesh(geo, gMat);
+    const gMat = new THREE.MeshLambertMaterial({map: grassTexture});
+    const ground = new THREE.Mesh(geo, gMat);
+    ground.receiveShadow = true;
+    return ground;
 }
 
 //positions camera relative to the ground, this function uses cameraRayCasting to intersect
@@ -118,29 +133,37 @@ function initObstacles() {
 //-- PARENT OF BUILD FUNCTIONS: POWERUPS.JS
 function initPowerUps(){
     heart = buildHeart();
-    bomb = buildBomb();
-    gun = buildGun();
     trap = buildTrap();
+    shield = buildShield();
 }
 
-//draw a life gauge
-function drawLifeGauge(){
+//draw a power up and life gauge
+function drawStatesGauge(){
+    //scene that holds all objects of the life gauge and power up
     const gaugeObj = new THREE.Scene();
 
-    const backGeo = new THREE.PlaneGeometry( 1.4, 0.3 );
+    //builds black background of gauge
+    const backGeo = new THREE.PlaneGeometry( 1.4, 0.5 );
     const backMat = new THREE.MeshBasicMaterial( {color: 0x000000, side: THREE.DoubleSide} );
     const backgroundPlane = new THREE.Mesh( backGeo, backMat );
     gaugeObj.add(backgroundPlane);
 
+    //builds red plane gauge, measures the life the hero has remaining
     const frontGeo = new THREE.PlaneGeometry( 1,0.15);
     const frontMat = new THREE.MeshBasicMaterial( {color: 0xef1a1a, side: THREE.DoubleSide} );
-    redPlane = new THREE.Mesh( frontGeo, frontMat );
-    gaugeObj.add(redPlane);
+    lifePlane = new THREE.Mesh( frontGeo, frontMat );
+    gaugeObj.add(lifePlane);
 
-    let x = 0, y = 0;
+    //builds blue plane gauge, measures the amount of shield the hero has remaining
+    const shieldGeo = new THREE.PlaneGeometry( 1,0.15);
+    const shieldMat = new THREE.MeshBasicMaterial( {color: 0x0000ff, side: THREE.DoubleSide} );
+    powerUpLifePlane = new THREE.Mesh(shieldGeo, shieldMat);
+    gaugeObj.add(powerUpLifePlane);
 
+    //builds a heart icon
     let heartShape = new THREE.Shape();
 
+    let x = 0, y = 0;
     heartShape.moveTo( x + 5, y + 5 );
     heartShape.bezierCurveTo( x + 5, y + 5, x + 4, y, x, y );
     heartShape.bezierCurveTo( x - 6, y, x - 6, y + 7,x - 6, y + 7 );
@@ -149,21 +172,23 @@ function drawLifeGauge(){
     heartShape.bezierCurveTo( x + 16, y + 7, x + 16, y, x + 10, y );
     heartShape.bezierCurveTo( x + 7, y, x + 5, y + 5, x + 5, y + 5 );
 
-
-
     let heartGeo = new THREE.ShapeGeometry( heartShape );
     let heartMat = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
     let heartMesh = new THREE.Mesh( heartGeo, heartMat ) ;
 
+    //position the heart
     heartMesh.scale.set(0.025,-0.025,1);
     heartMesh.position.x = 0;
     heartMesh.position.y = 2.75;
     heartMesh.position.z = -2;
 
+    //position all gauges
     backgroundPlane.position.set(0.85,3.15,-3);
-    redPlane.position.set(0.9,3.15,-3);
-    gaugeObj.add(heartMesh); //add the heart to the gaugeObj
+    lifePlane.position.set(0.9,3.25,-3);
+    powerUpLifePlane.position.set(0.9, 3.05, -3);
+    powerUpLifePlane.scale.set(0, 1, 1);
 
+    gaugeObj.add(heartMesh); //add the heart to the gaugeObj
     return gaugeObj;
 
 }
@@ -171,30 +196,36 @@ function drawLifeGauge(){
 //builds and initializes world(ground, side ground, trees, ball) components
 function buildWorldComponentsAndAddToScene() {
 
+    //builds the center ground which is mainly the track
     ground = buildGround();
+    //builds the left and right side of the track
     rightSide = buildGroundSides();
     leftSide = rightSide.clone();
+
+    //position the sides to left and right side
     leftSide.position.x = -10;
     rightSide.position.x = 10;
 
+    //build trees that appear on the left and right side
     rightTree = buildTree();
     rightTree.scale.set(0.3, 0.3, 0.3);
-    leftTree = rightTree.clone();
+    leftTree = buildTree();
+    leftTree.scale.set(0.3, 0.3, 0.3);
     rightTree.position.x = 4;
     leftTree.position.x = -4;
 
-    lifeGauge = drawLifeGauge();
-    lifeGauge.position.x = -1;
-    lifeGauge.position.y = 3;
-    lifeGauge.position.z = defaultLifeGaugePositionZ;
+
+    statesGauge = drawStatesGauge();
+    statesGauge.position.x = -1;
+    statesGauge.position.y = 3;
+    statesGauge.position.z = defaultLifeGaugePositionZ;
 
     scene.add( leftTree );
     scene.add( rightTree );
     scene.add( rightSide );
     scene.add( leftSide );
-    scene.add( ground);
-    scene.add( lifeGauge );
-
+    scene.add( ground );
+    scene.add( statesGauge );
     scene.add( buildBall() );//-- PARENT OF BUILD FUNCTIONS: HERO_BALL.JS --\\
 }
 
@@ -203,6 +234,7 @@ function addBackgroundMusic() {
     const listener = new THREE.AudioListener();
     const audio = new THREE.Audio( listener );
     backgroundMusic = new Audio( 'sounds/background_music.ogg' );
+    //set music to auto replay
     backgroundMusic.loop = true;
     backgroundMusic.play();
     audio.setMediaElementSource( backgroundMusic );
@@ -212,48 +244,72 @@ function addBackgroundMusic() {
 function initSoundEffects() {
     jumpSoundEffect = document.getElementById("audio");
     jumpSoundEffect.volume = 0.4;
+
+    explosionSoundEffect = document.getElementById("ballExplosion");
+    explosionSoundEffect.volume = 0.4;
 }
 
+//initialize the world
 function initGameWorld() {
     const loader = new THREE.FontLoader();
+    //loads the font used in the game for level text
     loader.load('fonts/Harabara_Regular.json', function (res) {
         font = res;
-
+        //after font loads, the scene is built
         //builds the world /-- PARENT: GAME WORLD --\
         initWorld();
-
         //initialize key press /-- PARENT: KEYBOARD CONTROLS --\
         initKeyboard();
-
     });
+}
+
+//automatically resize the scene when the window resize
+function addWindowResizeListener() {
+    window.addEventListener('resize', onResize, false);
+    document.body.appendChild( renderer.domElement );
 }
 
 function initWorld(){
     //initialize the game vars
     scene = new THREE.Scene( );
-    scene.fog = new THREE.FogExp2( 0xfaf1e0, 0.05, 2);
+    scene.fog = new THREE.FogExp2( 0xC8A166, 0.05, 2);
 
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.z = defaultCameraPositionZ;
 
     renderer = new THREE.WebGLRenderer({antialias: true});
-    renderer.setClearColor(0xfaf1e0, 1);
+    //renderer.setClearColor(0xfaf1e0, 1);
     renderer.shadowMap.enabled = true;//enable shadow
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMapSoft = true;
+    renderer.shadowMap.type = THREE.BasicShadowMap;
     renderer.setSize(window.innerWidth, window.innerHeight);
 
-    window.addEventListener('resize', onResize, false);
+    //skyBox
+    let skyGeo = new THREE.CubeGeometry(1000, 1000, 1000);
+    let cubeMats = [
+        new THREE.MeshBasicMaterial({ map: makeTexture("textures/skybox/back.png"), side: THREE.DoubleSide, fog: false}),
+        new THREE.MeshBasicMaterial({ map: makeTexture("textures/skybox/front.png"), side: THREE.DoubleSide, fog: false}),
+        new THREE.MeshBasicMaterial({ map: makeTexture("textures/skybox/top.png"), side: THREE.DoubleSide, fog: false}),
+        new THREE.MeshBasicMaterial({ map: makeTexture("textures/skybox/bottom.png"), side: THREE.DoubleSide, fog: false}),
+        new THREE.MeshBasicMaterial({ map: makeTexture("textures/skybox/right.png"), side: THREE.DoubleSide, fog: false}),
+        new THREE.MeshBasicMaterial({ map: makeTexture("textures/skybox/left.png"), side: THREE.DoubleSide, fog: false})
+    ];
 
-    document.body.appendChild( renderer.domElement );
+    skyBox = new THREE.Mesh(skyGeo, cubeMats);
 
-    //controls = new THREE.OrbitControls( camera );
+    scene.add(skyBox);
+
+    //controls = new THREE.OrbitControls(camera);
+
+    //listens for window size changes and readjust the scenes size according to the new given sizes
+    addWindowResizeListener();
 
     //builds, positions, adds all required components into the world
     initSoundEffects();
     buildWorldComponentsAndAddToScene();
     initObstacles();
     initPowerUps();
-    addSunLight();
+    addLighting();
     positionCameraWithRespectToGround();
     buildGame();
 
@@ -261,37 +317,47 @@ function initWorld(){
 
 //draws the scene
 function render () {
-    renderer.shadowMapEnabled = true;
-    renderer.shadowMapSoft = true;
     renderer.render(scene, camera)
 }
 
 //updates positions of elements in the world, to depict animation
 function updateWorldElements() {
-
+    //update position of ball
     ball.rotation.x -= gameSpeed;
     ball.position.z -= gameSpeed;
+
+    //update position of shield according to ball position
+    heroShield.position.x = ball.position.x;
+    heroShield.position.y = ball.position.y + 0.3;
+
+
+    //move the defaultCameraZ and defaultLifeGaugeZ into the scene
     defaultCameraPositionZ -= gameSpeed;
     defaultLifeGaugePositionZ -= gameSpeed;
 
-    //updateBallLife();
-
-    if (FPSView) {
+    if (FPSView) {//First person shooter view activated
+        //camera and life gauge position set to the same coordinates as ball
         camera.position.z = ball.position.z;
         camera.position.x = ball.position.x;
         camera.position.y = ball.position.y;
-        lifeGauge.position.z = ball.position.z- 2;
-        lifeGauge.position.y = ball.position.y;
-        lifeGauge.position.x = ball.position.x;
+        statesGauge.position.z = ball.position.z - 1.8;
+        statesGauge.position.y = ball.position.y;
+        statesGauge.position.x = ball.position.x - 0.4;
     }
-    else {
+    else {//First person shooter view deactivated
+        //camera and life gauge position set to their default positions
         camera.position.z = defaultCameraPositionZ;
         camera.position.y = defaultCameraPositionY;
         camera.position.x = 0;
-        lifeGauge.position.z = defaultLifeGaugePositionZ;
-        lifeGauge.position.x = -1;
-        lifeGauge.position.y = 3;
+        statesGauge.position.z = defaultLifeGaugePositionZ;
+        statesGauge.position.x = -1;
+        statesGauge.position.y = 3;
+        heroShield.position.z = ball.position.z - 0.2;
     }
+
+    //update position of skybox to move together with the camera
+    skyBox.position.x = camera.position.x;
+    skyBox.position.z = camera.position.z;
 }
 
 //rebuilds the scene every time ball is arriving the end of track
@@ -300,23 +366,25 @@ function checkIfSceneHasTOBeRebuild(){
     if (distanceToEnd <= 40) buildGame();
 }
 
+//updates the score in the scoreboard overlay
 function updateScore(){
     scoreTracker++;
     actualScore += Math.abs(scoreTracker - Math.round(scoreTracker * (1 - gameSpeed)) - actualScore);
+    //updates score in overlay
     document.getElementById("scoreText").innerHTML = "<img src=\"textures/score_board/the_edge_score_icon.png\"" +
         " alt=\"\" width=\"20\" height=\"20\">"+": "+ actualScore.toString();
 }
+
 //updates all the world components
 function update() {
     ///--PARENT: HERO BALL --\
     if (dead){
-
         //Handles balls death animation: --PARENT: HERO BALL --\
         handleDeath();
-
     }
-    if (!paused) {
 
+    if (!paused) {
+        //updates the score
         updateScore();
 
         checkIfSceneHasTOBeRebuild();
@@ -328,6 +396,12 @@ function update() {
         //resets the jump velocity and gravity /--PARENT: KEYBOARD CONTROLS --\
         if (ballBackToGround()) resetJumpVarsToDefault();
 
+        //update shield life if active
+        updateHeroShieldIfActive();
+
+        //updates the balls life per frame
+        //updateBallLife();
+
         //updates positions of elements in the world e.g. ball, camera, etc /--PARENT: GAME WORLD --\
         updateWorldElements();
 
@@ -337,8 +411,6 @@ function update() {
         //check for collisions
         checkForCollisionsBetweenBallAndObstacles();
     }
-
-
 }
 
 //describes how the gaming will be taking place

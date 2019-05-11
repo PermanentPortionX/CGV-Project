@@ -12,6 +12,9 @@
 //list of items that can collide with hero
 const collidableItems = [];
 
+//var holds the gameSpeed, increases as levels increase
+let gameSpeed = 0.3;
+
 //lists that describes the configurations of each level
 //first is the string that states which level the avatar is at
 //second describes the ball speed at each level
@@ -32,14 +35,16 @@ let currLevel = -1;
 //list of next collidable objects
 let nextCollidableObstacles = [];
 
-//
+//keeps track of the last scene built
 let sceneTracker = 0;
 
 //this function reads gameBuildList(below the function) and builds a world based on the values of the gameBuildList
 function buildGame() {
 
     lastPos += 6;
+    //tracks how many scenes where built
     let builtSceneIntervalTracker = 0;
+
     //iterate through each list in gameBuildList and build a game block that represents it
     for (let i = sceneTracker; i < gameBuildList.length; i++) {
 
@@ -47,6 +52,7 @@ function buildGame() {
             sceneTracker = i;
             break;
         }
+
         let blockSection = gameBuildList[i]; //retrieves an item from gameBuildList which describes a blockSection in the world
 
         //when the length is 1, it's a level indicator
@@ -97,9 +103,12 @@ function buildGame() {
             blockScene.add(rightTree.clone());
             blockScene.add(leftTree.clone());
 
+            //blockScene z position is set to the last position it has to be added
+            blockScene.position.z = lastPos;
+
             //add the obstacles and power ups
             //first loop iterates through blockSection that contains lists that contain indexes of
-            //possible obstacle and power up combinations stored in obstaclekSet
+            //possible obstacle and power up combinations stored in obstacleSet
             //j also indicates the z value of obstacle combination
             for(let j = 0; j < blockSection.length; j++){
 
@@ -136,7 +145,7 @@ function buildGame() {
 
                     /**********************POWER UPS DECLARATION******************************************/
                     //powerUpLevelDescPair[0] gets the position of combination list from PowerUpSet
-                    //obstaclekSet[ powerUpLevelDescPair[0] ][k] gets the power up type
+                    //obstacleSet[ powerUpLevelDescPair[0] ][k] gets the power up type
                     if (powerUpLevelDescPair[0] !== -1){
                         switch (powerUpSet[ powerUpLevelDescPair[0] ][k]) {
                             case 90: //heart
@@ -144,17 +153,8 @@ function buildGame() {
                                 addObstacleOrPowerUp(xPos, -1, zPos, nz, heart.clone(), blockScene, 90);
                                 break;
 
-                            case 91: //bomb
-                                //same approach as heart
-                                addObstacleOrPowerUp(xPos, -1, zPos, nz, bomb.clone(), blockScene, 91);
-                                break;
-
-                            case 92: //gun
-                                //same approach as heart
-                                addObstacleOrPowerUp(xPos, -1, zPos, nz, gun.clone(), blockScene, 92);
-                                break;
-
-                            case 93: //invincible
+                            case 93: //shield
+                                addObstacleOrPowerUp(xPos, -1, zPos, nz, shield.clone(), blockScene, 93);
                                 break;
 
                             case 94: //trap
@@ -167,18 +167,8 @@ function buildGame() {
                                 addObstacleOrPowerUp(xPos, 1, zPos, nz, heart.clone(), blockScene, 95);
                                 break;
 
-                            case 96: //floating bomb
-                                //same approach as heart
-                                addObstacleOrPowerUp(xPos, 2.3, zPos, nz, bomb.clone(), blockScene, 96);
-                                break;
-
-                            case 97: // floating gun
-                                //same approach as heart
-                                addObstacleOrPowerUp(xPos, 2.3, zPos, nz, gun.clone(), blockScene, 97);
-                                break;
-
                             case 98: //floating invincible
-
+                                addObstacleOrPowerUp(xPos, 2.3, zPos, nz, shield.clone(), blockScene, 98);
                                 break;
 
                             case 99: //floating trap
@@ -191,8 +181,8 @@ function buildGame() {
 
                     /**********************OBSTACLES DECLARATION******************************************/
                     //powerUpLevelDescPair[1] gets the position of combination list from BlockSet
-                    //obstaclekSet[ powerUpLevelDescPair[1] ][k] gets the obstacle type
-                    switch (obstaclekSet[ powerUpLevelDescPair[1] ][k]) {//obstacle type
+                    //obstacleSet[ powerUpLevelDescPair[1] ][k] gets the obstacle type
+                    switch (obstacleSet[ powerUpLevelDescPair[1] ][k]) {//obstacle type
                         case 1: //spike
                             addObstacleOrPowerUp(xPos, -1, zPos, nz, spikes.clone(), blockScene, 1);
                             break;
@@ -212,8 +202,6 @@ function buildGame() {
                 }
             }
 
-            //blockScene z position is set to the last position it has to be added
-            blockScene.position.z = lastPos;
             //then gets added into the real world
             scene.add(blockScene);
 
@@ -284,7 +272,7 @@ function checkForCollisionsBetweenBallAndObstacles() {
                 let diffZ = Math.abs(ob.position.z) - Math.abs(ball.position.z);
 
                 //checks if the ball is falling onto obstacle or colliding with obstacle
-                let fallingOntoOrCollidingWithObstacle = ((jumping && ball.position.y <= obHeight && !goingUp) || !jumping);
+                let fallingOntoOrCollidingWithObstacle = ((jumping && ball.position.y <= obHeight) || !jumping);
 
                 //checks if ball is colliding with obstacle in x position
                 let collidingInX = diffX >= 0 && diffX <= 0.4;
@@ -308,21 +296,12 @@ function checkForCollisionsBetweenBallAndObstacles() {
 
                     case 90: //heart
                         if (diffZ >= 0 && diffZ <= 1 && collidingInX && fallingOntoOrCollidingWithObstacle)
-                            avatarJustDied(); //function found in HeroBall
+                            collidedWithHeart(); //function found in PowerUpManager
                         break;
 
-                    case 91: //bomb
+                    case 93: //shield
                         if (diffZ >= 0 && diffZ <= 1 && collidingInX && fallingOntoOrCollidingWithObstacle)
-                            avatarJustDied(); //function found in HeroBall
-                        break;
-
-                    case 92: //gun
-                        if (diffZ >= 0 && diffZ <= 1 && collidingInX && fallingOntoOrCollidingWithObstacle)
-                            avatarJustDied(); //function found in HeroBall
-                        break;
-
-                    case 93: //invincibility
-
+                            collidedWithShield(); //function found in PowerUpManager
                         break;
 
                     case 94: //trap
@@ -332,35 +311,27 @@ function checkForCollisionsBetweenBallAndObstacles() {
 
                     case 95://floating heart
                         if (diffZ >= 0 && diffZ <= 1 && collidingInX && jumping && ball.position.y >= 1)
-                            avatarJustDied(); //function found in HeroBall
+                            collidedWithHeart(); //function found in PowerUpManager
                         break;
 
-                    case 96://floating bomb
+                    case 98://floating shield
                         if (diffZ >= 0 && diffZ <= 1 && collidingInX && jumping && ball.position.y >= 1.8)
-                            avatarJustDied(); //function found in HeroBall
-                        break;
-
-                    case 97://floating gun
-                        if (diffZ >= 0 && diffZ <= 1 && collidingInX && jumping && ball.position.y >= 2)
-                        {
-                            avatarJustDied();
-                        } //function found in HeroBall
-                        break;
-
-                    case 98://floating invincibility
-                        if (diffZ >= 0 && diffZ <= 1 && collidingInX && jumping && ball.position.y >= 1.8)
-                            avatarJustDied(); //function found in HeroBall
+                            collidedWithShield(); //function found in PowerUpManager
                         break;
 
                     case 99://floating trap
                         if (diffZ >= 0 && diffZ <= 1 && collidingInX && jumping && ball.position.y >= 1.5)
                             avatarJustDied(); //function found in HeroBall
                         break;
+
+
                 }
-
-
             }
-        }else{//ball has passed the collidable obstacle
+        }else{
+            //check if any collisions with power ups happened
+            listenForPowerUps();
+
+            //ball has passed the collidable obstacle
             //all obstacles that have been passed by the ball should be removed from the nextCollidableObstacles and collidableItems list
             //because they no longer have use
             while (ball.position.z <= nextCollidableObstacles[0][1].position.z) {
@@ -368,7 +339,6 @@ function checkForCollisionsBetweenBallAndObstacles() {
                 if (collidableItems.length !== 0) {
                     if (ball.position.z <= collidableItems[0][1].position.z) collidableItems.shift();
                 }
-                //collidableItems.shift();
                 if (nextCollidableObstacles.length === 0) break;
             }
             //build the next set of collidable objects if available
@@ -398,6 +368,10 @@ function updateLevelIfHeroIsInNewLevel(){
 
             //increment the currLevel
             ++currLevel;
+
+            //set the text to display current level
+            document.getElementById("currLevelDisplay").innerHTML = levelConfig[currLevel][0];
+
             //update game speed according
             gameSpeed = levelConfig[currLevel][1];
             //update life decrease rate of ball
@@ -480,17 +454,17 @@ const gameBuildList = [
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
-    [[-1, 5], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
-    [[-1, 1], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
-    [[-1, 0], [-1, 1], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
+    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
+    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
+    [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [[-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0], [-1, 0]],
     [1],
