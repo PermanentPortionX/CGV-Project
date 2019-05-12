@@ -53,10 +53,20 @@ let actualScore = 0;
 //var for skyBox
 let skyBox = null;
 
-//adds directional sun light into the scene
+//adds light into the scene
+let pl = null;//point light var
 function addLighting(){
-    //add direction light
-    scene.add(new THREE.DirectionalLight( 0xffffff, 0.7 ));
+
+    pl = new THREE.PointLight( 0x666666, 1, 100, 2);
+    pl.position.set( 0, 10, 0 );
+    pl.castShadow = true;            // default false
+    scene.add( pl );
+
+//Set up shadow properties for the light
+    pl.shadow.mapSize.width = 712;
+    pl.shadow.mapSize.height = 712;
+    pl.shadow.camera.near = 0.5;
+    pl.shadow.camera.far = 100;
 
     //add ambient light
     scene.add(new THREE.AmbientLight(0x666666, 2.2));
@@ -79,14 +89,31 @@ function buildTree(){
 }
 
 //draws the ground by drawing a cube and setting ground texture to it
-//then returns the Mesh Object
+//then returns an object 3d
 function buildGround(){
-    const geo = new THREE.BoxGeometry(5, 0.1, lastPos, 4, 4, 4);
-    const texture = makeTexture("textures/environment/ground_texture.jpg");
-    const mat = new THREE.MeshLambertMaterial({map: texture});
-    const ground =  new THREE.Mesh( geo, mat );
-    ground.receiveShadow = true;
-    return ground;
+    const groundObj = new THREE.Object3D();
+
+    //builds the normal ground
+    const normalGroundGeo = new THREE.BoxGeometry(5, 0.1, lastPos, 4, 4, 4);
+    const normalGroundMat = new THREE.MeshLambertMaterial({map: makeTexture("textures/environment/ground_texture.jpg")});
+    const normalGround = new THREE.Mesh(normalGroundGeo, normalGroundMat);
+
+    //dummyGround used for rayCasting to measure the distance between objects and the ground
+    dummyGround = normalGround.clone();
+
+    //create a new box that will sit on top of the normal box
+    //
+    const shadowGeo = new THREE.BoxGeometry(5, 0.1, lastPos, 4, 4, 4);
+    const shadowMat = new THREE.ShadowMaterial();
+    const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
+    shadowMesh.opacity = 0.2;
+    shadowMesh.receiveShadow = true;
+
+    groundObj.add(normalGround);
+    groundObj.add(shadowMesh);
+
+
+    return groundObj;
 }
 
 //draws the side of the ground by drawing a cube and setting dried grass texture to it
@@ -107,7 +134,7 @@ function buildGroundSides() {
 function positionCameraWithRespectToGround(){
     const cameraRayCaster = new THREE.Raycaster();
     cameraRayCaster.set(camera.position, new THREE.Vector3(0, 1, 0));
-    const cIntersect = cameraRayCaster.intersectObject(ground);
+    const cIntersect = cameraRayCaster.intersectObject(dummyGround);
     defaultCameraPositionY = cIntersect[0].point.y + 1.5;
     camera.position.y = defaultCameraPositionY;
 }
@@ -278,10 +305,8 @@ function initWorld(){
     camera.position.z = defaultCameraPositionZ;
 
     renderer = new THREE.WebGLRenderer({antialias: true});
-    //renderer.setClearColor(0xfaf1e0, 1);
     renderer.shadowMap.enabled = true;//enable shadow
-    renderer.shadowMapSoft = true;
-    renderer.shadowMap.type = THREE.BasicShadowMap;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     //skyBox
@@ -298,8 +323,6 @@ function initWorld(){
     skyBox = new THREE.Mesh(skyGeo, cubeMats);
 
     scene.add(skyBox);
-
-    //controls = new THREE.OrbitControls(camera);
 
     //listens for window size changes and readjust the scenes size according to the new given sizes
     addWindowResizeListener();
@@ -330,6 +353,8 @@ function updateWorldElements() {
     heroShield.position.x = ball.position.x;
     heroShield.position.y = ball.position.y + 0.3;
 
+    //move point light together with light
+    pl.position.z = ball.position.z;
 
     //move the defaultCameraZ and defaultLifeGaugeZ into the scene
     defaultCameraPositionZ -= gameSpeed;
@@ -400,7 +425,7 @@ function update() {
         updateHeroShieldIfActive();
 
         //updates the balls life per frame
-        //updateBallLife();
+        updateBallLife();
 
         //updates positions of elements in the world e.g. ball, camera, etc /--PARENT: GAME WORLD --\
         updateWorldElements();

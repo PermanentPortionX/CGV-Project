@@ -137,6 +137,26 @@
             margin-right: 25px;
         }
 
+        #scoresView{
+            position: absolute;
+            z-index: 1;
+            display: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("textures/menu/the_edge_background.png") no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+        }
+
     </style>
 </head>
 <body>
@@ -146,6 +166,7 @@
     <div>
         <button id="start">Click to Play</button>
         <button id="fullScreen">FullScreen</button>
+        <button id="scoreBoard">ScoreBoard</button>
     </div>
 </div>
 
@@ -162,6 +183,7 @@
 <div id="gameOverOverlay">
     <div>
         <button id="gameOverRestart">Restart</button>
+        <button id="mainMenu">Main Menu</button>
     </div>
 </div>
 
@@ -179,6 +201,13 @@
     <p id="numOfShield" style="color:white; font-size:150%; font-weight:bold; padding-left: 15px">
         <img src="textures/score_board/the_edge_invincible_icon.png" alt="" width="21" height="20"> Y: 0
     </p>
+</div>
+
+<!-- displays scores of all players -->
+<div id="scoresView">
+    <ul id="scoreHolder" style="width: 300px; height: 400px; overflow: auto; font-size:30px; list-style-type: none; line-height: 200%">
+
+    </ul>
 </div>
 
 <audio id="audio">
@@ -237,15 +266,19 @@
         script.src='//mrdoob.github.io/stats.js/build/stats.min.js';
         document.head.appendChild(script);})();
 
-
+    //onClick listeners for buttons in overlays
     document.getElementById("start").addEventListener('click', startGame);
     document.getElementById("resume").addEventListener('click', resumeGame);
     document.getElementById("fullScreen").addEventListener('click', handleFullScreen);
     document.getElementById("pFullScreen").addEventListener('click', handleFullScreen);
     document.getElementById("restart").addEventListener('click', restartGame);
     document.getElementById("gameOverRestart").addEventListener('click', restartGame);
+    document.getElementById("scoreBoard").addEventListener('click', showScoreBoard);
+    document.getElementById("mainMenu").addEventListener('click', openMainMenu);
 
     initGameWorld();
+    //fetches scores from localStorage, saves them in a list
+    initScores();
 
     function startGame() {
 
@@ -262,6 +295,27 @@
         GameLoop();
 
 
+    }
+
+    function openMainMenu() {
+        document.location.reload();
+    }
+
+    //retrieves scores from local storage
+    function initScores(){
+        let storedScores = JSON.parse(localStorage.getItem("scores"));
+        let scoreList = document.getElementById("scoreHolder");
+        if (scoreList == null) return;
+        for (let s in storedScores){
+            //scoreList.add(s);
+            let li = document.createElement("li");
+            li.appendChild(document.createTextNode(s));
+            scoreList.appendChild(li);
+        }
+    }
+
+    function showScoreBoard() {
+        document.getElementById('scoresView').style.display = "flex";
     }
 
     function handleFullScreen() {

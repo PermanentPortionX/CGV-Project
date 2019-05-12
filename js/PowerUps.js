@@ -23,10 +23,11 @@ const buildHeart = function(){
     };
 
     const geometry = new THREE.ExtrudeGeometry(heartShape, extrudeSettings);
-    const material = new THREE.MeshLambertMaterial({color: 0xFF0000});
+    const material = new THREE.MeshPhongMaterial({color: 0xFF0000});
 
     const mesh = new THREE.Mesh(geometry, material);
 
+    mesh.material.shading = THREE.SmoothShading;
     mesh.scale.set(0.007, -0.007, 0.007);
     mesh.position.y = -1;
     return mesh;

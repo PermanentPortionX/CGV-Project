@@ -2,33 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="04158b6b-1510-4565-8dad-c8245adecca8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/js/PowerUpManager.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/Refractor.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/WaterRefractionShader.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sounds/life_gain_effect.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sounds/shield_activated.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sounds/shield_deactivated.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sounds/shield_effect.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/textures/obstacles_textures/dark_brown.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/textures/obstacles_textures/wood.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/textures/skybox/back.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/textures/skybox/bottom.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/textures/skybox/front.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/textures/skybox/left.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/textures/skybox/right.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/textures/skybox/top.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/textures/menu/the_edge_background.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/GameLogicBuilder.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/GameLogicBuilder.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/GameWorld.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/GameWorld.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/HeroBall.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/HeroBall.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/KeyboardControls.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/KeyboardControls.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/ObstaclekSet.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/ObstacleSet.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/Obstacles.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/Obstacles.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/PowerUpSet.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/PowerUpSet.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/PowerUps.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/PowerUps.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/world.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/world.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/textures/environment/the_edge_board.jpg" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -42,19 +23,104 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/Obstacles.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="20" selection-start-line="5" selection-start-column="20" selection-end-line="5" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/PowerUps.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="493">
+              <caret line="29" column="48" selection-start-line="29" selection-start-column="48" selection-end-line="29" selection-end-column="48" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/PowerUpManager.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1666">
+              <caret line="98" column="42" selection-start-line="98" selection-start-column="42" selection-end-line="98" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/GameWorld.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-175">
+              <caret line="396" column="12" lean-forward="true" selection-start-line="396" selection-start-column="12" selection-end-line="396" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="514">
+              <caret line="307" column="38" selection-start-line="307" selection-start-column="38" selection-end-line="307" selection-end-column="38" />
+              <folding>
+                <element signature="e#133#672#0" />
+                <element signature="e#705#748#0" />
+                <element signature="e#790#1010#0" />
+                <element signature="e#1057#1133#0" />
+                <element signature="e#1160#1744#0" />
+                <element signature="e#1778#1821#0" />
+                <element signature="e#1864#2084#0" />
+                <element signature="e#2132#2208#0" />
+                <element signature="e#2234#2818#0" />
+                <element signature="e#2850#2893#0" />
+                <element signature="e#2934#3154#0" />
+                <element signature="e#3201#3277#0" />
+                <element signature="e#3305#3704#0" />
+                <element signature="n#div#1;n#body#0;n#html#0;n#!!top" />
+                <element signature="n#div#3;n#body#0;n#html#0;n#!!top" />
+                <element signature="n#style#0;n#p#2;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#p#4;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#ul#0;n#div#4;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/GameLogicBuilder.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="22" column="30" lean-forward="true" selection-start-line="22" selection-start-column="30" selection-end-line="22" selection-end-column="30" />
+            <state relative-caret-position="258">
+              <caret line="427" column="26" lean-forward="true" selection-start-line="427" selection-start-column="26" selection-end-line="427" selection-end-column="26" />
+              <folding>
+                <element signature="e#1841#10025#0" />
+                <element signature="e#10133#11251#0" />
+                <element signature="e#11485#11702#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/PowerUpSet.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="15" column="44" selection-start-line="15" selection-start-column="44" selection-end-line="15" selection-end-column="44" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/js/Obstacles.js">
+        <entry file="file://$PROJECT_DIR$/js/HeroBall.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-56">
-              <caret line="15" column="22" lean-forward="true" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="22" />
+            <state relative-caret-position="578">
+              <caret line="160" column="19" selection-start-line="160" selection-start-column="19" selection-end-line="160" selection-end-column="19" />
+              <folding>
+                <element signature="n#!!block;n#ExplodeAnimation#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -80,15 +146,15 @@
         <option value="$PROJECT_DIR$/js/BlockSet.js" />
         <option value="$PROJECT_DIR$/js/world.js" />
         <option value="$PROJECT_DIR$/js/ObstacleSet.js" />
-        <option value="$PROJECT_DIR$/js/Obstacles.js" />
         <option value="$PROJECT_DIR$/js/PowerUpSet.js" />
-        <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/js/GameLogicBuilder.js" />
-        <option value="$PROJECT_DIR$/js/GameWorld.js" />
-        <option value="$PROJECT_DIR$/js/HeroBall.js" />
         <option value="$PROJECT_DIR$/js/KeyboardControls.js" />
         <option value="$PROJECT_DIR$/js/PowerUpManager.js" />
+        <option value="$PROJECT_DIR$/js/Obstacles.js" />
         <option value="$PROJECT_DIR$/js/PowerUps.js" />
+        <option value="$PROJECT_DIR$/js/GameLogicBuilder.js" />
+        <option value="$PROJECT_DIR$/js/GameWorld.js" />
+        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/js/HeroBall.js" />
       </list>
     </option>
   </component>
@@ -99,9 +165,9 @@
     <auto-save>true</auto-save>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-9" />
-    <option name="width" value="978" />
-    <option name="height" value="1039" />
+    <option name="x" value="-8" />
+    <option name="width" value="977" />
+    <option name="height" value="1038" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -127,6 +193,17 @@
               <item name="CGV-Project" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
               <item name="C:\Users\Mulisa\WebstormProjects\CGV-Project" type="442cc68d:ScopeViewTreeModel$RootNode" />
               <item name="js" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="CGV-Project" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="C:\Users\Mulisa\WebstormProjects\CGV-Project" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="textures" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="CGV-Project" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="C:\Users\Mulisa\WebstormProjects\CGV-Project" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="textures" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="menu" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
           </expand>
           <select />
@@ -175,20 +252,20 @@
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/textures/obstacles_textures" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/textures/menu" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Mulisa\WebstormProjects\CGV-Project\textures\menu" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Mulisa\WebstormProjects\CGV-Project\textures\menu" />
       <recent name="C:\Users\Mulisa\WebstormProjects\CGV-Project\textures\obstacles_textures" />
       <recent name="C:\Users\Mulisa\WebstormProjects\CGV-Project\textures\skybox" />
       <recent name="C:\Users\Mulisa\WebstormProjects\CGV-Project\sounds" />
       <recent name="C:\Users\Mulisa\WebstormProjects\CGV-Project\textures\score_board" />
-      <recent name="C:\Users\Mulisa\WebstormProjects\CGV-Project\textures\environment" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Mulisa\WebstormProjects\CGV-Project\textures\menu" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -267,7 +344,9 @@
       <workItem from="1557466833025" duration="7624000" />
       <workItem from="1557482997508" duration="9794000" />
       <workItem from="1557526813162" duration="2341000" />
-      <workItem from="1557558188203" duration="3894000" />
+      <workItem from="1557558188203" duration="6151000" />
+      <workItem from="1557576687963" duration="8043000" />
+      <workItem from="1557676951935" duration="8806000" />
     </task>
     <task id="LOCAL-00001" summary="First build">
       <created>1555927931338</created>
@@ -430,17 +509,24 @@
       <option name="project" value="LOCAL" />
       <updated>1557309244698</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="added comments">
+      <created>1557563835424</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1557563835424</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="276930000" />
+    <option name="totallyTimeSpent" value="296036000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16259088" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18175809" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -495,14 +581,14 @@
     <MESSAGE value="attempt on obstacle checking again" />
     <MESSAGE value="obstacles" />
     <MESSAGE value="life gauge added" />
-    <MESSAGE value="added comments" />
     <MESSAGE value="implemented powerups" />
     <MESSAGE value="add backgrounds to overlays" />
     <MESSAGE value="add hover effect" />
     <MESSAGE value="blockSetCombinations" />
     <MESSAGE value="update" />
     <MESSAGE value="scoreboard fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="scoreboard fixed" />
+    <MESSAGE value="added comments" />
+    <option name="LAST_COMMIT_MESSAGE" value="added comments" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/threex.text.js" />
@@ -578,39 +664,6 @@
     <entry file="file://$PROJECT_DIR$/js/WaterRefractionShader.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="129" column="21" selection-start-line="129" selection-start-column="21" selection-end-line="129" selection-end-column="21" />
-          <folding>
-            <element signature="e#133#672#0" />
-            <element signature="e#705#748#0" />
-            <element signature="e#790#1010#0" />
-            <element signature="e#1057#1133#0" />
-            <element signature="e#1160#1744#0" />
-            <element signature="e#1778#1821#0" />
-            <element signature="e#1864#2084#0" />
-            <element signature="e#2132#2208#0" />
-            <element signature="e#2234#2818#0" />
-            <element signature="e#2850#2893#0" />
-            <element signature="e#2934#3154#0" />
-            <element signature="e#3201#3277#0" />
-            <element signature="n#div#0;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#div#1;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#div#2;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#style#0;n#p#2;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#4;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/GameWorld.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="248" column="38" selection-start-line="248" selection-start-column="38" selection-end-line="248" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/ObstacleSet.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
@@ -628,28 +681,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/HeroBall.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="4" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="4" />
-          <folding>
-            <element signature="n#!!block;n#ExplodeAnimation#0" />
-            <element signature="e#2985#3392#0" />
-            <element signature="e#3158#3384#0" />
-            <element signature="e#3621#4028#0" />
-            <element signature="e#3656#4022#0" />
-            <element signature="e#3725#3952#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/PowerUpManager.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
-          <caret line="98" column="42" selection-start-line="98" selection-start-column="42" selection-end-line="98" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/PowerUpSet.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -660,24 +691,80 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/PowerUps.js">
+    <entry file="file://$PROJECT_DIR$/js/PowerUpManager.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="624">
-          <caret line="78" column="2" lean-forward="true" selection-start-line="78" selection-start-column="2" selection-end-line="78" selection-end-column="2" />
+        <state relative-caret-position="1666">
+          <caret line="98" column="42" selection-start-line="98" selection-start-column="42" selection-end-line="98" selection-end-column="42" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/GameLogicBuilder.js">
+    <entry file="file://$PROJECT_DIR$/js/PowerUps.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="30" lean-forward="true" selection-start-line="22" selection-start-column="30" selection-end-line="22" selection-end-column="30" />
+        <state relative-caret-position="493">
+          <caret line="29" column="48" selection-start-line="29" selection-start-column="48" selection-end-line="29" selection-end-column="48" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/Obstacles.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-56">
-          <caret line="15" column="22" lean-forward="true" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="22" />
+        <state relative-caret-position="85">
+          <caret line="5" column="20" selection-start-line="5" selection-start-column="20" selection-end-line="5" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="514">
+          <caret line="307" column="38" selection-start-line="307" selection-start-column="38" selection-end-line="307" selection-end-column="38" />
+          <folding>
+            <element signature="e#133#672#0" />
+            <element signature="e#705#748#0" />
+            <element signature="e#790#1010#0" />
+            <element signature="e#1057#1133#0" />
+            <element signature="e#1160#1744#0" />
+            <element signature="e#1778#1821#0" />
+            <element signature="e#1864#2084#0" />
+            <element signature="e#2132#2208#0" />
+            <element signature="e#2234#2818#0" />
+            <element signature="e#2850#2893#0" />
+            <element signature="e#2934#3154#0" />
+            <element signature="e#3201#3277#0" />
+            <element signature="e#3305#3704#0" />
+            <element signature="n#div#1;n#body#0;n#html#0;n#!!top" />
+            <element signature="n#div#3;n#body#0;n#html#0;n#!!top" />
+            <element signature="n#style#0;n#p#2;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#4;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#ul#0;n#div#4;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/GameLogicBuilder.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="258">
+          <caret line="427" column="26" lean-forward="true" selection-start-line="427" selection-start-column="26" selection-end-line="427" selection-end-column="26" />
+          <folding>
+            <element signature="e#1841#10025#0" />
+            <element signature="e#10133#11251#0" />
+            <element signature="e#11485#11702#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/GameWorld.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-175">
+          <caret line="396" column="12" lean-forward="true" selection-start-line="396" selection-start-column="12" selection-end-line="396" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/HeroBall.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="160" column="19" selection-start-line="160" selection-start-column="19" selection-end-line="160" selection-end-column="19" />
+          <folding>
+            <element signature="n#!!block;n#ExplodeAnimation#0" />
+          </folding>
         </state>
       </provider>
     </entry>

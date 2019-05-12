@@ -38,8 +38,13 @@ let nextCollidableObstacles = [];
 //keeps track of the last scene built
 let sceneTracker = 0;
 
+let defaultBlockScene = null;
+
 //this function reads gameBuildList(below the function) and builds a world based on the values of the gameBuildList
 function buildGame() {
+
+    //checks if the default scene has already been built, if not the defaultBlockScene gets built
+    if (defaultBlockScene === null) buildDefaultBlockScene();
 
     lastPos += 6;
     //tracks how many scenes where built
@@ -95,13 +100,8 @@ function buildGame() {
 
         else{
             //create a scene that will hold the section of the world
-            const blockScene = new THREE.Scene( );
-            //add defaults
-            blockScene.add(ground.clone());
-            blockScene.add(rightSide.clone());
-            blockScene.add(leftSide.clone());
-            blockScene.add(rightTree.clone());
-            blockScene.add(leftTree.clone());
+            //clones the defaultBlockScene
+            const blockScene = defaultBlockScene.clone();
 
             //blockScene z position is set to the last position it has to be added
             blockScene.position.z = lastPos;
@@ -247,6 +247,18 @@ function buildNextCollidableObstacles(){
         if (collidableItems[0][1].position.z === collidableItems[i][1].position.z) nextCollidableObstacles.push(collidableItems[i]);
         else break;
     }
+}
+
+//builds the default scene
+//the default scene can just be cloned going forward
+function buildDefaultBlockScene(){
+    defaultBlockScene = new THREE.Object3D();
+    defaultBlockScene.add(ground.clone());
+    defaultBlockScene.add(rightSide.clone());
+    defaultBlockScene.add(leftSide.clone());
+    defaultBlockScene.add(rightTree.clone());
+    defaultBlockScene.add(leftTree.clone());
+    defaultBlockScene.receiveShadow = true;
 }
 
 //checks for collisions between the ball and obstacles

@@ -21,6 +21,9 @@ let ballScaleFactor = 1;//keeps track of the balls scale, (for animation of ball
 // 0 then explodes )
 
 
+//var used for rayCasting
+let dummyGround = null;
+
 //builds and returns the ball the user controls
 function buildBall() {
     const ballTexture = new THREE.TextureLoader().load("textures/ball_textures/ball_t.jpg");
@@ -32,8 +35,8 @@ function buildBall() {
     //cast ray from ball to ground to get accurate position above ground
     const ballRayCaster = new THREE.Raycaster();
     ballRayCaster.set(ball.position, new THREE.Vector3(0, 1, 0));//shoots the ray
-    ballIntersectsWithFloor  = ballRayCaster.intersectObject(ground);//gets the results of ray cast
-    ball.position.y = ballIntersectsWithFloor[0].point.y + 0.25;
+    ballIntersectsWithFloor  = ballRayCaster.intersectObject(dummyGround);//gets the results of ray cast
+    ball.position.y = ballIntersectsWithFloor[0].point.y;
     ball.castShadow = true;
     ball.receiveShadow = true;
 
@@ -59,8 +62,9 @@ function buildHeroShield(){
 
 //checks if the ball is back on the ground for when a user jumps
 function ballBackToGround(){
-    if (ball.position.y <= ballIntersectsWithFloor[0].point.y + 0.25) {
-        ball.position.y = ballIntersectsWithFloor[0].point.y + 0.25;
+    if (ball.position.y <= ballIntersectsWithFloor[0].point.y + 0.21
+    ) {
+        ball.position.y = ballIntersectsWithFloor[0].point.y + 0.21;
         return true;
     }
     return false;
@@ -144,10 +148,19 @@ function handleDeath(){
 function waitForExplosionAnimationToEnd() {
     setTimeout(function () {
         document.getElementById('gameOverOverlay').style.display = 'flex';
+        saveScore();
     }, 2000);
 
 }
 
+function saveScore() {
+    let personName = prompt("Please Enter your name", "");
+    let item = personName +" -> " + actualScore.toString();
+    let scoresList = JSON.parse(localStorage.getItem("scores"));
+    if (scoresList == null) scoresList = [];
+    scoresList.push(item);
+    localStorage.setItem("scores", JSON.stringify(scoresList));
+}
 //decreases the life gauge of the ball
 function updateBallLife(){
     lifePlane.scale.set(lifeScaleFactor, 1, 1);
