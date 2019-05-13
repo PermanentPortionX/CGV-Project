@@ -11,7 +11,7 @@ let shieldScaleFactor = 1;
 //function called when the ball collides with a shield
 function collidedWithShield(){
     //plays a sound effect at the first time when the ball collides with shield
-    if (ballCollidedWithShield === false) playSoundEffect("shieldEffect", 0.4);
+    if (ballCollidedWithShield === false) playSoundEffect("shieldEffect", 0.6);
     ballCollidedWithShield = true;
 }
 
@@ -26,11 +26,12 @@ function collidedWithHeart() {
 //it then updates the overlay if any collision with power up
 //took place
 function listenForPowerUps(){
+
     if (ballCollidedWithShield) {
         ballCollidedWithShield = false;
         actualNumOfShield++;//increases the actual number of shields the user has and updates in overlay that shows
         //the power ups and score
-        document.getElementById("ballCollidedWithShield").innerHTML = "<img src=\"textures/score_board/the_edge_invincible_icon.png\"" +
+        document.getElementById("numOfShield").innerHTML = "<img src=\"textures/score_board/the_edge_invincible_icon.png\"" +
             " alt=\"\" width=\"21\" height=\"20\"> Y: " + actualNumOfShield.toString();
     }
 
@@ -66,7 +67,7 @@ function shieldActivated(){
         //var set to true to allow the ball to pass through obstacles and not die
         heroShieldActivated = true;
         //updates the number of shields in overlay
-        document.getElementById("ballCollidedWithShield").innerHTML = "<img src=\"textures/score_board/the_edge_invincible_icon.png\"" +
+        document.getElementById("numOfShield").innerHTML = "<img src=\"textures/score_board/the_edge_invincible_icon.png\"" +
             " alt=\"\" width=\"21\" height=\"20\"> Y: " + actualNumOfShield.toString();
     }
 }
@@ -85,7 +86,7 @@ function shieldDeactivated(){
 function updateHeroShieldIfActive(){
     if (heroShieldActivated) {
         //shield decreases each and every frame by 0.0025
-        shieldScaleFactor -= 0.0025;
+        shieldScaleFactor -= 0.0035;
         //updates the life gauge of power up in the state gauge
         powerUpLifePlane.scale.set(shieldScaleFactor, 1, 1);
         //if shield has ran out, deactivate function is called and powerUpLifePlane scale is set to zero

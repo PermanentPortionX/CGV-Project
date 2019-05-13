@@ -148,7 +148,7 @@ function handleDeath(){
 function waitForExplosionAnimationToEnd() {
     setTimeout(function () {
         document.getElementById('gameOverOverlay').style.display = 'flex';
-        saveScore();
+        //saveScore();
     }, 2000);
 
 }

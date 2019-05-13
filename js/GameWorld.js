@@ -55,6 +55,7 @@ let skyBox = null;
 
 //adds light into the scene
 let pl = null;//point light var
+
 function addLighting(){
 
     pl = new THREE.PointLight( 0x666666, 1, 100, 2);
@@ -378,6 +379,7 @@ function updateWorldElements() {
         statesGauge.position.x = -1;
         statesGauge.position.y = 3;
         heroShield.position.z = ball.position.z - 0.2;
+        heroShield.position.y += 0.2;
     }
 
     //update position of skybox to move together with the camera
